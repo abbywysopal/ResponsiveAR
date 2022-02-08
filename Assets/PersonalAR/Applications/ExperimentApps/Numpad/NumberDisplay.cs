@@ -12,10 +12,6 @@ public class NumberDisplay : MonoBehaviour
     // Assign in editor
     [SerializeField] private TextMeshPro textMesh;
 
-    // Assign at runtime
-    private System.Guid activityID;
-    [ReadOnly] public string activityIDDebug;
-
     void OnEnable()
     {
         Clear();
@@ -25,8 +21,6 @@ public class NumberDisplay : MonoBehaviour
     void Start()
     {
         textMesh.color = Color.white;
-        activityID = GetComponentInParent<BaseAppActivity>().activityID;
-        activityIDDebug = activityID.ToString();
     }
 
     // Update is called once per frame
@@ -56,14 +50,4 @@ public class NumberDisplay : MonoBehaviour
         textMesh.color = Color.white;
     }
 
-    public void Validate()
-    {
-        int entered = System.Int32.Parse(textMesh.text);
-    }
-
-    public void CloseActivity()
-    {
-        var ec = new ExecutionContext(this.gameObject);
-        GetComponentInParent<BaseAppActivity>().appState.StopActivity(activityID, ec);   
-    }
 }

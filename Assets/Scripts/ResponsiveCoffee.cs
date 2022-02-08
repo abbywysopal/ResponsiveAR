@@ -20,19 +20,7 @@ public class ResponsiveCoffee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)){
-            if(coffeeObj.transform == hit.transform){
-                Debug.Log("HIT");
-                // the object identified by hit.transform was clicked
-                // do whatever you want
-
-                Debug.Log(hit.transform);
-
-                ScaleTransform(hit.transform);
-            }
-        }
+        
     }
 
     void ScaleTransform(Transform transform){

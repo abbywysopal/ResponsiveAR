@@ -5,55 +5,61 @@ using UnityEngine.UI;
 
 public class ResponsiveObject : MonoBehaviour
 {
-    public GameObject gObj; //game object you want to add reponsive behavior to
-    public List<GameObject> LOD1obj;
+    [SerializeField]
+    GameObject parent;
 
-    public float LOD1;
+    [SerializeField]
+    GameObject LOD1parent;
+    [SerializeField]
+    GameObject LOD2parent;
+    [SerializeField]
+    List<GameObject> LOD2objs = new List<GameObject>();
+
+    [SerializeField]
+    GameObject LOD3parent = null;
+
+    //[SerializeField]
+    //List<GameObject> LOD3objs = new List<GameObject>();
+
+    [SerializeField]
+    int LOD1;
+    [SerializeField]
+    int LOD2;
+    [SerializeField]
+    int LOD3;
+
+    bool LOD1set = true;
+    bool LOD2set = false;
+    bool LOD3set = false;
     
     //create multiple canvases that will be enabled and disabled depending on the level of item/size of canvas
 
     //need to find a way to transition between disable and enabled better
     void Start()
     {
-        Debug.Log("Start: " + gObj.name);
-        Debug.Log("Scale: " + gObj.transform.localScale);
-
-        foreach (GameObject obj in LOD1obj){
-            Debug.Log("obj: " + obj.name);
-            obj.SetActive(false);
-        }
+        Debug.Log(parent.name);
+        Debug.Log("Scale: " + parent.transform.localScale);
+        LOD1parent.SetActive(true);
+        LOD2parent.SetActive(false);
+        LOD3parent.SetActive(false);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        // if (Physics.Raycast(ray, out hit)){
-        // // the object identified by hit.transform was clicked
-        // // do whatever you want
-        //     Debug.Log("HIT: " + hit.transform);
-        //     ScaleTransform(hit.transform);
-        // }
-    }
-
-    void ScaleTransform(Transform transform){
-        Debug.Log("Scale: " + transform);
-        Vector3 v = new Vector3(.001f, .001f, .001f);
-        transform.localScale = transform.localScale + v;
-        transform.position = transform.position - 2*v;
-
-        if(transform.localScale.x > LOD1){
-            
+        if(transform.localScale.x >= LOD2 & !LOD2set){
+            LOD2parent.SetActive(true);
+            LOD2set = true;
         }
 
-        //for next level of detail disable canvas 1 and enable canvas 2
-    }
-
-    void enableLOD1(GameObject c){
-        Debug.Log("Canvas: "+ c.name);
-        c.SetActive(true);
+        if(LOD3parent != null)
+        {
+            if(transform.localScale.x >= LOD3 & !LOD3set){
+                LOD3parent.SetActive(true);
+                LOD3set = true;
+            }
+        }
     }
 
 
