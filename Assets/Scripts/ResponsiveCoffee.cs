@@ -12,8 +12,6 @@ public class ResponsiveCoffee : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start");
-        Debug.Log("Scale: " + coffeeObj.transform.localScale);
         t.text = "COFFEE";
     }
 

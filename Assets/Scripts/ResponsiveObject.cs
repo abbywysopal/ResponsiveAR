@@ -39,6 +39,7 @@ public class ResponsiveObject : MonoBehaviour
     {
         Debug.Log(parent.name);
         Debug.Log("Scale: " + parent.transform.localScale);
+        Debug.Log("Distance: " + parent.transform.localPosition);
         LOD1parent.SetActive(true);
         LOD2parent.SetActive(false);
         LOD3parent.SetActive(false);
