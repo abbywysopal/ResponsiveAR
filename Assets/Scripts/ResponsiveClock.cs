@@ -27,6 +27,9 @@ public class ResponsiveClock : MonoBehaviour
     List<GameObject> LOD3objs = new List<GameObject>();
 
     [SerializeField]
+    List<TextMeshPro> LOD3text = new List<TextMeshPro>();
+
+    [SerializeField]
     double LOD1;
     [SerializeField]
     double transitionLOD2;
@@ -39,24 +42,29 @@ public class ResponsiveClock : MonoBehaviour
     bool LOD2set = false;
     bool LOD3set = false;
 
-    double prevSize;
+    double prevScale;
+    double prevDist;
     Vector3 initalPosition;
     Vector3 initalScale;
 
-
-
+    float LOD2initTextSize;
+    float LOD3initTextSize;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Clock");
         Debug.Log("Scale: " + parent.transform.localScale);
+
         LOD1parent.SetActive(true);
         LOD2parent.SetActive(false);
         LOD3parent.SetActive(false);
         setTransparency(LOD2text, 10);
         initalPosition = transform.localPosition;
         initalScale = transform.localScale;
+
+        LOD2initTextSize = averageTextSize(LOD2text);
+        LOD3initTextSize = averageTextSize(LOD3text);
     }
 
     // Update is called once per frame
@@ -67,34 +75,30 @@ public class ResponsiveClock : MonoBehaviour
          * need to revert back when decrease in scale
          */
         var headPosition = Camera.main.transform.position;
-
-
         double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
+
 
         Debug.Log(parent.name);
         Debug.Log("Scale: " + parent.transform.localScale);
-        Debug.Log("Distance local: " + parent.transform.localPosition);
+        Debug.Log("Distance local: " + disToHead);
 
+        double scale = parent.transform.localScale.x;
+        double scaleDelta = scale - prevDist;
+        double distDelta = disToHead - prevDist;
 
-        double size = transform.localPosition.z + transform.localScale.z;
-        bool changeInSize = false;
-
-        if(prevSize < size)
+        if(distDelta > .0005f | scaleDelta > .002f)
         {
-            changeInSize = true;
-            checkIncreaseInLOD(size);
+            Debug.Log("checkIncrease");
+            checkIncreaseInLOD(scale, disToHead);
         }
 
-        if(prevSize > size)
+        if(distDelta < -.003f | scaleDelta < -.002f)
         {
-            changeInSize = true;
-            checkDecreaseInLOD(size);
+            checkDecreaseInLOD(scale, disToHead);
         }
 
-
-
-        prevSize = transform.localPosition.x + transform.localScale.x;
-
+        prevDist = disToHead;
+        prevScale = scale;
 
     }
 
@@ -109,49 +113,60 @@ public class ResponsiveClock : MonoBehaviour
         return Math.Sqrt(sum);
     }
 
-    void checkIncreaseInLOD(double size)
+    //.35m -> 12points
+    //.7m 16 points
+    //1.5m -> 32 points
+    void checkIncreaseInLOD(double scale, double dist)
     {
-        if(size >= transitionLOD2 & !LOD2set){
+        float fontSize2 = averageTextSize(LOD2text);
+        Debug.Log("font size: " + fontSize2);
+        if((fontSize2 > 12 | dist < .8) & !LOD2set){
+            Debug.Log("increaseTrans\n");
             LOD2parent.SetActive(true);
             disableObjects(LOD2objs);
             increaseTransparency(LOD2text);
         }
 
-        if(size >= LOD2 & !LOD2set){
-            setTransparency(LOD2text, 255);
-            enableObjects(LOD2objs);
-            LOD2set = true;
-        }
+        // if(scale >= LOD2 & !LOD2set){
+        //     setTransparency(LOD2text, 255);
+        //     enableObjects(LOD2objs);
+        //     LOD2set = true;
+        // }
 
-        if(size >= LOD3 & !LOD3set){
-            LOD3parent.SetActive(true);
-            LOD3set = true;
-        }
+
+        // if(scale >= LOD3 & !LOD3set){
+        //     LOD3parent.SetActive(true);
+        //     LOD3set = true;
+        // }
     }
 
-    void checkDecreaseInLOD(double size)
+    void checkDecreaseInLOD(double scale, double dist)
     {
-        if(size <= transitionLOD2 & !LOD2set){
-            decreaseTransparency(LOD2text);
-        }
+        // if(size <= transitionLOD2 & !LOD2set){
+        //     decreaseTransparency(LOD2text);
+        // }
 
-        if(size <= LOD2 & !LOD2set){
-            setTransparency(LOD2text, 0);
-            disableObjects(LOD2objs);
-            LOD2parent.SetActive(false);
-            LOD2set = false;
-        }
+        // if(size <= LOD2 & !LOD2set){
+        //     setTransparency(LOD2text, 0);
+        //     disableObjects(LOD2objs);
+        //     LOD2parent.SetActive(false);
+        //     LOD2set = false;
+        // }
 
-        if(size <= LOD3 & !LOD3set){
-            LOD3parent.SetActive(false);
-            LOD3set = false;
-        }
+        // if(size <= LOD3 & !LOD3set){
+        //     LOD3parent.SetActive(false);
+        //     LOD3set = false;
+        // }
     }
 
     void increaseTransparency(List<TextMeshPro> objs){
         foreach (TextMeshPro obj in objs){
             Color32 color = obj.color;
-            byte a = (byte)(color[3] * 1.3);
+            byte a = (byte)(color[3] + 10);
+            if(color[3] + 10 >= 255){
+                a = 255;
+            }
+
             obj.color = new Color32(color[0], color[1], color[2], a);
 
         }
@@ -160,7 +175,7 @@ public class ResponsiveClock : MonoBehaviour
     void decreaseTransparency(List<TextMeshPro> objs){
         foreach (TextMeshPro obj in objs){
             Color32 color = obj.color;
-            byte a = (byte)(color[3] * 0.7);
+            byte a = (byte)(color[3] - 10);
             obj.color = new Color32(color[0], color[1], color[2], a);
 
         }
@@ -173,6 +188,19 @@ public class ResponsiveClock : MonoBehaviour
         }
 
     }
+
+    float averageTextSize(List<TextMeshPro> objs){
+        float totalSize = 0;
+        float totalObjs = 0f;
+        foreach (TextMeshPro obj in objs){
+            totalObjs += 1f;
+            totalSize += obj.fontSize * obj.transform.localScale.x;
+        }
+
+        return totalSize/totalObjs;
+
+    }
+
 
     void disableObjects(List<GameObject> objs)
     {
