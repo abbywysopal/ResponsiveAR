@@ -65,6 +65,7 @@ public class ResponsiveClock : MonoBehaviour
 
         LOD2initTextSize = averageTextSize(LOD2text);
         LOD3initTextSize = averageTextSize(LOD3text);
+        setTransparency(LOD3text, 0);
     }
 
     // Update is called once per frame
@@ -77,24 +78,22 @@ public class ResponsiveClock : MonoBehaviour
         var headPosition = Camera.main.transform.position;
         double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
 
-
-        Debug.Log(parent.name);
-        Debug.Log("Scale: " + parent.transform.localScale);
-        Debug.Log("Distance local: " + disToHead);
-
         double scale = parent.transform.localScale.x;
-        double scaleDelta = scale - prevDist;
+        double scaleDelta = scale - prevScale;
         double distDelta = disToHead - prevDist;
+        // Debug.Log("distDelta: " + distDelta);
+        // Debug.Log("scaleDelta: " + scaleDelta);
 
         if(distDelta > .0005f | scaleDelta > .002f)
         {
-            Debug.Log("checkIncrease");
-            checkIncreaseInLOD(scale, disToHead);
+            Debug.Log("checkDecrease");
+            checkDecreaseInLOD(scale, disToHead);
         }
 
         if(distDelta < -.003f | scaleDelta < -.002f)
         {
-            checkDecreaseInLOD(scale, disToHead);
+            Debug.Log("checkIncrease");
+            checkIncreaseInLOD(scale, disToHead);
         }
 
         prevDist = disToHead;
@@ -118,8 +117,9 @@ public class ResponsiveClock : MonoBehaviour
     //1.5m -> 32 points
     void checkIncreaseInLOD(double scale, double dist)
     {
+
         float fontSize2 = averageTextSize(LOD2text);
-        Debug.Log("font size: " + fontSize2);
+        Debug.Log("font size 2: " + fontSize2);
         if((fontSize2 > 12 | dist < .8) & !LOD2set){
             Debug.Log("increaseTrans\n");
             LOD2parent.SetActive(true);
@@ -127,36 +127,60 @@ public class ResponsiveClock : MonoBehaviour
             increaseTransparency(LOD2text);
         }
 
-        // if(scale >= LOD2 & !LOD2set){
-        //     setTransparency(LOD2text, 255);
-        //     enableObjects(LOD2objs);
-        //     LOD2set = true;
-        // }
+        if((fontSize2 > 12 | dist < .6) & !LOD2set){
+            setTransparency(LOD2text, 255);
+            enableObjects(LOD2objs);
+            LOD2set = true;
+        }
 
 
-        // if(scale >= LOD3 & !LOD3set){
-        //     LOD3parent.SetActive(true);
-        //     LOD3set = true;
-        // }
+        float fontSize3 = averageTextSize(LOD3text);
+        Debug.Log("font size 3: " + fontSize3);
+        if((fontSize3 > 12 | dist < .5) & !LOD3set){
+            Debug.Log("increaseTrans\n");
+            LOD3parent.SetActive(true);
+            disableObjects(LOD3objs);
+            increaseTransparency(LOD3text);
+        }
+
+        if((fontSize3 > 12 | dist < .3) & !LOD3set){
+            setTransparency(LOD3text, 255);
+            enableObjects(LOD3objs);
+            LOD3set = true;
+        }
     }
 
     void checkDecreaseInLOD(double scale, double dist)
     {
-        // if(size <= transitionLOD2 & !LOD2set){
-        //     decreaseTransparency(LOD2text);
-        // }
+        float fontSize2 = averageTextSize(LOD2text);
+        // Debug.Log("font size: " + fontSize2);
+        if((fontSize2 < 10 | dist > .7) & LOD2set){
+            // Debug.Log("decreaseTrans\n");
+            // LOD2parent.SetActive(true);
+            // disableObjects(LOD2objs);
+            decreaseTransparency(LOD2text);
+        }
 
-        // if(size <= LOD2 & !LOD2set){
-        //     setTransparency(LOD2text, 0);
-        //     disableObjects(LOD2objs);
-        //     LOD2parent.SetActive(false);
-        //     LOD2set = false;
-        // }
+        if((fontSize2 < 10 | dist > .9) & LOD2set){
+            // Debug.Log("set to Zero");
+            setTransparency(LOD2text, 10);
+            disableObjects(LOD2objs);
+            LOD2set = false;
+        }
 
-        // if(size <= LOD3 & !LOD3set){
-        //     LOD3parent.SetActive(false);
-        //     LOD3set = false;
-        // }
+        float fontSize3 = averageTextSize(LOD3text);
+        Debug.Log("font size 3: " + fontSize3);
+        if((fontSize3 < 5 | dist > .4) & LOD3set){
+            // Debug.Log("increaseTrans\n");
+            decreaseTransparency(LOD3text);
+        }
+
+        if((fontSize3 < 5 | dist > .6) & LOD3set){
+            setTransparency(LOD3text, 0);
+            disableObjects(LOD3objs);
+            LOD3set = false;
+            LOD3parent.SetActive(false);
+        }
     }
 
     void increaseTransparency(List<TextMeshPro> objs){
@@ -176,6 +200,9 @@ public class ResponsiveClock : MonoBehaviour
         foreach (TextMeshPro obj in objs){
             Color32 color = obj.color;
             byte a = (byte)(color[3] - 10);
+            if(color[3] - 10 <= 0){
+                a = 0;
+            }
             obj.color = new Color32(color[0], color[1], color[2], a);
 
         }
