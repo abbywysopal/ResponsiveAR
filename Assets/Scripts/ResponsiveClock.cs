@@ -5,6 +5,19 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+/*
+ * TODO:
+ *  2. LOD3 not going away 
+ *  3. work on scale
+ *  4. increase size of letters in LOD1
+ * 
+ * works for fast delta, not for slow delta
+ * major glitching
+ * need to figure out a way to do both scale and dis together
+ * 
+ * 
+ */
+
 public class ResponsiveClock : MonoBehaviour
 {
     [SerializeField]
@@ -47,8 +60,8 @@ public class ResponsiveClock : MonoBehaviour
     Vector3 initalPosition;
     Vector3 initalScale;
 
-    float LOD2initTextSize;
-    float LOD3initTextSize;
+    double LOD2initTextSize;
+    double LOD3initTextSize;
 
     // Start is called before the first frame update
     void Start()
@@ -61,10 +74,12 @@ public class ResponsiveClock : MonoBehaviour
         LOD3parent.SetActive(false);
         setTransparency(LOD2text, 10);
         initalPosition = transform.localPosition;
-        initalScale = transform.localScale;
+        initalScale = transform.localScale; //smallest form
 
-        LOD2initTextSize = averageTextSize(LOD2text);
-        LOD3initTextSize = averageTextSize(LOD3text);
+        LOD2initTextSize = averageTextSize(LOD2text, initalScale.x);
+        LOD3initTextSize = averageTextSize(LOD3text, initalScale.x);
+        Debug.Log("LOD2initTextSize: " + LOD2initTextSize);
+        Debug.Log("LOD3initTextSize: " + LOD3initTextSize);
         setTransparency(LOD3text, 0);
     }
 
@@ -79,18 +94,26 @@ public class ResponsiveClock : MonoBehaviour
         double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
 
         double scale = parent.transform.localScale.x;
-        double scaleDelta = scale - prevScale;
+        double scaleDelta = Math.Abs(scale) - Math.Abs(prevScale);
         double distDelta = disToHead - prevDist;
-        // Debug.Log("distDelta: " + distDelta);
-        // Debug.Log("scaleDelta: " + scaleDelta);
+        if(distDelta != 0f)
+        {
+            Debug.Log("distDelta: " + distDelta);
+        }
 
-        if(distDelta > .0005f | scaleDelta > .002f)
+        if(scaleDelta != 0f)
+        {
+            Debug.Log("scaleDelta: " + scaleDelta);
+        }
+
+
+        if(distDelta > .00005f | scaleDelta < -.00005f)
         {
             Debug.Log("checkDecrease");
             checkDecreaseInLOD(scale, disToHead);
         }
 
-        if(distDelta < -.003f | scaleDelta < -.002f)
+        if(distDelta < -.00005f | scaleDelta > .00005f)
         {
             Debug.Log("checkIncrease");
             checkIncreaseInLOD(scale, disToHead);
@@ -117,10 +140,12 @@ public class ResponsiveClock : MonoBehaviour
     //1.5m -> 32 points
     void checkIncreaseInLOD(double scale, double dist)
     {
-
-        float fontSize2 = averageTextSize(LOD2text);
+        Debug.Log("dist: " + dist);
+        Debug.Log("scale: " + scale);
+        double fontSize2 = averageTextSize(LOD2text, scale);
+        //double fontSize2 = LOD2text[0].fontSize * scale;
         Debug.Log("font size 2: " + fontSize2);
-        if((fontSize2 > 12 | dist < .8) & !LOD2set){
+        if((fontSize2 > 10 | dist < .8) & !LOD2set){
             Debug.Log("increaseTrans\n");
             LOD2parent.SetActive(true);
             disableObjects(LOD2objs);
@@ -134,16 +159,17 @@ public class ResponsiveClock : MonoBehaviour
         }
 
 
-        float fontSize3 = averageTextSize(LOD3text);
+        double fontSize3 = averageTextSize(LOD3text, scale);
+        //double fontSize3 = LOD3text[0].fontSize * scale;
         Debug.Log("font size 3: " + fontSize3);
-        if((fontSize3 > 12 | dist < .5) & !LOD3set){
+        if((fontSize3 > .9 | dist < .5) & !LOD3set){
             Debug.Log("increaseTrans\n");
             LOD3parent.SetActive(true);
             disableObjects(LOD3objs);
             increaseTransparency(LOD3text);
         }
 
-        if((fontSize3 > 12 | dist < .3) & !LOD3set){
+        if((fontSize3 > 1.1 | dist < .3) & !LOD3set){
             setTransparency(LOD3text, 255);
             enableObjects(LOD3objs);
             LOD3set = true;
@@ -152,9 +178,9 @@ public class ResponsiveClock : MonoBehaviour
 
     void checkDecreaseInLOD(double scale, double dist)
     {
-        float fontSize2 = averageTextSize(LOD2text);
-        // Debug.Log("font size: " + fontSize2);
-        if((fontSize2 < 10 | dist > .7) & LOD2set){
+        double fontSize2 = averageTextSize(LOD2text, scale);
+        Debug.Log("font size: " + fontSize2);
+        if((fontSize2 < 12 | dist > .7) & LOD2set){
             // Debug.Log("decreaseTrans\n");
             // LOD2parent.SetActive(true);
             // disableObjects(LOD2objs);
@@ -168,14 +194,14 @@ public class ResponsiveClock : MonoBehaviour
             LOD2set = false;
         }
 
-        float fontSize3 = averageTextSize(LOD3text);
+        double fontSize3 = averageTextSize(LOD3text, scale);
         Debug.Log("font size 3: " + fontSize3);
-        if((fontSize3 < 5 | dist > .4) & LOD3set){
+        if((fontSize3 < .9 | dist > .4) & LOD3set){
             // Debug.Log("increaseTrans\n");
             decreaseTransparency(LOD3text);
         }
 
-        if((fontSize3 < 5 | dist > .6) & LOD3set){
+        if((fontSize3 < .9 | dist > .6) & LOD3set){
             setTransparency(LOD3text, 0);
             disableObjects(LOD3objs);
             LOD3set = false;
@@ -216,16 +242,20 @@ public class ResponsiveClock : MonoBehaviour
 
     }
 
-    float averageTextSize(List<TextMeshPro> objs){
-        float totalSize = 0;
-        float totalObjs = 0f;
+    double averageTextSize(List<TextMeshPro> objs, double scale){
+        double totalSize = 0;
+        double totalObjs = 0f;
         foreach (TextMeshPro obj in objs){
             totalObjs += 1f;
-            totalSize += obj.fontSize * obj.transform.localScale.x;
+            totalSize += obj.fontSize * scale;
         }
 
         return totalSize/totalObjs;
 
+    }
+
+    double textSizeTMP(TextMeshPro obj){
+        return  obj.fontSize * obj.transform.localScale.x;
     }
 
 
