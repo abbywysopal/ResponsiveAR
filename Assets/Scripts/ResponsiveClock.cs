@@ -66,20 +66,18 @@ public class ResponsiveClock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Clock");
-        Debug.Log("Scale: " + parent.transform.localScale);
 
         LOD1parent.SetActive(true);
         LOD2parent.SetActive(false);
         LOD3parent.SetActive(false);
         setTransparency(LOD2text, 10);
-        initalPosition = transform.localPosition;
-        initalScale = transform.localScale; //smallest form
+        initalPosition = parent.transform.localPosition;
+        initalScale = parent.transform.localScale; //smallest form
 
         LOD2initTextSize = averageTextSize(LOD2text, initalScale.x);
         LOD3initTextSize = averageTextSize(LOD3text, initalScale.x);
-        Debug.Log("LOD2initTextSize: " + LOD2initTextSize);
-        Debug.Log("LOD3initTextSize: " + LOD3initTextSize);
+        prevDist = calcDist(Camera.main.transform.position, parent.transform.position);
+        prevScale = initalScale.x;
         setTransparency(LOD3text, 0);
     }
 
@@ -96,6 +94,9 @@ public class ResponsiveClock : MonoBehaviour
         double scale = parent.transform.localScale.x;
         double scaleDelta = Math.Abs(scale) - Math.Abs(prevScale);
         double distDelta = disToHead - prevDist;
+        double ratio = getRatio(Math.Abs(scale), Math.Abs(disToHead));
+
+        /*
         if(distDelta != 0f)
         {
             Debug.Log("distDelta: " + distDelta);
@@ -105,18 +106,36 @@ public class ResponsiveClock : MonoBehaviour
         {
             Debug.Log("scaleDelta: " + scaleDelta);
         }
+        */
+
+        //hard set LOD
+        /*
+        if(distDelta == 0 && scaleDelta == 0){
+            if (!LOD2set && ratio > 3.6)
+            {
+                setLOD2();
+            }
+
+            if (!LOD3set && ratio > 6.7)
+            {
+                setLOD3();
+            }
+            
+        }
+        */
 
 
+        //used for smooth transitioning
         if(distDelta > .00005f | scaleDelta < -.00005f)
         {
-            Debug.Log("checkDecrease");
-            checkDecreaseInLOD(scale, disToHead);
+            Debug.Log("checkDecrease, ratio " + ratio);
+            checkDecreaseInLOD(scale, disToHead, ratio);
         }
 
         if(distDelta < -.00005f | scaleDelta > .00005f)
         {
-            Debug.Log("checkIncrease");
-            checkIncreaseInLOD(scale, disToHead);
+           Debug.Log("checkIncrease, ratio " + ratio);
+           checkIncreaseInLOD(scale, disToHead, ratio);
         }
 
         prevDist = disToHead;
@@ -138,82 +157,116 @@ public class ResponsiveClock : MonoBehaviour
     //.35m -> 12points
     //.7m 16 points
     //1.5m -> 32 points
-    void checkIncreaseInLOD(double scale, double dist)
+
+    /*
+    will change ratio to depend on fontsize
+    LOD1	2
+    LOD trans	3
+    LOD2	3.6
+    LOD3 trans	5
+    LOD3	6.7
+    */
+
+
+    void checkIncreaseInLOD(double scale, double dist, double ratio)
     {
-        Debug.Log("dist: " + dist);
-        Debug.Log("scale: " + scale);
         double fontSize2 = averageTextSize(LOD2text, scale);
-        //double fontSize2 = LOD2text[0].fontSize * scale;
         Debug.Log("font size 2: " + fontSize2);
-        if((fontSize2 > 10 | dist < .8) & !LOD2set){
+        double fontSize3 = averageTextSize(LOD3text, scale);
+        
+        if(ratio < 2)
+        {
+            Debug.Log("LOD1 set");
+        }
+        else if (ratio < 3) { 
+            //LOD2 transition
+        //if((fontSize2 > 10 | dist < .8) & !LOD2set){
             Debug.Log("increaseTrans\n");
             LOD2parent.SetActive(true);
             disableObjects(LOD2objs);
             increaseTransparency(LOD2text);
         }
-
-        if((fontSize2 > 12 | dist < .6) & !LOD2set){
+        else if(ratio < 3.6) {
+            //LDO2 set
+        //if((fontSize2 > 12 | dist < .6) & !LOD2set){
             setTransparency(LOD2text, 255);
             enableObjects(LOD2objs);
             LOD2set = true;
         }
-
-
-        double fontSize3 = averageTextSize(LOD3text, scale);
-        //double fontSize3 = LOD3text[0].fontSize * scale;
-        Debug.Log("font size 3: " + fontSize3);
-        if((fontSize3 > .9 | dist < .5) & !LOD3set){
+        else if(ratio < 5){ 
+            //LOD3 transition
+        //if((fontSize3 > .9 | dist < .5) & !LOD3set){
             Debug.Log("increaseTrans\n");
             LOD3parent.SetActive(true);
             disableObjects(LOD3objs);
             increaseTransparency(LOD3text);
         }
-
-        if((fontSize3 > 1.1 | dist < .3) & !LOD3set){
+        else if (ratio < 6.7) { 
+            //LOD3 set
+        //if((fontSize3 > 1.1 | dist < .3) & !LOD3set){
             setTransparency(LOD3text, 255);
             enableObjects(LOD3objs);
             LOD3set = true;
         }
     }
 
-    void checkDecreaseInLOD(double scale, double dist)
+    void checkDecreaseInLOD(double scale, double dist, double ratio)
     {
         double fontSize2 = averageTextSize(LOD2text, scale);
-        Debug.Log("font size: " + fontSize2);
-        if((fontSize2 < 12 | dist > .7) & LOD2set){
-            // Debug.Log("decreaseTrans\n");
-            // LOD2parent.SetActive(true);
-            // disableObjects(LOD2objs);
-            decreaseTransparency(LOD2text);
+        double fontSize3 = averageTextSize(LOD3text, scale);
+        
+        if(ratio < 1.5)
+        {
+            Debug.Log("LOD1 set");
         }
-
-        if((fontSize2 < 10 | dist > .9) & LOD2set){
-            // Debug.Log("set to Zero");
+        else if (ratio < 2.8) { 
+            //LDO2 unset
+            //if((fontSize2 < 12 | dist > .7) & LOD2set){
+            Debug.Log("LOD2 unset");
             setTransparency(LOD2text, 10);
             disableObjects(LOD2objs);
             LOD2set = false;
         }
-
-        double fontSize3 = averageTextSize(LOD3text, scale);
-        Debug.Log("font size 3: " + fontSize3);
-        if((fontSize3 < .9 | dist > .4) & LOD3set){
-            // Debug.Log("increaseTrans\n");
-            decreaseTransparency(LOD3text);
+        else if(ratio < 3.4) {
+            //LOD2 transition
+            //if((fontSize2 < 12 | dist > .7) & LOD2set){
+            Debug.Log("LOD2 trans dec");
+            decreaseTransparency(LOD2text);
         }
-
-        if((fontSize3 < .9 | dist > .6) & LOD3set){
+        else if(ratio < 4.8){ 
+            //LOD3 unset
+            //if((fontSize3 < .9 | dist > .6) & LOD3set){
             setTransparency(LOD3text, 0);
             disableObjects(LOD3objs);
             LOD3set = false;
             LOD3parent.SetActive(false);
         }
+        else if (ratio < 6.5) { 
+            //LOD3 transition
+            //if((fontSize3 < .9 | dist > .4) & LOD3set){
+            decreaseTransparency(LOD3text);
+        }
+    }
+
+    void setLOD2()
+    {
+        setTransparency(LOD2text, 255);
+        enableObjects(LOD2objs);
+        LOD2set = true;
+    }
+
+    void setLOD3()
+    {
+        setTransparency(LOD3text, 255);
+        enableObjects(LOD3objs);
+        LOD3set = true;
     }
 
     void increaseTransparency(List<TextMeshPro> objs){
         foreach (TextMeshPro obj in objs){
             Color32 color = obj.color;
-            byte a = (byte)(color[3] + 10);
-            if(color[3] + 10 >= 255){
+            byte a = (byte)(color[3] + 1);
+            if(color[3] + 1 >= 255){
                 a = 255;
             }
 
@@ -225,8 +278,8 @@ public class ResponsiveClock : MonoBehaviour
     void decreaseTransparency(List<TextMeshPro> objs){
         foreach (TextMeshPro obj in objs){
             Color32 color = obj.color;
-            byte a = (byte)(color[3] - 10);
-            if(color[3] - 10 <= 0){
+            byte a = (byte)(color[3] - 1);
+            if(color[3] - 1 <= 0){
                 a = 0;
             }
             obj.color = new Color32(color[0], color[1], color[2], a);
@@ -271,6 +324,11 @@ public class ResponsiveClock : MonoBehaviour
         foreach (GameObject obj in objs){
             obj.SetActive(true);
         }
+    }
+
+    //function to determin scale to dist ratio
+    double getRatio(double scale, double dist){
+        return ((1000*scale)/(5*dist));
     }
 
     /*
