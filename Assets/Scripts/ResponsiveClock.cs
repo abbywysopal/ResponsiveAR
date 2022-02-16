@@ -42,18 +42,22 @@ public class ResponsiveClock : MonoBehaviour
     [SerializeField]
     List<TextMeshPro> LOD3text = new List<TextMeshPro>();
 
-    [SerializeField]
-    double LOD1;
-    [SerializeField]
-    double transitionLOD2;
-    [SerializeField]
-    double LOD2;
-    [SerializeField]
-    double LOD3;
+    /*
+        [SerializeField]
+        double LOD1;
+        [SerializeField]
+        double transitionLOD2;
+        [SerializeField]
+        double LOD2;
+        [SerializeField]
+        double LOD3;
+    */
 
-    bool LOD1set = true;
-    bool LOD2set = false;
-    bool LOD3set = false;
+    /*
+        bool LOD1set = true;
+        bool LOD2set = false;
+        bool LOD3set = false;
+    */
 
     double prevScale;
     double prevDist;
@@ -108,22 +112,6 @@ public class ResponsiveClock : MonoBehaviour
         }
         */
 
-        //hard set LOD
-        /*
-        if(distDelta == 0 && scaleDelta == 0){
-            if (!LOD2set && ratio > 3.6)
-            {
-                setLOD2();
-            }
-
-            if (!LOD3set && ratio > 6.7)
-            {
-                setLOD3();
-            }
-            
-        }
-        */
-
 
         //used for smooth transitioning
         if(distDelta > .00005f | scaleDelta < -.00005f)
@@ -167,7 +155,6 @@ public class ResponsiveClock : MonoBehaviour
     LOD3	6.7
     */
 
-
     void checkIncreaseInLOD(double scale, double dist, double ratio)
     {
         double fontSize2 = averageTextSize(LOD2text, scale);
@@ -180,7 +167,6 @@ public class ResponsiveClock : MonoBehaviour
         }
         else if (ratio < 3) { 
             //LOD2 transition
-        //if((fontSize2 > 10 | dist < .8) & !LOD2set){
             Debug.Log("increaseTrans\n");
             LOD2parent.SetActive(true);
             disableObjects(LOD2objs);
@@ -188,25 +174,23 @@ public class ResponsiveClock : MonoBehaviour
         }
         else if(ratio < 3.6) {
             //LDO2 set
-        //if((fontSize2 > 12 | dist < .6) & !LOD2set){
-            setTransparency(LOD2text, 255);
+            increaseTransparency(LOD2text);//call a algo to increase transparency based on gaze alg
             enableObjects(LOD2objs);
-            LOD2set = true;
+           // LOD2set = true;
         }
         else if(ratio < 5){ 
             //LOD3 transition
-        //if((fontSize3 > .9 | dist < .5) & !LOD3set){
+            setTransparency(LOD2text, 255);
             Debug.Log("increaseTrans\n");
             LOD3parent.SetActive(true);
             disableObjects(LOD3objs);
-            increaseTransparency(LOD3text);
+            increaseTransparency(LOD3text);//call a algo to increase transparency based on gaze alg
         }
         else if (ratio < 6.7) { 
             //LOD3 set
-        //if((fontSize3 > 1.1 | dist < .3) & !LOD3set){
-            setTransparency(LOD3text, 255);
+            increaseTransparency(LOD3text);
             enableObjects(LOD3objs);
-            LOD3set = true;
+            //LOD3set = true;
         }
     }
 
@@ -218,72 +202,61 @@ public class ResponsiveClock : MonoBehaviour
         if(ratio < 1.5)
         {
             Debug.Log("LOD1 set");
+            setTransparency(LOD2text, 0);
         }
         else if (ratio < 2.8) { 
             //LDO2 unset
-            //if((fontSize2 < 12 | dist > .7) & LOD2set){
             Debug.Log("LOD2 unset");
-            setTransparency(LOD2text, 10);
+            decreaseTransparency(LOD2text);
             disableObjects(LOD2objs);
-            LOD2set = false;
+            // LOD2set = false;
         }
         else if(ratio < 3.4) {
             //LOD2 transition
-            //if((fontSize2 < 12 | dist > .7) & LOD2set){
             Debug.Log("LOD2 trans dec");
             decreaseTransparency(LOD2text);
+            setTransparency(LOD3text, 0);
+            LOD3parent.SetActive(false);
         }
         else if(ratio < 4.8){ 
             //LOD3 unset
-            //if((fontSize3 < .9 | dist > .6) & LOD3set){
-            setTransparency(LOD3text, 0);
+            decreaseTransparency(LOD3text);
             disableObjects(LOD3objs);
-            LOD3set = false;
-            LOD3parent.SetActive(false);
+            // LOD3set = false;
         }
         else if (ratio < 6.5) { 
             //LOD3 transition
-            //if((fontSize3 < .9 | dist > .4) & LOD3set){
             decreaseTransparency(LOD3text);
         }
     }
 
-    void setLOD2()
-    {
-        setTransparency(LOD2text, 255);
-        enableObjects(LOD2objs);
-        LOD2set = true;
-    }
-
-    void setLOD3()
-    {
-        setTransparency(LOD3text, 255);
-        enableObjects(LOD3objs);
-        LOD3set = true;
-    }
-
     void increaseTransparency(List<TextMeshPro> objs){
-        foreach (TextMeshPro obj in objs){
-            Color32 color = obj.color;
-            byte a = (byte)(color[3] + 1);
-            if(color[3] + 1 >= 255){
-                a = 255;
+
+        if(objs[0].color[3] < 255) { 
+            foreach (TextMeshPro obj in objs){
+                Color32 color = obj.color;
+                byte a = (byte)(color[3] + 1);
+                if(color[3] + 1 >= 255){
+                    a = 255;
+                }
+
+                obj.color = new Color32(color[0], color[1], color[2], a);
+
             }
-
-            obj.color = new Color32(color[0], color[1], color[2], a);
-
         }
     }
 
     void decreaseTransparency(List<TextMeshPro> objs){
-        foreach (TextMeshPro obj in objs){
-            Color32 color = obj.color;
-            byte a = (byte)(color[3] - 1);
-            if(color[3] - 1 <= 0){
-                a = 0;
-            }
-            obj.color = new Color32(color[0], color[1], color[2], a);
+        if(objs[0].color[3] > 0) { 
+            foreach (TextMeshPro obj in objs){
+                Color32 color = obj.color;
+                byte a = (byte)(color[3] - 1);
+                if(color[3] - 1 <= 0){
+                    a = 0;
+                }
+                obj.color = new Color32(color[0], color[1], color[2], a);
 
+            }
         }
     }
 
