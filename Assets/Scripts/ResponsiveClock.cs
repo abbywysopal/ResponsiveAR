@@ -7,14 +7,8 @@ using System;
 
 /*
  * TODO:
- *  2. LOD3 not going away 
- *  3. work on scale
- *  4. increase size of letters in LOD1
- * 
- * works for fast delta, not for slow delta
- * major glitching
- * need to figure out a way to do both scale and dis together
- * 
+ *  1. work on start function which determines LOD values based on font size and initial dist
+ *  2. increase size of letters in LOD1
  * 
  */
 
@@ -22,6 +16,9 @@ public class ResponsiveClock : MonoBehaviour
 {
     [SerializeField]
     GameObject parent;
+
+    [SerializeField]
+    SphereCollider collider;
 
     [SerializeField]
     GameObject LOD1parent;
@@ -42,22 +39,15 @@ public class ResponsiveClock : MonoBehaviour
     [SerializeField]
     List<TextMeshPro> LOD3text = new List<TextMeshPro>();
 
-    /*
-        [SerializeField]
-        double LOD1;
-        [SerializeField]
-        double transitionLOD2;
-        [SerializeField]
-        double LOD2;
-        [SerializeField]
-        double LOD3;
-    */
-
-    /*
-        bool LOD1set = true;
-        bool LOD2set = false;
-        bool LOD3set = false;
-    */
+    [SerializeField]
+    double LOD1 = 2;
+    [SerializeField]
+    double LOD2 = 3.2;
+    [SerializeField]
+    double LOD3 = 5.2;
+    bool setLOD1 = true;
+    bool setLOD2 = false;
+    bool setLOD3 = false;
 
     double prevScale;
     double prevDist;
@@ -72,17 +62,19 @@ public class ResponsiveClock : MonoBehaviour
     {
 
         LOD1parent.SetActive(true);
-        LOD2parent.SetActive(false);
-        LOD3parent.SetActive(false);
-        setTransparency(LOD2text, 10);
+        LOD2parent.SetActive(true);
+        LOD3parent.SetActive(true);
+        setTransparency(LOD2text, 0);
+        setTransparency(LOD3text, 0);
+        disableObjects(LOD2objs);
+        disableObjects(LOD3objs);
+
         initalPosition = parent.transform.localPosition;
         initalScale = parent.transform.localScale; //smallest form
 
         LOD2initTextSize = averageTextSize(LOD2text, initalScale.x);
         LOD3initTextSize = averageTextSize(LOD3text, initalScale.x);
-        prevDist = calcDist(Camera.main.transform.position, parent.transform.position);
-        prevScale = initalScale.x;
-        setTransparency(LOD3text, 0);
+
     }
 
     // Update is called once per frame
@@ -94,41 +86,84 @@ public class ResponsiveClock : MonoBehaviour
          */
         var headPosition = Camera.main.transform.position;
         double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-
         double scale = parent.transform.localScale.x;
-        double scaleDelta = Math.Abs(scale) - Math.Abs(prevScale);
-        double distDelta = disToHead - prevDist;
         double ratio = getRatio(Math.Abs(scale), Math.Abs(disToHead));
 
-        /*
-        if(distDelta != 0f)
+        continuousFunction(ratio);
+        gazeFunction();
+
+    }
+
+    void continuousFunction(double ratio){
+        
+        if(ratio < LOD1)
         {
-            Debug.Log("distDelta: " + distDelta);
+            //setLOD1
+            setLOD2 = false;
+            setLOD3 = false;
+            disableObjects(LOD2objs);
+            disableObjects(LOD3objs);
+            decreaseTransparency(LOD2text);
+            decreaseTransparency(LOD3text);
         }
+        else if (ratio < LOD2) { 
+            //set LOD2
+            setLOD2 = true;
+            setLOD3 = false;
+            enableObjects(LOD2objs);
+            disableObjects(LOD3objs);
+            decreaseTransparency(LOD3text);
+        }
+        else if(ratio < LOD3) {
+            //set LOD3
+            setLOD2 = true;
+            setLOD3 = true;
+            enableObjects(LOD2objs);
+            enableObjects(LOD3objs);
+        }
+    }
 
-        if(scaleDelta != 0f)
+    void gazeFunction(){
+        RaycastHit hitInfo;
+        if (Physics.Raycast(
+                Camera.main.transform.position,
+                Camera.main.transform.forward,
+                out hitInfo,
+                20.0f,
+                Physics.DefaultRaycastLayers))
         {
-            Debug.Log("scaleDelta: " + scaleDelta);
+            // If the Raycast has succeeded and hit a hologram
+            // hitInfo's point represents the position being gazed at
+            // hitInfo's collider GameObject represents the hologram being gazed at
+            if(hitInfo.collider == collider){
+
+                Debug.Log("HIT");
+                Debug.Log(hitInfo.collider);
+                if(setLOD2){
+                    increaseTransparency(LOD2text);
+                }
+                if(setLOD3){
+                    increaseTransparency(LOD3text);
+                }
+            }else{
+                Debug.Log("Hit something else");
+                Debug.Log(hitInfo.collider);
+                if(setLOD2){
+                    decreaseTransparency(LOD2text);
+                }
+                if(setLOD3){
+                    decreaseTransparency(LOD3text);
+                }
+            }
+        }else{
+            Debug.Log("Out of focus");
+            if(setLOD2){
+                decreaseTransparency(LOD2text);
+            }
+            if(setLOD3){
+                decreaseTransparency(LOD3text);
+            }
         }
-        */
-
-
-        //used for smooth transitioning
-        if(distDelta > .00005f | scaleDelta < -.00005f)
-        {
-            Debug.Log("checkDecrease, ratio " + ratio);
-            checkDecreaseInLOD(scale, disToHead, ratio);
-        }
-
-        if(distDelta < -.00005f | scaleDelta > .00005f)
-        {
-           Debug.Log("checkIncrease, ratio " + ratio);
-           checkIncreaseInLOD(scale, disToHead, ratio);
-        }
-
-        prevDist = disToHead;
-        prevScale = scale;
-
     }
 
     double calcDist(Vector3 obj1, Vector3 obj2)
@@ -231,7 +266,6 @@ public class ResponsiveClock : MonoBehaviour
     }
 
     void increaseTransparency(List<TextMeshPro> objs){
-
         if(objs[0].color[3] < 255) { 
             foreach (TextMeshPro obj in objs){
                 Color32 color = obj.color;
@@ -239,9 +273,7 @@ public class ResponsiveClock : MonoBehaviour
                 if(color[3] + 1 >= 255){
                     a = 255;
                 }
-
                 obj.color = new Color32(color[0], color[1], color[2], a);
-
             }
         }
     }
@@ -255,7 +287,6 @@ public class ResponsiveClock : MonoBehaviour
                     a = 0;
                 }
                 obj.color = new Color32(color[0], color[1], color[2], a);
-
             }
         }
     }
