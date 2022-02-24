@@ -39134,6 +39134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1517748715}
+  collider: {fileID: 0}
   LOD1parent: {fileID: 1625521697}
   LOD2parent: {fileID: 857346872}
   LOD2text:
@@ -39153,6 +39154,9 @@ MonoBehaviour:
   LOD3text:
   - {fileID: 698209224}
   - {fileID: 1210081862}
+  LOD1: 2
+  LOD2: 3.2
+  LOD3: 5.2
 --- !u!114 &1517748718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50483,6 +50487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1952473475}
+  collider: {fileID: 1952473482}
   LOD1parent: {fileID: 451930209}
   LOD2parent: {fileID: 754838867}
   LOD2text:
@@ -50560,6 +50565,9 @@ MonoBehaviour:
   - {fileID: 1235221822}
   - {fileID: 414549630}
   - {fileID: 345777408}
+  LOD1: 2
+  LOD2: 3.2
+  LOD3: 5.2
 --- !u!135 &1952473482
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -50571,7 +50579,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 7.36
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1964221733
 GameObject:
