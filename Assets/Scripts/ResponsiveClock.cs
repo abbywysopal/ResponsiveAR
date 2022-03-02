@@ -7,8 +7,13 @@ using System;
 
 /*
  * TODO:
+ *  1. Brainstorm: what varibles can be made continuous?
+ *  2. IDEAS: preprocess to group objects into LDO, create alg to find transition val for each LOD
+ *  
  *  1. work on start function which determines LOD values based on font size and initial dist
  *  2. increase size of letters in LOD1
+ *  
+ *  
  * 
  */
 
