@@ -8,6 +8,7 @@ public class compass : MonoBehaviour
     [SerializeField]
     GameObject parent;
    
+    //compass not changing 
 
     void Start()
     {
@@ -21,11 +22,9 @@ public class compass : MonoBehaviour
         
         var v = Camera.main.transform.forward;
  
-        //parent.transform.rotation = (0,0,0);
+        parent.transform.localEulerAngles = Camera.main.transform.forward;
 
         Debug.Log("forward: " +  v);
-
-
 
     }
 }

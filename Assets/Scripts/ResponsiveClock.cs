@@ -142,8 +142,8 @@ public class ResponsiveClock : MonoBehaviour
             // hitInfo's collider GameObject represents the hologram being gazed at
             if(hitInfo.collider == collider){
 
-                Debug.Log("HIT");
-                Debug.Log(hitInfo.collider);
+                //Debug.Log("HIT");
+                //Debug.Log(hitInfo.collider);
                 if(setLOD2){
                     increaseTransparency(LOD2text);
                 }
@@ -151,8 +151,8 @@ public class ResponsiveClock : MonoBehaviour
                     increaseTransparency(LOD3text);
                 }
             }else{
-                Debug.Log("Hit something else");
-                Debug.Log(hitInfo.collider);
+                //Debug.Log("Hit something else");
+                //Debug.Log(hitInfo.collider);
                 if(setLOD2){
                     decreaseTransparency(LOD2text);
                 }
@@ -161,7 +161,7 @@ public class ResponsiveClock : MonoBehaviour
                 }
             }
         }else{
-            Debug.Log("Out of focus");
+            //Debug.Log("Out of focus");
             if(setLOD2){
                 decreaseTransparency(LOD2text);
             }
