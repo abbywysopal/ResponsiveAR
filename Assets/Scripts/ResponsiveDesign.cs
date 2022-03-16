@@ -18,26 +18,23 @@ using Microsoft.MixedReality.Toolkit.UI;
  * 
  */
 
-public class AutoSetUp : MonoBehaviour
+public class ResponsiveDesign : MonoBehaviour
 {
     [SerializeField]
     GameObject parent;
     [SerializeField]
-    SphereCollider collider;
-
-    double LOD1 = 2;
-    double LOD2 = 3.2;
-    double LOD3 = 5.2;
-
+    Collider collider;
     
-    IDictionary<int, List<TextMeshPro>> text = new Dictionary<int, List<TextMeshPro>>();
-    IDictionary<int, List<GameObject>> objects = new Dictionary<int, List<GameObject>>();
-    IDictionary<int, List<Interactable>> interaction = new Dictionary<int, List<Interactable>>();
+    //IDictionary<int, List<TextMeshPro>> text = new Dictionary<int, List<TextMeshPro>>();
+    //IDictionary<int, List<GameObject>> objects = new Dictionary<int, List<GameObject>>();
+    //IDictionary<int, List<Interactable>> interaction = new Dictionary<int, List<Interactable>>();
     List<int> LOD = new List<int>();
     IDictionary<int, double> LODRatio = new Dictionary<int, double>();
     IDictionary<int, bool> LODSet = new Dictionary<int, bool>();
 
-
+    IDictionary<int, LOD_TMP> text = new Dictionary<int, LOD_TMP>();
+    IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
+    IDictionary<int, List<Interactable>> interaction = new Dictionary<int, List<Interactable>>();
 
     // Start is called before the first frame update
     void Start()
@@ -79,7 +76,6 @@ public class AutoSetUp : MonoBehaviour
     {
         TextMeshPro[] allTMP;
         Interactable[] interactables;
-        GameObject[] objects;
         Transform[] allTransforms;
 
         allTMP = parent.GetComponentsInChildren<TextMeshPro>();
@@ -96,8 +92,6 @@ public class AutoSetUp : MonoBehaviour
 
         foreach (Transform child in allTransforms)
         {
-            Debug.Log(child);
-
             if (child.childCount == 0)
             {
                 TextMeshPro tmp = child.GetComponent<TextMeshPro>();
@@ -139,30 +133,68 @@ public class AutoSetUp : MonoBehaviour
         if (allInteraction.Count > 0)
         {
             GroupInteraction(allInteraction);
+            foreach(KeyValuePair<int, List<Interactable>> kvp in interaction)
+            {
+                Debug.Log("LOD" + kvp.Key + ":");
+                foreach(Interactable t in kvp.Value)
+                {
+                    Debug.Log(t);
+                }
+            }
         }
+
+        
+
+    }
+
+    void setUpLOD(double r, double s, double d)
+    {
+        setUpLODText(r,s,d);
+        setUpLODObjects(r,s,d);
+        //setUpLODInteraction(r,s,d);
 
     }
 
 
     //1 point = .0003527 m
     //12 points = .004233
-    void setUpLOD(double r, double s, double d)
+    void setUpLODText(double r, double s, double d)
     {
-        LODRatio.Add(0, 0);
-        setLOD(0, true);
-        LODRatio.Add(1, r / 2);
-        setLOD(1, true);
-        double initail = ((double).11 / getTextSize(1)) * r;
 
-        for (int i = 2; i < LOD.Count; i++){
-            double textSize = getTextSize(i);
+        for(int i = 1; i <= text.Count; i++)
+        {
+            double textSize = text[i].getTextSize(parent.transform.localScale.x);
             double readable = (double).11;
             double size = readable / textSize;
-            double result = size * r + initail;
-            LODRatio.Add(i, result);
+            double result = size * r;
+            text[i].setRatio(result);
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
+            Debug.Log("result: " + result.ToString());
+            Debug.Log("ratio: " + r.ToString());
+        }
+
+    }
+
+    void setUpLODObjects(double r, double s, double d)
+    {
+        //TODO: FIX THIS FUNCTION
+        Transform t = parent.transform;
+        float parent_volume = (t.localScale.x*t.localScale.y*t.localScale.z);
+        double largestObj = objects[0].getSize(parent.transform) / parent_volume;
+        objects[0].setRatio(r / largestObj);
+        Debug.Log("LOD0: ");
+        Debug.Log("largestObj: " + largestObj.ToString());
+        Debug.Log("ratio: " + r.ToString());
+        
+        for(int i = 1; i <= objects.Count; i++)
+        {
+            double sizeObj = objects[i].getSize(parent.transform) / parent_volume;
+            double result = r / sizeObj;
+            objects[i].setRatio(result);
+            Debug.Log("LOD: " + i.ToString());
+            Debug.Log("sizeObj: " + sizeObj.ToString());
             Debug.Log("result: " + result.ToString());
             Debug.Log("ratio: " + r.ToString());
         }
@@ -173,16 +205,17 @@ public class AutoSetUp : MonoBehaviour
 
         if (text.ContainsKey(i) && val)
         {
-            foreach(TextMeshPro t in text[i])
-            {
-                t.gameObject.SetActive(val);
-            }
+            text[i].setLOD(val);
         }
         if (objects.ContainsKey(i))
         {
-            foreach (GameObject g in objects[i])
+            objects[i].setLOD(val);
+        }
+        if (interaction.ContainsKey(i))
+        {
+            foreach (Interactable interact in interaction[i])
             {
-                g.SetActive(val);
+                interact.SetInteractive(val);
             }
         }
         LODSet[i] = val;
@@ -198,18 +231,16 @@ public class AutoSetUp : MonoBehaviour
             if (ratio < r)
             {
                 setLOD(i, false);
-                disableObjects(objects[i]);
                 if (text.ContainsKey(i))
                 {
-                    decreaseTransparency(text[i], i);
+                    text[i].decreaseTransparency();
                 }
             }
             else
             {
-                enableObjects(objects[i]);
                 if (text.ContainsKey(i))
                 {
-                    increaseTransparency(text[i]);
+                    text[i].increaseTransparency();
                 }
                 setLOD(i, true);
             }
@@ -234,11 +265,12 @@ public class AutoSetUp : MonoBehaviour
 
                 //Debug.Log("HIT");
                 //Debug.Log(hitInfo.collider);
-                foreach (KeyValuePair<int, bool> kvp in LODSet)
+                foreach (KeyValuePair<int, LOD_TMP> kvp in text)
                 {
-                    if (kvp.Value && text.ContainsKey(kvp.Key))
+                    bool set = kvp.Value.getSet();
+                    if (set)
                     {
-                        increaseTransparency(text[kvp.Key]);
+                        text[kvp.Key].increaseTransparency();
                     }
 
                 }
@@ -247,11 +279,12 @@ public class AutoSetUp : MonoBehaviour
             {
                 //Debug.Log("Hit something else");
                 //Debug.Log(hitInfo.collider);
-                foreach (KeyValuePair<int, bool> kvp in LODSet)
+                foreach (KeyValuePair<int, LOD_TMP> kvp in text)
                 {
-                    if (!kvp.Value && text.ContainsKey(kvp.Key))
+                    bool set = kvp.Value.getSet();
+                    if (!set)
                     {
-                        decreaseTransparency(text[kvp.Key], kvp.Key);
+                         text[kvp.Key].decreaseTransparency();
                     }
 
                 }
@@ -260,11 +293,12 @@ public class AutoSetUp : MonoBehaviour
         else
         {
             //Debug.Log("Out of focus");
-            foreach (KeyValuePair<int, bool> kvp in LODSet)
+            foreach (KeyValuePair<int, LOD_TMP> kvp in text)
             {
-                if (kvp.Value && text.ContainsKey(kvp.Key))
+                bool set = kvp.Value.getSet();
+                if (set)
                 {
-                    decreaseTransparency(text[kvp.Key], kvp.Key);
+                    text[kvp.Key].increaseTransparency();
                 }
 
             }
@@ -295,54 +329,6 @@ public class AutoSetUp : MonoBehaviour
     LOD3	6.7
     */
 
-    void decreaseTransparency(List<TextMeshPro> objs, int index)
-    {
-        if (objs[0].color[3] > 0)
-        {
-            foreach (TextMeshPro obj in objs)
-            {
-                Color32 color = obj.color;
-                byte a = (byte)(color[3] - 1);
-                if (color[3] - 1 <= 0)
-                {
-                    a = 0;
-                    if(LODSet[index] == false)
-                    {
-                        obj.gameObject.SetActive(false);
-                    }
-                }
-                obj.color = new Color32(color[0], color[1], color[2], a);
-            }
-        }
-    }
-
-    void increaseTransparency(List<TextMeshPro> objs)
-    {
-        if (objs[0].color[3] < 255)
-        {
-            foreach (TextMeshPro obj in objs)
-            {
-                Color32 color = obj.color;
-                byte a = (byte)(color[3] + 1);
-                if (color[3] + 1 >= 255)
-                {
-                    a = 255;
-                }
-                obj.color = new Color32(color[0], color[1], color[2], a);
-            }
-        }
-    }
-
-    void setTransparency(List<TextMeshPro> objs, byte a)
-    {
-        foreach (TextMeshPro obj in objs)
-        {
-            Color32 color = obj.color;
-            obj.color = new Color32(color[0], color[1], color[2], a);
-        }
-
-    }
-
     double averageTextSize(List<TextMeshPro> objs, double scale)
     {
         double totalSize = 0;
@@ -357,27 +343,6 @@ public class AutoSetUp : MonoBehaviour
 
     }
 
-    double textSizeTMP(TextMeshPro obj)
-    {
-        return obj.fontSize * obj.transform.localScale.x;
-    }
-
-
-    void disableObjects(List<GameObject> objs)
-    {
-        foreach (GameObject obj in objs)
-        {
-            obj.SetActive(false);
-        }
-    }
-
-    void enableObjects(List<GameObject> objs)
-    {
-        foreach (GameObject obj in objs)
-        {
-            obj.SetActive(true);
-        }
-    }
 
     //function to determin scale to dist ratio
     double getRatio(double scale, double dist)
@@ -397,7 +362,7 @@ public class AutoSetUp : MonoBehaviour
             float diff = oldSize - newSize;
             if (diff > .01)
             {
-                text[groupId] = temp;
+                text[groupId] = new LOD_TMP(groupId, 0, temp, false);
                 temp = new List<TextMeshPro>();
                 LOD.Add(groupId);
                 groupId += 1;
@@ -407,25 +372,20 @@ public class AutoSetUp : MonoBehaviour
             oldSize = newSize;
         }
 
-        text[groupId] = temp;
+        text[groupId] = new LOD_TMP(groupId, 0, temp, false);
         LOD.Add(groupId);
 
-        foreach (KeyValuePair<int, List<TextMeshPro>> kvp in text)
+        foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
             Debug.Log("kvp.Key: " + kvp.Key);
-            foreach (TextMeshPro t in kvp.Value)
+            List<TextMeshPro> list = kvp.Value.getText();
+            foreach (TextMeshPro t in list)
             {
                 float s = t.fontSize * t.transform.localScale.x * parent.transform.localScale.x;
                 Debug.Log(t + " " + t.fontSize.ToString() + " " + s.ToString());
             }
         }
 
-    }
-
-    double getTextSize(int index)
-    {
-        TextMeshPro t = text[index][0];
-        return t.fontSize * t.transform.localScale.x * parent.transform.localScale.x;
     }
 
 
@@ -443,7 +403,7 @@ public class AutoSetUp : MonoBehaviour
             float diff = oldV - newV;
             if (diff > .01)
             {
-                objects[groupId] = temp;
+                objects[groupId] = new LOD_Obj(groupId, 0, temp, false);
                 temp = new List<GameObject>();
                 if (!LOD.Contains(groupId))
                 {
@@ -456,16 +416,17 @@ public class AutoSetUp : MonoBehaviour
             oldV = newV;
         }
 
-        objects[groupId] = temp;
+        objects[groupId] =  new LOD_Obj(groupId, 0, temp, false);
         if (!LOD.Contains(groupId))
         {
             LOD.Add(groupId);
         }
 
-        foreach (KeyValuePair<int, List<GameObject>> kvp in objects)
+        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
             Debug.Log("kvp.Key: " + kvp.Key);
-            foreach (GameObject g in kvp.Value)
+            List<GameObject> list = kvp.Value.getObjects();
+            foreach (GameObject g in list)
             {
                 Transform t = g.transform;
                 float v = t.localScale.x * t.localScale.y * t.localScale.z;
@@ -482,6 +443,7 @@ public class AutoSetUp : MonoBehaviour
         int index = LOD.Count;
         LOD.Add(index);
         interaction[index] = allInteraction;
+
     }
 
 

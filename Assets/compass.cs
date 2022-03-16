@@ -20,7 +20,5 @@ public class compass : MonoBehaviour
     {
         Vector3 direction = new Vector3(0.0f, 0.0f, Camera.main.transform.localEulerAngles.y);
         parent.transform.localEulerAngles = direction;
-        Debug.Log(direction);
-
     }
 }
