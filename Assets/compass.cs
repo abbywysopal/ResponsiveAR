@@ -18,13 +18,9 @@ public class compass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
-        var v = Camera.main.transform.forward;
- 
-        parent.transform.localEulerAngles = Camera.main.transform.forward;
-
-        Debug.Log("forward: " +  v);
+        Vector3 direction = new Vector3(0.0f, 0.0f, Camera.main.transform.localEulerAngles.y);
+        parent.transform.localEulerAngles = direction;
+        Debug.Log(direction);
 
     }
 }
