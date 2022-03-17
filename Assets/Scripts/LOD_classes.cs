@@ -13,12 +13,7 @@ public class LOD_TMP
 	bool set;
 	List<TextMeshPro> text = new List<TextMeshPro>();
 
-	public LOD_TMP()
-	{
-		int LOD;
-		double ratio;
-		List<TextMeshPro> text = new List<TextMeshPro>();
-	}
+	public LOD_TMP(){}
 
 	public LOD_TMP(int l, double r, List<TextMeshPro> t, bool s)
 	{
@@ -94,10 +89,18 @@ public class LOD_TMP
 
 	}
 
-	public double getTextSize(float p_scale)
+	public double getTextSize()
 	{
 		TextMeshPro t = text[0];
-		return t.fontSize * t.transform.localScale.x * p_scale;
+		Transform pt = t.transform.parent;
+		double scale = t.fontSize * t.transform.localScale.x;
+		while (pt != null)
+		{
+			scale *= pt.transform.localScale.x;
+			pt = pt.parent;
+		}
+
+		return scale;
 	}
 
 }
@@ -109,12 +112,7 @@ public class LOD_Obj
 	bool set;
 	List<GameObject> objects = new List<GameObject>();
 
-	public LOD_Obj()
-	{
-		int LOD;
-		double ratio;
-		List<TextMeshPro> text = new List<TextMeshPro>();
-	}
+	public LOD_Obj(){}
 
 	public LOD_Obj(int l, double r, List<GameObject> g, bool s)
 	{
@@ -133,11 +131,29 @@ public class LOD_Obj
 	public void setObjects(List<GameObject> g) { objects = g; }
 	public List<GameObject> getObjects() { return objects; }
 
-	public double getSize(Transform pt)
+	public double getSize()
 	{
 		GameObject g = objects[0];
 		Transform t = g.transform;
-		return t.localScale.x * pt.localScale.x * t.localScale.y * pt.localScale.y * t.localScale.z * pt.localScale.z;
+		//return t.localScale.x * pt.localScale.x * t.localScale.y * pt.localScale.y * t.localScale.z * pt.localScale.z;
+		return t.localScale.x * t.localScale.y * t.localScale.z;
+	}
+
+	public double getLocalSize()
+	{
+		GameObject g = objects[0];
+		Transform t = g.transform;
+		Transform pt = t.transform.parent;
+		double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+		double scale = volume;
+		while (pt != null)
+		{
+			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			scale *= volume;
+			pt = pt.parent;
+		}
+
+		return scale;
 	}
 
 	public void setLOD(bool v)
@@ -163,5 +179,42 @@ public class LOD_Obj
 		{
 			g.SetActive(true);
 		}
+	}
+}
+
+
+public class LOD_Interact
+{
+	int LOD;
+	double ratio;
+	bool set;
+	List<Interactable> interactables = new List<Interactable>();
+
+	public LOD_Interact(){}
+
+	public LOD_Interact(int l, double r, List<Interactable> g, bool s)
+	{
+		LOD = l;
+		ratio = r;
+		interactables = g;
+		set = s;
+	}
+
+	public void setLOD(int l) { LOD = l; }
+	public int getLOD() { return LOD; }
+	public void setRatio(double r) { ratio = r; }
+	public double getRatio() { return ratio; }
+	public void setSet(bool s) { set = s; }
+	public bool getSet() { return set; }
+	public void setInteractables(List<Interactable> g) { interactables = g; }
+	public List<Interactable> getInteractables() { return interactables; }
+
+	public void setLOD(bool v)
+	{
+		foreach (Interactable g in interactables)
+		{
+			g.IsInteractive = v;
+		}
+		set = v;
 	}
 }

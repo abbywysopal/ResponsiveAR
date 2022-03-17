@@ -11,8 +11,8 @@ public class TextSizeFirst : IComparer<TextMeshPro>
     public int Compare(TextMeshPro t1, TextMeshPro t2)
     {
         
-        float x = t1.fontSize * t1.transform.localScale.x;
-        float y = t2.fontSize * t2.transform.localScale.x;
+        double x = getTextSize(t1);
+        double y = getTextSize(t2);
         if (x.CompareTo(y) != 0)
         {
             return -1*(x.CompareTo(y));
@@ -23,6 +23,20 @@ public class TextSizeFirst : IComparer<TextMeshPro>
         }
     }
 
+    public double getTextSize(TextMeshPro t)
+    {
+
+        Transform pt = t.transform.parent;
+        double scale = t.fontSize * t.transform.localScale.x;
+        while (pt != null)
+        {
+            scale *= pt.transform.localScale.x;
+            pt = pt.parent;
+        }
+
+        return scale;
+    }
+
 }
 
 public class VolumeFirst : IComparer<GameObject>
@@ -31,64 +45,35 @@ public class VolumeFirst : IComparer<GameObject>
     // Compares by FontSize
     public int Compare(GameObject g1, GameObject g2)
     {
-        Transform x = g1.transform;
-        Transform y = g2.transform;
+        double x = getObjectSize(g1);
 
-        float a1 = 1;
+        double y = getObjectSize(g2);
 
-        if(x.localScale.x != 0.0f)
+        if (x.CompareTo(y) != 0)
         {
-            a1 *= x.localScale.x;
-        }
-
-        if (x.localScale.y != 0.0f)
-        {
-            a1 *= x.localScale.y;
-        }
-
-        if (x.localScale.z != 0.0f)
-        {
-            a1 *= x.localScale.z;
-        }
-
-        float a2 = 1;
-
-        if (y.localScale.x != 0.0f)
-        {
-            a2 *= y.localScale.x;
-        }
-
-        if (y.localScale.y != 0.0f)
-        {
-            a2 *= y.localScale.y;
-        }
-
-        if (y.localScale.z != 0.0f)
-        {
-            a2 *= y.localScale.z;
-        }
-
-
-        if(x.localScale.x == 0.0f && x.localScale.y == 0.0f && x.localScale.z == 0.0f)
-        {
-            a1 = 0.0f;
-        }
-
-        if (y.localScale.x == 0.0f && y.localScale.y == 0.0f && y.localScale.z == 0.0f)
-        {
-            a2 = 0.0f;
-        }
-
-
-        if (a1.CompareTo(a2) != 0)
-        {
-            return -1 * (a1.CompareTo(a2));
+            return -1 * (x.CompareTo(y));
         }
         else
         {
             return 0;
         }
 
+    }
+
+    double getObjectSize(GameObject g)
+    {
+        Transform t = g.transform;
+        Transform pt = t.transform.parent;
+        double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+        double scale = volume;
+        while (pt != null)
+        {
+            volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+            scale *= volume;
+            pt = pt.parent;
+        }
+
+        return scale;
     }
 
 }

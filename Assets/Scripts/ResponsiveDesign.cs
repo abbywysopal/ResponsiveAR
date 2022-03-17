@@ -7,14 +7,17 @@ using System;
 using Microsoft.MixedReality.Toolkit.UI;
 
 /*
+ * ASSUMPTIONS:
+ *  1. Parent is in middle of object
+ *  2. collider is in middle of object
+ * 
+ */
+
+/*
  * TODO:
  *  1. Brainstorm: what varibles can be made continuous?
- *  2. IDEAS: preprocess to group objects into LDO, create alg to find transition val for each LOD
- *  
- *  1. work on start function which determines LOD values based on font size and initial dist
+
  *  2. increase size of letters in LOD1
- *  
- *  
  * 
  */
 
@@ -24,17 +27,14 @@ public class ResponsiveDesign : MonoBehaviour
     GameObject parent;
     [SerializeField]
     Collider collider;
-    
-    //IDictionary<int, List<TextMeshPro>> text = new Dictionary<int, List<TextMeshPro>>();
-    //IDictionary<int, List<GameObject>> objects = new Dictionary<int, List<GameObject>>();
-    //IDictionary<int, List<Interactable>> interaction = new Dictionary<int, List<Interactable>>();
-    List<int> LOD = new List<int>();
-    IDictionary<int, double> LODRatio = new Dictionary<int, double>();
-    IDictionary<int, bool> LODSet = new Dictionary<int, bool>();
+
+    double objectMedian;
+    double highestRatio = (double).0;
+
 
     IDictionary<int, LOD_TMP> text = new Dictionary<int, LOD_TMP>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
-    IDictionary<int, List<Interactable>> interaction = new Dictionary<int, List<Interactable>>();
+    IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +65,6 @@ public class ResponsiveDesign : MonoBehaviour
         double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
         double scale = parent.transform.localScale.x;
         double ratio = getRatio(Math.Abs(scale), Math.Abs(disToHead));
-
         continuousFunction(ratio);
         gazeFunction();
 
@@ -86,7 +85,6 @@ public class ResponsiveDesign : MonoBehaviour
         List<GameObject> allObjects = new List<GameObject>();
         List<TextMeshPro> allText = new List<TextMeshPro>(allTMP);
         List<Interactable> allInteraction = new List<Interactable>(interactables);
-
 
         allTransforms = parent.GetComponentsInChildren<Transform>();
 
@@ -109,8 +107,6 @@ public class ResponsiveDesign : MonoBehaviour
             }
         }
 
-
-
         Debug.Log("allTransforms");
         Debug.Log(allTransforms.Length);
         Debug.Log("allObjects");
@@ -122,6 +118,8 @@ public class ResponsiveDesign : MonoBehaviour
 
         if (allText.Count > 0)
         {
+            getTextSize(allText[0]);
+
             GroupTMP(allText);
         }
 
@@ -133,17 +131,16 @@ public class ResponsiveDesign : MonoBehaviour
         if (allInteraction.Count > 0)
         {
             GroupInteraction(allInteraction);
-            foreach(KeyValuePair<int, List<Interactable>> kvp in interaction)
+            foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
             {
                 Debug.Log("LOD" + kvp.Key + ":");
-                foreach(Interactable t in kvp.Value)
+                List<Interactable> list = kvp.Value.getInteractables();
+                foreach(Interactable t in list)
                 {
                     Debug.Log(t);
                 }
             }
         }
-
-        
 
     }
 
@@ -151,8 +148,7 @@ public class ResponsiveDesign : MonoBehaviour
     {
         setUpLODText(r,s,d);
         setUpLODObjects(r,s,d);
-        //setUpLODInteraction(r,s,d);
-
+        setUpLODInteraction(r,s,d);
     }
 
 
@@ -163,11 +159,13 @@ public class ResponsiveDesign : MonoBehaviour
 
         for(int i = 1; i <= text.Count; i++)
         {
-            double textSize = text[i].getTextSize(parent.transform.localScale.x);
+            double textSize = text[i].getTextSize();
             double readable = (double).11;
             double size = readable / textSize;
             double result = size * r;
+            if(i == 1) { result = 0; }
             text[i].setRatio(result);
+            if(result > highestRatio) { highestRatio = result; }
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
@@ -180,18 +178,17 @@ public class ResponsiveDesign : MonoBehaviour
     void setUpLODObjects(double r, double s, double d)
     {
         //TODO: FIX THIS FUNCTION
+/*        objectMedian*/
         Transform t = parent.transform;
-        float parent_volume = (t.localScale.x*t.localScale.y*t.localScale.z);
-        double largestObj = objects[0].getSize(parent.transform) / parent_volume;
-        objects[0].setRatio(r / largestObj);
-        Debug.Log("LOD0: ");
-        Debug.Log("largestObj: " + largestObj.ToString());
-        Debug.Log("ratio: " + r.ToString());
-        
-        for(int i = 1; i <= objects.Count; i++)
+        double largestObj = objects[0].getLocalSize();
+        objects[0].setRatio(0);
+
+        Debug.Log("objectMedian: " + objectMedian.ToString());
+
+        for(int i = 1; i < objects.Count; i++)
         {
-            double sizeObj = objects[i].getSize(parent.transform) / parent_volume;
-            double result = r / sizeObj;
+            double sizeObj = objects[i].getLocalSize();
+            double result = r * (objectMedian / sizeObj);
             objects[i].setRatio(result);
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("sizeObj: " + sizeObj.ToString());
@@ -200,9 +197,18 @@ public class ResponsiveDesign : MonoBehaviour
         }
     }
 
-    void setLOD(int i, bool val)
+    void setUpLODInteraction(double r, double s, double d)
     {
+        foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
+        {
+            Debug.Log(highestRatio);
+            kvp.Value.setRatio(highestRatio);
+        }
 
+    }
+
+/*    void setLOD(int i, bool val)
+    {
         if (text.ContainsKey(i) && val)
         {
             text[i].setLOD(val);
@@ -213,36 +219,49 @@ public class ResponsiveDesign : MonoBehaviour
         }
         if (interaction.ContainsKey(i))
         {
-            foreach (Interactable interact in interaction[i])
-            {
-                interact.SetInteractive(val);
-            }
+            interaction[i].setLOD(val);
         }
-        LODSet[i] = val;
-    }
+    }*/
 
     void continuousFunction(double ratio)
     {
 
-        foreach(KeyValuePair<int, double> kvp in LODRatio)
+        foreach(KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            double r = kvp.Value;
-            int i = kvp.Key;
+            double r = kvp.Value.getRatio();
             if (ratio < r)
             {
-                setLOD(i, false);
-                if (text.ContainsKey(i))
-                {
-                    text[i].decreaseTransparency();
-                }
+                kvp.Value.setSet(false);
+                kvp.Value.decreaseTransparency();
             }
             else
             {
-                if (text.ContainsKey(i))
-                {
-                    text[i].increaseTransparency();
-                }
-                setLOD(i, true);
+                kvp.Value.setLOD(true);
+                kvp.Value.increaseTransparency();
+            }
+        }
+        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
+        {
+            double r = kvp.Value.getRatio();
+            if (ratio < r)
+            {
+                kvp.Value.setLOD(false);
+            }
+            else
+            {
+                kvp.Value.setLOD(true);
+            }
+        }
+        foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
+        {
+            double r = kvp.Value.getRatio();
+            if (ratio < r)
+            {
+                kvp.Value.setLOD(false);
+            }
+            else
+            {
+                kvp.Value.setLOD(true);
             }
         }
     }
@@ -329,18 +348,33 @@ public class ResponsiveDesign : MonoBehaviour
     LOD3	6.7
     */
 
-    double averageTextSize(List<TextMeshPro> objs, double scale)
+    double getTextSize(TextMeshPro t)
     {
-        double totalSize = 0;
-        double totalObjs = 0f;
-        foreach (TextMeshPro obj in objs)
+        Transform pt = t.transform.parent;
+        double scale = t.fontSize * t.transform.localScale.x;
+        while (pt != null)
         {
-            totalObjs += 1f;
-            totalSize += obj.fontSize * scale;
+            scale *= pt.transform.localScale.x;
+            pt = pt.parent;
         }
 
-        return totalSize / totalObjs;
+        return scale;
+    }
 
+    double getObjectSize(GameObject g)
+    {
+        Transform t = g.transform;
+        Transform pt = t.transform.parent;
+        double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+        double scale = volume;
+        while (pt != null)
+        {
+            volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+            scale *= volume;
+            pt = pt.parent;
+        }
+
+        return scale;
     }
 
 
@@ -353,18 +387,17 @@ public class ResponsiveDesign : MonoBehaviour
     void GroupTMP(List<TextMeshPro> allText)
     {
         allText.Sort(new TextSizeFirst());
-        float oldSize = allText[0].fontSize * allText[0].transform.localScale.x;
+        double oldSize = getTextSize(allText[0]);
         int groupId = 1;
         List<TextMeshPro> temp = new List<TextMeshPro>();
         foreach (TextMeshPro t in allText)
         {
-            float newSize = t.fontSize * t.transform.localScale.x;
-            float diff = oldSize - newSize;
+            double newSize = getTextSize(t);
+            double diff = oldSize - newSize;
             if (diff > .01)
             {
                 text[groupId] = new LOD_TMP(groupId, 0, temp, false);
                 temp = new List<TextMeshPro>();
-                LOD.Add(groupId);
                 groupId += 1;
             }
 
@@ -373,7 +406,6 @@ public class ResponsiveDesign : MonoBehaviour
         }
 
         text[groupId] = new LOD_TMP(groupId, 0, temp, false);
-        LOD.Add(groupId);
 
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
@@ -381,34 +413,93 @@ public class ResponsiveDesign : MonoBehaviour
             List<TextMeshPro> list = kvp.Value.getText();
             foreach (TextMeshPro t in list)
             {
-                float s = t.fontSize * t.transform.localScale.x * parent.transform.localScale.x;
-                Debug.Log(t + " " + t.fontSize.ToString() + " " + s.ToString());
+                double s = getTextSize(t);
+                Debug.Log(t + " fontSize: " + t.fontSize.ToString() + " global size:" + s.ToString());
             }
         }
 
     }
 
+    double GetMedian(List<GameObject> AllObjects)
+    {
+        int length = AllObjects.Count;
+        double median;
+        if(length % 2 == 0)
+        {
+            int index1 = length / 2;
+            int index2 = length - 1;
+            GameObject obj1 = AllObjects[index1];
+            GameObject obj2 = AllObjects[index2];
+            double val1 = getObjectSize(obj1);
+            double val2 = getObjectSize(obj2);
+            median = (val1 + val2) / 2;
+        }
+        else
+        {
+            int index1 = length / 2;
+            GameObject obj1 = AllObjects[index1];
+            double val1 = getObjectSize(obj1);
+            median = val1;
+        }
+
+        return median;
+
+    }
+
+    double StandardDeviation(List<GameObject> AllObjects)
+    {
+        double avg = 0;
+
+        foreach(GameObject g in AllObjects)
+        {
+            double v = getObjectSize(g);
+            avg += v;
+        }
+        avg = avg / (AllObjects.Count);
+
+        double sum = 0;
+        foreach (GameObject g in AllObjects)
+        {
+            Transform t = g.transform;
+            double v = getObjectSize(g);
+            sum += ((v - avg) * (v - avg));
+        }
+
+        return Math.Sqrt(sum/AllObjects.Count);
+    }
+
 
     void GroupObjects(List<GameObject> AllObjects)
     {
-        AllObjects.Sort(new VolumeFirst());
+        //need to group structure vs detail, put very large objects in [0]
+        //figure out how to determine structure vs detail
 
-        float oldV = AllObjects[0].transform.localScale.x * AllObjects[0].transform.localScale.y * AllObjects[0].transform.localScale.z;
+        AllObjects.Sort(new VolumeFirst());
+        objectMedian = GetMedian(AllObjects);
+        double sdv = StandardDeviation(AllObjects);
+
+        Debug.Log("MEDIAN: " + objectMedian.ToString() + "\nSDV: " + sdv.ToString());
+
+
+        double oldV = getObjectSize(AllObjects[0]);
+        double largestV = oldV;
+        
         int groupId = 0;
         List<GameObject> temp = new List<GameObject>();
         foreach (GameObject g in AllObjects)
         {
-            Transform t = g.transform;
-            float newV = t.localScale.x * t.localScale.y * t.localScale.z;
-            float diff = oldV - newV;
-            if (diff > .01)
+            double newV = getObjectSize(g);
+            double diff = oldV - newV;
+            if (groupId == 0 && diff > sdv)
             {
                 objects[groupId] = new LOD_Obj(groupId, 0, temp, false);
                 temp = new List<GameObject>();
-                if (!LOD.Contains(groupId))
-                {
-                    LOD.Add(groupId);
-                }
+                groupId += 1;
+            }
+            else if (groupId != 0 && diff > 0)
+            {
+                objects[groupId] = new LOD_Obj(groupId, 0, temp, false);
+                temp = new List<GameObject>();
                 groupId += 1;
             }
 
@@ -417,10 +508,6 @@ public class ResponsiveDesign : MonoBehaviour
         }
 
         objects[groupId] =  new LOD_Obj(groupId, 0, temp, false);
-        if (!LOD.Contains(groupId))
-        {
-            LOD.Add(groupId);
-        }
 
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
@@ -428,8 +515,7 @@ public class ResponsiveDesign : MonoBehaviour
             List<GameObject> list = kvp.Value.getObjects();
             foreach (GameObject g in list)
             {
-                Transform t = g.transform;
-                float v = t.localScale.x * t.localScale.y * t.localScale.z;
+                double v = getObjectSize(g);
                 Debug.Log(g + " " + " " + v.ToString());
             }
         }
@@ -440,10 +526,12 @@ public class ResponsiveDesign : MonoBehaviour
     //inteaction only at highest LOD
     void GroupInteraction(List<Interactable> allInteraction)
     {
-        int index = LOD.Count;
-        LOD.Add(index);
-        interaction[index] = allInteraction;
+        interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
+    }
 
+    public static void AddOnClick(Interactable interactable)
+    {
+        interactable.OnClick.AddListener(() => Debug.Log("Interactable clicked"));
     }
 
 
