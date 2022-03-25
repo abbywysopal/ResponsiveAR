@@ -18,6 +18,8 @@ using Microsoft.MixedReality.Toolkit.UI;
  *  1. Brainstorm: what varibles can be made continuous?
 
  *  2. increase size of letters in LOD1
+ *  
+ *  BUGS:
  * 
  */
 
@@ -28,6 +30,7 @@ public class ResponsiveDesign : MonoBehaviour
     [SerializeField]
     Collider collider;
 
+    double colliderVolume;
     double objectMedian;
     double highestRatio = (double).0;
 
@@ -39,13 +42,18 @@ public class ResponsiveDesign : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vector3 bound = collider.bounds.size;
+        Debug.Log("Bounds: "+ bound);
+        colliderVolume = bound[0] * bound[1] * bound[2];
+
 
         SetUp();
         var headPosition = Camera.main.transform.position;
-        double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double scale = parent.transform.localScale.x;
-        double ratio = getRatio(Math.Abs(scale), Math.Abs(disToHead));
-        setUpLOD(ratio, scale, disToHead);
+        //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
+        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        double scale = Math.Abs(parent.transform.localScale.x);
+        double ratio = getRatio(scale, distance);
+        setUpLOD(ratio, scale, distance);
 
         continuousFunction(ratio);
         gazeFunction();
@@ -62,9 +70,11 @@ public class ResponsiveDesign : MonoBehaviour
         */
 
         var headPosition = Camera.main.transform.position;
-        double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double scale = parent.transform.localScale.x;
-        double ratio = getRatio(Math.Abs(scale), Math.Abs(disToHead));
+        //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
+        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        double scale = Math.Abs(parent.transform.localScale.x);
+        double ratio = getRatio(scale, distance);
+        //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio);
         gazeFunction();
 
@@ -107,19 +117,18 @@ public class ResponsiveDesign : MonoBehaviour
             }
         }
 
-        Debug.Log("allTransforms");
-        Debug.Log(allTransforms.Length);
-        Debug.Log("allObjects");
-        Debug.Log(allObjects.Count);
-        Debug.Log("allText");
-        Debug.Log(allText.Count);
-        Debug.Log("allInteraction");
-        Debug.Log(allInteraction.Count);
+        /*        Debug.Log("allTransforms");
+                Debug.Log(allTransforms.Length);
+                Debug.Log("allObjects");
+                Debug.Log(allObjects.Count);
+                Debug.Log("allText");
+                Debug.Log(allText.Count);
+                Debug.Log("allInteraction");
+                Debug.Log(allInteraction.Count);
+        */
 
         if (allText.Count > 0)
         {
-            getTextSize(allText[0]);
-
             GroupTMP(allText);
         }
 
@@ -131,15 +140,6 @@ public class ResponsiveDesign : MonoBehaviour
         if (allInteraction.Count > 0)
         {
             GroupInteraction(allInteraction);
-            foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
-            {
-                Debug.Log("LOD" + kvp.Key + ":");
-                List<Interactable> list = kvp.Value.getInteractables();
-                foreach(Interactable t in list)
-                {
-                    Debug.Log(t);
-                }
-            }
         }
 
     }
@@ -149,11 +149,43 @@ public class ResponsiveDesign : MonoBehaviour
         setUpLODText(r,s,d);
         setUpLODObjects(r,s,d);
         setUpLODInteraction(r,s,d);
+
+        foreach (KeyValuePair<int, LOD_TMP> kvp in text)
+        {
+            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
+            List<TextMeshPro> list = kvp.Value.getText();
+            foreach (TextMeshPro t in list)
+            {
+                Debug.Log(t + " " + t.text);
+            }
+        }
+        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
+        {
+            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
+            List<GameObject> list = kvp.Value.getObjects();
+            foreach (GameObject t in list)
+            {
+                Debug.Log(t);
+            }
+        }
+        foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
+        {
+            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
+            List<Interactable> list = kvp.Value.getInteractables();
+            foreach (Interactable t in list)
+            {
+                Debug.Log(t);
+            }
+        }
     }
 
 
     //1 point = .0003527 m
     //12 points = .004233
+    //TODO: setSet(false);?
     void setUpLODText(double r, double s, double d)
     {
 
@@ -166,11 +198,13 @@ public class ResponsiveDesign : MonoBehaviour
             if(i == 1) { result = 0; }
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
-            Debug.Log("LOD: " + i.ToString());
+
+/*            Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
             Debug.Log("result: " + result.ToString());
             Debug.Log("ratio: " + r.ToString());
+*/
         }
 
     }
@@ -178,17 +212,24 @@ public class ResponsiveDesign : MonoBehaviour
     void setUpLODObjects(double r, double s, double d)
     {
         //TODO: FIX THIS FUNCTION
-/*        objectMedian*/
+        //percentages?
+
         Transform t = parent.transform;
         double largestObj = objects[0].getLocalSize();
+        double smallestObj = objects[objects.Count - 1].getLocalSize();
         objects[0].setRatio(0);
 
         Debug.Log("objectMedian: " + objectMedian.ToString());
+        Debug.Log("scale: " + s.ToString());
 
         for(int i = 1; i < objects.Count; i++)
         {
             double sizeObj = objects[i].getLocalSize();
-            double result = r * (objectMedian / sizeObj);
+            double result = r * (objectMedian / (sizeObj * 2));
+            if(result > highestRatio)
+            {
+                result = highestRatio;
+            }
             objects[i].setRatio(result);
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("sizeObj: " + sizeObj.ToString());
@@ -201,27 +242,12 @@ public class ResponsiveDesign : MonoBehaviour
     {
         foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            Debug.Log(highestRatio);
+            Debug.Log("higestRatio" + highestRatio.ToString());
             kvp.Value.setRatio(highestRatio);
+            kvp.Value.setUpInteraction();
         }
 
     }
-
-/*    void setLOD(int i, bool val)
-    {
-        if (text.ContainsKey(i) && val)
-        {
-            text[i].setLOD(val);
-        }
-        if (objects.ContainsKey(i))
-        {
-            objects[i].setLOD(val);
-        }
-        if (interaction.ContainsKey(i))
-        {
-            interaction[i].setLOD(val);
-        }
-    }*/
 
     void continuousFunction(double ratio)
     {
@@ -335,6 +361,11 @@ public class ResponsiveDesign : MonoBehaviour
         return Math.Sqrt(sum);
     }
 
+    double dist(Transform t1, Transform t2)
+    {
+        return (t1.position - t2.position).magnitude;
+    }
+
     //.35m -> 12points
     //.7m 16 points
     //1.5m -> 32 points
@@ -407,8 +438,8 @@ public class ResponsiveDesign : MonoBehaviour
 
         text[groupId] = new LOD_TMP(groupId, 0, temp, false);
 
-        foreach (KeyValuePair<int, LOD_TMP> kvp in text)
-        {
+    /*       foreach (KeyValuePair<int, LOD_TMP> kvp in text)
+               {
             Debug.Log("kvp.Key: " + kvp.Key);
             List<TextMeshPro> list = kvp.Value.getText();
             foreach (TextMeshPro t in list)
@@ -417,6 +448,7 @@ public class ResponsiveDesign : MonoBehaviour
                 Debug.Log(t + " fontSize: " + t.fontSize.ToString() + " global size:" + s.ToString());
             }
         }
+    */
 
     }
 
@@ -478,7 +510,7 @@ public class ResponsiveDesign : MonoBehaviour
         objectMedian = GetMedian(AllObjects);
         double sdv = StandardDeviation(AllObjects);
 
-        Debug.Log("MEDIAN: " + objectMedian.ToString() + "\nSDV: " + sdv.ToString());
+/*        Debug.Log("MEDIAN: " + objectMedian.ToString() + "\nSDV: " + sdv.ToString());*/
 
 
         double oldV = getObjectSize(AllObjects[0]);
@@ -509,7 +541,7 @@ public class ResponsiveDesign : MonoBehaviour
 
         objects[groupId] =  new LOD_Obj(groupId, 0, temp, false);
 
-        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
+/*        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
             Debug.Log("kvp.Key: " + kvp.Key);
             List<GameObject> list = kvp.Value.getObjects();
@@ -519,6 +551,7 @@ public class ResponsiveDesign : MonoBehaviour
                 Debug.Log(g + " " + " " + v.ToString());
             }
         }
+*/
 
     }
 
@@ -526,6 +559,7 @@ public class ResponsiveDesign : MonoBehaviour
     //inteaction only at highest LOD
     void GroupInteraction(List<Interactable> allInteraction)
     {
+        Debug.Log("set interaction 1");
         interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
     }
 

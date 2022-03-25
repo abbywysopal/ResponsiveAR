@@ -34,7 +34,11 @@ public class LOD_TMP
 
 	public void setLOD(bool v)
     {
-		foreach(TextMeshPro t in text)
+		if (set == v)
+		{
+			return;
+		}
+		foreach (TextMeshPro t in text)
         {
 			t.gameObject.SetActive(v);
         }
@@ -145,9 +149,11 @@ public class LOD_Obj
 		Transform t = g.transform;
 		Transform pt = t.transform.parent;
 		double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+		Debug.Log(t + ": " + t.transform.localScale);
 		double scale = volume;
 		while (pt != null)
 		{
+			Debug.Log(pt + ": " + pt.transform.localScale);
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
 			scale *= volume;
 			pt = pt.parent;
@@ -158,6 +164,10 @@ public class LOD_Obj
 
 	public void setLOD(bool v)
 	{
+		if (set == v)
+		{
+			return;
+		}
 		foreach (GameObject g in objects)
 		{
 			g.SetActive(v);
@@ -211,10 +221,27 @@ public class LOD_Interact
 
 	public void setLOD(bool v)
 	{
+        if (set == v)
+        {
+			return;
+        }
+		Debug.Log("set active and interactive " + v);
 		foreach (Interactable g in interactables)
 		{
 			g.IsInteractive = v;
 		}
 		set = v;
+	}
+
+	public void setUpInteraction()
+	{
+		Debug.Log("set active and disable interactive ");
+		foreach (Interactable g in interactables)
+		{
+			g.transform.gameObject.SetActive(true);
+			g.IsInteractive = false;
+		}
+
+		set = false;
 	}
 }

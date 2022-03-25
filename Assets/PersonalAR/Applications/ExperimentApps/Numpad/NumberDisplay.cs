@@ -31,6 +31,7 @@ public class NumberDisplay : MonoBehaviour
 
     public void Enter(string str)
     {
+        Debug.Log("Pressed " + str);
         if (textMesh.text.Length < maxLength)
         {
             textMesh.text += str;
