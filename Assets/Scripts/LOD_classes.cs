@@ -245,3 +245,109 @@ public class LOD_Interact
 		set = false;
 	}
 }
+
+
+public class LOD_TMP_GUI
+{
+	int LOD;
+	double ratio;
+	bool set;
+	List<TextMeshProUGUI> text = new List<TextMeshProUGUI>();
+
+	public LOD_TMP_GUI() { }
+
+	public LOD_TMP_GUI(int l, double r, List<TextMeshProUGUI> t, bool s)
+	{
+		LOD = l;
+		ratio = r;
+		text = t;
+		set = s;
+	}
+
+	public void setLOD(int l) { LOD = l; }
+	public int getLOD() { return LOD; }
+	public void setRatio(double r) { ratio = r; }
+	public double getRatio() { return ratio; }
+	public void setSet(bool s) { set = s; }
+	public bool getSet() { return set; }
+	public void setText(List<TextMeshProUGUI> t) { text = t; }
+	public List<TextMeshProUGUI> getText() { return text; }
+
+	public void setLOD(bool v)
+	{
+		if (set == v)
+		{
+			return;
+		}
+		foreach (TextMeshProUGUI t in text)
+		{
+			t.gameObject.SetActive(v);
+		}
+		set = v;
+	}
+
+	public void decreaseTransparency()
+	{
+		if (text[0].color[3] > 0)
+		{
+			foreach (TextMeshProUGUI obj in text)
+			{
+				Color32 color = obj.color;
+				byte a = (byte)(color[3] - 1);
+				if (color[3] - 1 <= 0)
+				{
+					a = 0;
+					if (set == false)
+					{
+						obj.gameObject.SetActive(false);
+					}
+				}
+				obj.color = new Color32(color[0], color[1], color[2], a);
+			}
+		}
+	}
+
+	public void increaseTransparency()
+	{
+		if (text[0].color[3] < 255)
+		{
+			foreach (TextMeshProUGUI obj in text)
+			{
+				Color32 color = obj.color;
+				byte a = (byte)(color[3] + 1);
+				if (color[3] + 1 >= 255)
+				{
+					a = 255;
+				}
+				obj.color = new Color32(color[0], color[1], color[2], a);
+			}
+		}
+	}
+
+	public void setTransparency(byte a)
+	{
+		foreach (TextMeshProUGUI obj in text)
+		{
+			Color32 color = obj.color;
+			obj.color = new Color32(color[0], color[1], color[2], a);
+		}
+
+	}
+
+	public double getTextSize()
+	{
+		TextMeshProUGUI t = text[0];
+		Transform pt = t.transform.parent;
+		double scale = t.fontSize * t.transform.localScale.x;
+		Debug.Log("t: " + t + ", font: " + scale);
+		while (pt != null)
+		{
+			scale *= pt.transform.localScale.x;
+			Debug.Log("pt: " + pt + ", scale: " + pt.transform.localScale.x + ", font: " + scale);
+			pt = pt.parent;
+		}
+
+		return scale;
+	}
+
+}

@@ -39,6 +39,41 @@ public class TextSizeFirst : IComparer<TextMeshPro>
 
 }
 
+public class TextSizeFirst_GUI : IComparer<TextMeshProUGUI>
+{
+
+    // Compares by FontSize
+    public int Compare(TextMeshProUGUI t1, TextMeshProUGUI t2)
+    {
+
+        double x = getTextSize(t1);
+        double y = getTextSize(t2);
+        if (x.CompareTo(y) != 0)
+        {
+            return -1 * (x.CompareTo(y));
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public double getTextSize(TextMeshProUGUI t)
+    {
+
+        Transform pt = t.transform.parent;
+        double scale = t.fontSize * t.transform.localScale.x;
+        while (pt != null)
+        {
+            scale *= pt.transform.localScale.x;
+            pt = pt.parent;
+        }
+
+        return scale;
+    }
+
+}
+
 public class VolumeFirst : IComparer<GameObject>
 {
 

@@ -98,7 +98,6 @@ public class AudioManager : MonoBehaviour
         seconds = playTime % 60;
         minutes = (playTime / 60) % 60;
         ClipTime.text = minutes + ":" + seconds + "/" + (fulllength / 60) % 60 + ":" + fulllength % 60;
-
     }
 
 

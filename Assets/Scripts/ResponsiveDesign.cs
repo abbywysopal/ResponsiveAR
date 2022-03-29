@@ -30,22 +30,19 @@ public class ResponsiveDesign : MonoBehaviour
     [SerializeField]
     Collider collider;
 
-    double colliderVolume;
     double objectMedian;
+    double readibilityRatio = (8f / .35f) * 100;
     double highestRatio = (double).0;
 
 
     IDictionary<int, LOD_TMP> text = new Dictionary<int, LOD_TMP>();
+    IDictionary<int, LOD_TMP_GUI> text_gui = new Dictionary<int, LOD_TMP_GUI>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
 
     // Start is called before the first frame update
     void Start()
-    {
-        Vector3 bound = collider.bounds.size;
-        Debug.Log("Bounds: "+ bound);
-        colliderVolume = bound[0] * bound[1] * bound[2];
-
+    { 
 
         SetUp();
         var headPosition = Camera.main.transform.position;
@@ -55,7 +52,7 @@ public class ResponsiveDesign : MonoBehaviour
         double ratio = getRatio(scale, distance);
         setUpLOD(ratio, scale, distance);
 
-        continuousFunction(ratio);
+        continuousFunction(ratio, scale, distance);
         gazeFunction();
 
     }
@@ -75,7 +72,7 @@ public class ResponsiveDesign : MonoBehaviour
         double scale = Math.Abs(parent.transform.localScale.x);
         double ratio = getRatio(scale, distance);
         //Debug.Log("Ratio: " + ratio.ToString());
-        continuousFunction(ratio);
+        continuousFunction(ratio, scale, distance);
         gazeFunction();
 
     }
@@ -84,16 +81,18 @@ public class ResponsiveDesign : MonoBehaviour
     void SetUp()
     {
         TextMeshPro[] allTMP;
+        TextMeshProUGUI[] allTMP_GUI;
         Interactable[] interactables;
         Transform[] allTransforms;
 
         allTMP = parent.GetComponentsInChildren<TextMeshPro>();
+        allTMP_GUI = parent.GetComponentsInChildren<TextMeshProUGUI>();
         interactables = parent.GetComponentsInChildren<Interactable>();
         allTransforms = parent.GetComponentsInChildren<Transform>();
 
-
         List<GameObject> allObjects = new List<GameObject>();
         List<TextMeshPro> allText = new List<TextMeshPro>(allTMP);
+        List<TextMeshProUGUI> allText_GUI = new List<TextMeshProUGUI>(allTMP_GUI);
         List<Interactable> allInteraction = new List<Interactable>(interactables);
 
         allTransforms = parent.GetComponentsInChildren<Transform>();
@@ -104,7 +103,9 @@ public class ResponsiveDesign : MonoBehaviour
             {
                 TextMeshPro tmp = child.GetComponent<TextMeshPro>();
                 Interactable i = child.GetComponent<Interactable>();
-                if (tmp == null && i == null)
+                TextMeshProUGUI tmp_gui = child.GetComponent<TextMeshProUGUI>();
+
+                if (tmp == null && i == null && tmp_gui == null)
                 {
                     allObjects.Add(child.gameObject);
                 }
@@ -117,19 +118,26 @@ public class ResponsiveDesign : MonoBehaviour
             }
         }
 
-        /*        Debug.Log("allTransforms");
-                Debug.Log(allTransforms.Length);
-                Debug.Log("allObjects");
-                Debug.Log(allObjects.Count);
-                Debug.Log("allText");
-                Debug.Log(allText.Count);
-                Debug.Log("allInteraction");
-                Debug.Log(allInteraction.Count);
-        */
+/*        Debug.Log("allTransforms");
+        Debug.Log(allTransforms.Length);
+        Debug.Log("allObjects");
+        Debug.Log(allObjects.Count);
+        Debug.Log("allText");
+        Debug.Log(allText.Count);
+        Debug.Log("allText_GUI");
+        Debug.Log(allText_GUI.Count);
+        Debug.Log("allInteraction");
+        Debug.Log(allInteraction.Count);*/
+
 
         if (allText.Count > 0)
         {
             GroupTMP(allText);
+        }
+
+        if (allText_GUI.Count > 0)
+        {
+            GroupTMP_GUI(allText_GUI);
         }
 
         if (allObjects.Count > 0)
@@ -152,7 +160,7 @@ public class ResponsiveDesign : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("TMP LOD" + kvp.Key + ":");
             Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshPro> list = kvp.Value.getText();
             foreach (TextMeshPro t in list)
@@ -160,9 +168,19 @@ public class ResponsiveDesign : MonoBehaviour
                 Debug.Log(t + " " + t.text);
             }
         }
+        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
+        {
+            Debug.Log("TMP_GUI LOD" + kvp.Key + ":");
+            Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
+            List<TextMeshProUGUI> list = kvp.Value.getText();
+            foreach (TextMeshProUGUI t in list)
+            {
+                Debug.Log(t + " " + t.text);
+            }
+        }
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
-            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("OBJ LOD" + kvp.Key + ":");
             Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<GameObject> list = kvp.Value.getObjects();
             foreach (GameObject t in list)
@@ -172,7 +190,7 @@ public class ResponsiveDesign : MonoBehaviour
         }
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            Debug.Log("LOD" + kvp.Key + ":");
+            Debug.Log("INT LOD" + kvp.Key + ":");
             Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<Interactable> list = kvp.Value.getInteractables();
             foreach (Interactable t in list)
@@ -189,22 +207,45 @@ public class ResponsiveDesign : MonoBehaviour
     void setUpLODText(double r, double s, double d)
     {
 
-        for(int i = 1; i <= text.Count; i++)
+        float fontRatio = .07f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        Debug.Log("fontRatio: " + fontRatio);
+        Debug.Log("ratio: " + r);
+        for (int i = 1; i <= text.Count; i++)
         {
             double textSize = text[i].getTextSize();
-            double readable = (double).11;
-            double size = readable / textSize;
+            double size = fontRatio / textSize;
             double result = size * r;
-            if(i == 1) { result = 0; }
+            if (i == 1) { result = 0; }
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
 
-/*            Debug.Log("LOD: " + i.ToString());
+            Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
             Debug.Log("result: " + result.ToString());
             Debug.Log("ratio: " + r.ToString());
-*/
+
+        }
+
+        //TMPUGUI incorrect sizes
+        fontRatio *= .1f;//something weird going on with canvas and UI text
+        Debug.Log("fontRatio: " + fontRatio);
+
+        for (int i = 1; i <= text_gui.Count; i++)
+        {
+            double textSize = text_gui[i].getTextSize();
+            double size = fontRatio / textSize;
+            double result = size * r;
+            if (i == 1) { result = 0; }
+            text_gui[i].setRatio(result);
+            if (result > highestRatio) { highestRatio = result; }
+
+            Debug.Log("LOD: " + i.ToString());
+            Debug.Log("textSize: " + textSize.ToString());
+            Debug.Log("size: " + size.ToString());
+            Debug.Log("result: " + result.ToString());
+            Debug.Log("ratio: " + r.ToString());
+
         }
 
     }
@@ -213,6 +254,15 @@ public class ResponsiveDesign : MonoBehaviour
     {
         //TODO: FIX THIS FUNCTION
         //percentages?
+        //these are determined by volume 3D scale, lettering is 1D scale
+
+        double objectRatio = .007f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        objectRatio *= .01f;
+        objectRatio *= .01f;
+
+
+        Debug.Log("fontRatio: " + objectRatio);
+        Debug.Log("ratio: " + r);
 
         Transform t = parent.transform;
         double largestObj = objects[0].getLocalSize();
@@ -224,8 +274,12 @@ public class ResponsiveDesign : MonoBehaviour
 
         for(int i = 1; i < objects.Count; i++)
         {
+/*            int scaler = objects.Count - i;*/
+
             double sizeObj = objects[i].getLocalSize();
-            double result = r * (objectMedian / (sizeObj * 2));
+            double result = r * (objectRatio / sizeObj);
+/*            result /= scaler;*/
+
             if(result > highestRatio)
             {
                 result = highestRatio;
@@ -249,10 +303,24 @@ public class ResponsiveDesign : MonoBehaviour
 
     }
 
-    void continuousFunction(double ratio)
+    void continuousFunction(double ratio, double scale, double distance)
     {
 
         foreach(KeyValuePair<int, LOD_TMP> kvp in text)
+        {
+            double r = kvp.Value.getRatio();
+            if (ratio < r)
+            {
+                kvp.Value.setSet(false);
+                kvp.Value.decreaseTransparency();
+            }
+            else
+            {
+                kvp.Value.setLOD(true);
+                kvp.Value.increaseTransparency();
+            }
+        }
+        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
             double r = kvp.Value.getRatio();
             if (ratio < r)
@@ -370,16 +438,20 @@ public class ResponsiveDesign : MonoBehaviour
     //.7m 16 points
     //1.5m -> 32 points
 
-    /*
-    will change ratio to depend on fontsize
-    LOD1	2
-    LOD trans	3
-    LOD2	3.6
-    LOD3 trans	5
-    LOD3	6.7
-    */
-
     double getTextSize(TextMeshPro t)
+    {
+        Transform pt = t.transform.parent;
+        double scale = t.fontSize * t.transform.localScale.x;
+        while (pt != null)
+        {
+            scale *= pt.transform.localScale.x;
+            pt = pt.parent;
+        }
+
+        return scale;
+    }
+
+    double getTextSize(TextMeshProUGUI t)
     {
         Transform pt = t.transform.parent;
         double scale = t.fontSize * t.transform.localScale.x;
@@ -412,7 +484,7 @@ public class ResponsiveDesign : MonoBehaviour
     //function to determin scale to dist ratio
     double getRatio(double scale, double dist)
     {
-        return ((1000 * scale) / (5 * dist));
+        return ((scale) / (dist));
     }
 
     void GroupTMP(List<TextMeshPro> allText)
@@ -425,7 +497,7 @@ public class ResponsiveDesign : MonoBehaviour
         {
             double newSize = getTextSize(t);
             double diff = oldSize - newSize;
-            if (diff > .01)
+            if (diff > 0.0)
             {
                 text[groupId] = new LOD_TMP(groupId, 0, temp, false);
                 temp = new List<TextMeshPro>();
@@ -449,6 +521,31 @@ public class ResponsiveDesign : MonoBehaviour
             }
         }
     */
+
+    }
+
+    void GroupTMP_GUI(List<TextMeshProUGUI> allText)
+    {
+        allText.Sort(new TextSizeFirst_GUI());
+        double oldSize = getTextSize(allText[0]);
+        int groupId = 1;
+        List<TextMeshProUGUI> temp = new List<TextMeshProUGUI>();
+        foreach (TextMeshProUGUI t in allText)
+        {
+            double newSize = getTextSize(t);
+            double diff = oldSize - newSize;
+            if (diff > 0.0)
+            {
+                text_gui[groupId] = new LOD_TMP_GUI(groupId, 0, temp, false);
+                temp = new List<TextMeshProUGUI>();
+                groupId += 1;
+            }
+
+            temp.Add(t);
+            oldSize = newSize;
+        }
+
+        text_gui[groupId] = new LOD_TMP_GUI(groupId, 0, temp, false);
 
     }
 
@@ -559,7 +656,6 @@ public class ResponsiveDesign : MonoBehaviour
     //inteaction only at highest LOD
     void GroupInteraction(List<Interactable> allInteraction)
     {
-        Debug.Log("set interaction 1");
         interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
     }
 

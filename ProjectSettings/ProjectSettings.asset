@@ -638,6 +638,7 @@ PlayerSettings:
   platformCapabilities:
     WindowsStoreApps:
       GazeInput: True
+      Location: True
       SpatialPerception: True
       InternetClient: True
       Microphone: True
