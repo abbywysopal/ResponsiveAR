@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic()
     {
+        Debug.Log("Play Music");
         if (source.isPlaying)
         {
             return;
@@ -49,11 +50,13 @@ public class AudioManager : MonoBehaviour
 
     public void PauseMusic()
     {
+        Debug.Log("Pause Music");
         source.Stop();
         StopCoroutine("WaitForClipEnd");
     }
     public void MuteMusic()
     {
+        Debug.Log("Mute Music");
         source.mute = !source.mute;
     }
 
@@ -103,6 +106,7 @@ public class AudioManager : MonoBehaviour
 
     public void previousTitle()
     {
+        Debug.Log("Prev");
         source.Stop();
         currentClip -= 1;
         if (currentClip < 0)

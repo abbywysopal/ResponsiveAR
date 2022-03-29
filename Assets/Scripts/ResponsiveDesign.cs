@@ -22,7 +22,8 @@ using Microsoft.MixedReality.Toolkit.UI;
  *  BUGS:
  * 
  */
-
+[RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(Collider))]
 public class ResponsiveDesign : MonoBehaviour
 {
     [SerializeField]
