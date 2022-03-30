@@ -208,7 +208,7 @@ public class ResponsiveDesign : MonoBehaviour
     void setUpLODText(double r, double s, double d)
     {
 
-        float fontRatio = .07f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        float fontRatio = .06f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
         Debug.Log("fontRatio: " + fontRatio);
         Debug.Log("ratio: " + r);
         for (int i = 1; i <= text.Count; i++)
