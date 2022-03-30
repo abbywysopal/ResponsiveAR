@@ -79,3 +79,13 @@ public class Weather : MonoBehaviour
 
     }
 }
+
+class Forecast
+{
+
+}
+
+class Current
+{
+
+}
