@@ -15,9 +15,9 @@ using Microsoft.MixedReality.Toolkit.UI;
 
 /*
  * TODO:
- *  1. Brainstorm: what varibles can be made continuous?
-
- *  2. increase size of letters in LOD1
+ *  1. compare textsize of applications to textsize on computer
+ *  2. run weather app checking scroll
+ *  3. find bug in interaction, should not be able to interact when all text is not present
  *  
  *  BUGS:
  * 
