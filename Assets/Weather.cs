@@ -19,7 +19,7 @@ public class Weather : MonoBehaviour
     [SerializeField] Slider slider;
 
     private float timer;
-    public float minutesBetweenUpdate;
+    float minutesBetweenUpdate;
 
     string apiKey = "ff0e108b6d244c1ba87190238223003";
     string apiCall_forcast = "http://api.weatherapi.com/v1/forecast.json?key=";
@@ -35,8 +35,11 @@ public class Weather : MonoBehaviour
         apiCall_forcast += apiKey + "&q=" + lat.ToString() + "," + lon.ToString() + dt;
 
         Debug.Log(apiCall_forcast);
+        minutesBetweenUpdate = 10f;
+        timer = 0;
 
-/*        Debug.Log(weather.location.name);
+/*        
+        Debug.Log(weather.location.name);
         Debug.Log(weather.location.region);
         Debug.Log(weather.location.country);
         Debug.Log(weather.location.lat.ToString());
@@ -56,7 +59,8 @@ public class Weather : MonoBehaviour
         Debug.Log(weather.forecast.forecastday[0].date_epoch);
         Debug.Log(weather.forecast.forecastday[0].day);
         Debug.Log(weather.forecast.forecastday[0].day.maxtemp_c);
-        Debug.Log(weather.forecast.forecastday[0].hour.Length);*/
+        Debug.Log(weather.forecast.forecastday[0].hour.Length);
+*/
 
 
     }
@@ -81,6 +85,7 @@ public class Weather : MonoBehaviour
         int hour = DateTime.Now.Hour;
         setTimePeriodTemp(hour);
     }
+
     // Update is called once per frame
     void Update()
     {

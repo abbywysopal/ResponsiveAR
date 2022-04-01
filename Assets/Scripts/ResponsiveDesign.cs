@@ -55,6 +55,7 @@ public class ResponsiveDesign : MonoBehaviour
 
         continuousFunction(ratio, scale, distance);
         gazeFunction();
+        
 
     }
 
@@ -113,10 +114,12 @@ public class ResponsiveDesign : MonoBehaviour
 
                 child.gameObject.SetActive(false);
             }
+            /*
             else
             {
                 child.gameObject.SetActive(true);
             }
+            */
         }
 
 /*        Debug.Log("allTransforms");
@@ -128,7 +131,8 @@ public class ResponsiveDesign : MonoBehaviour
         Debug.Log("allText_GUI");
         Debug.Log(allText_GUI.Count);
         Debug.Log("allInteraction");
-        Debug.Log(allInteraction.Count);*/
+        Debug.Log(allInteraction.Count);
+*/
 
 
         if (allText.Count > 0)
@@ -161,43 +165,51 @@ public class ResponsiveDesign : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            Debug.Log("TMP LOD" + kvp.Key + ":");
-            Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
+            //Debug.Log("TMP LOD" + kvp.Key + ":");
+            //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshPro> list = kvp.Value.getText();
+            /*
             foreach (TextMeshPro t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
-            Debug.Log("TMP_GUI LOD" + kvp.Key + ":");
-            Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
+            //Debug.Log("TMP_GUI LOD" + kvp.Key + ":");
+            //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshProUGUI> list = kvp.Value.getText();
+            /*
             foreach (TextMeshProUGUI t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
-            Debug.Log("OBJ LOD" + kvp.Key + ":");
-            Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
+            //Debug.Log("OBJ LOD" + kvp.Key + ":");
+            //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<GameObject> list = kvp.Value.getObjects();
+            /*
             foreach (GameObject t in list)
             {
                 Debug.Log(t);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            Debug.Log("INT LOD" + kvp.Key + ":");
-            Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
+            //Debug.Log("INT LOD" + kvp.Key + ":");
+            //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<Interactable> list = kvp.Value.getInteractables();
+            /*
             foreach (Interactable t in list)
             {
                 Debug.Log(t);
             }
+            */
         }
     }
 
@@ -208,9 +220,9 @@ public class ResponsiveDesign : MonoBehaviour
     void setUpLODText(double r, double s, double d)
     {
 
-        float fontRatio = .06f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
-        Debug.Log("fontRatio: " + fontRatio);
-        Debug.Log("ratio: " + r);
+        float fontRatio = .04f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        //Debug.Log("fontRatio: " + fontRatio);
+        //Debug.Log("ratio: " + r);
         for (int i = 1; i <= text.Count; i++)
         {
             double textSize = text[i].getTextSize();
@@ -219,18 +231,19 @@ public class ResponsiveDesign : MonoBehaviour
             if (i == 1) { result = 0; }
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
-
+            /*
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
             Debug.Log("result: " + result.ToString());
-            Debug.Log("ratio: " + r.ToString());
+            Debug.Log("ratio: " + r.ToString());'
+            */
 
         }
 
         //TMPUGUI incorrect sizes
-        fontRatio *= .1f;//something weird going on with canvas and UI text
-        Debug.Log("fontRatio: " + fontRatio);
+        fontRatio *= .2f;//something weird going on with canvas and UI text
+        //Debug.Log("fontRatio: " + fontRatio);
 
         for (int i = 1; i <= text_gui.Count; i++)
         {
@@ -241,11 +254,11 @@ public class ResponsiveDesign : MonoBehaviour
             text_gui[i].setRatio(result);
             if (result > highestRatio) { highestRatio = result; }
 
-            Debug.Log("LOD: " + i.ToString());
-            Debug.Log("textSize: " + textSize.ToString());
-            Debug.Log("size: " + size.ToString());
-            Debug.Log("result: " + result.ToString());
-            Debug.Log("ratio: " + r.ToString());
+            //Debug.Log("LOD: " + i.ToString());
+            //Debug.Log("textSize: " + textSize.ToString());
+            //Debug.Log("size: " + size.ToString());
+            //Debug.Log("result: " + result.ToString());
+            //Debug.Log("ratio: " + r.ToString());
 
         }
 
@@ -262,16 +275,16 @@ public class ResponsiveDesign : MonoBehaviour
         objectRatio *= .01f;
 
 
-        Debug.Log("fontRatio: " + objectRatio);
-        Debug.Log("ratio: " + r);
+        //Debug.Log("fontRatio: " + objectRatio);
+        //Debug.Log("ratio: " + r);
 
         Transform t = parent.transform;
         double largestObj = objects[0].getLocalSize();
         double smallestObj = objects[objects.Count - 1].getLocalSize();
         objects[0].setRatio(0);
 
-        Debug.Log("objectMedian: " + objectMedian.ToString());
-        Debug.Log("scale: " + s.ToString());
+        //Debug.Log("objectMedian: " + objectMedian.ToString());
+        //Debug.Log("scale: " + s.ToString());
 
         for(int i = 1; i < objects.Count; i++)
         {
@@ -286,10 +299,10 @@ public class ResponsiveDesign : MonoBehaviour
                 result = highestRatio;
             }
             objects[i].setRatio(result);
-            Debug.Log("LOD: " + i.ToString());
-            Debug.Log("sizeObj: " + sizeObj.ToString());
-            Debug.Log("result: " + result.ToString());
-            Debug.Log("ratio: " + r.ToString());
+            //Debug.Log("LOD: " + i.ToString());
+            //Debug.Log("sizeObj: " + sizeObj.ToString());
+            //Debug.Log("result: " + result.ToString());
+            //Debug.Log("ratio: " + r.ToString());
         }
     }
 
@@ -297,7 +310,7 @@ public class ResponsiveDesign : MonoBehaviour
     {
         foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            Debug.Log("higestRatio" + highestRatio.ToString());
+            //Debug.Log("higestRatio" + highestRatio.ToString());
             kvp.Value.setRatio(highestRatio);
             kvp.Value.setUpInteraction();
         }
@@ -350,13 +363,16 @@ public class ResponsiveDesign : MonoBehaviour
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
             double r = kvp.Value.getRatio();
+            string message = "interaction ";
             if (ratio < r)
             {
                 kvp.Value.setLOD(false);
+                message += "off";
             }
             else
             {
                 kvp.Value.setLOD(true);
+                 message += "on";
             }
         }
     }
@@ -513,12 +529,12 @@ public class ResponsiveDesign : MonoBehaviour
 
     /*       foreach (KeyValuePair<int, LOD_TMP> kvp in text)
                {
-            Debug.Log("kvp.Key: " + kvp.Key);
+            //Debug.Log("kvp.Key: " + kvp.Key);
             List<TextMeshPro> list = kvp.Value.getText();
             foreach (TextMeshPro t in list)
             {
                 double s = getTextSize(t);
-                Debug.Log(t + " fontSize: " + t.fontSize.ToString() + " global size:" + s.ToString());
+                //Debug.Log(t + " fontSize: " + t.fontSize.ToString() + " global size:" + s.ToString());
             }
         }
     */
