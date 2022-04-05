@@ -260,7 +260,6 @@ public class ResponsiveDesign : MonoBehaviour
             double textSize = text[i].getTextSize();
             double size = fontRatio / textSize;
             double result = size * s;
-            if (i == 1) { result = 0; }
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
 
@@ -282,7 +281,6 @@ public class ResponsiveDesign : MonoBehaviour
             double textSize = text_gui[i].getTextSize();
             double size = fontRatio / textSize;
             double result = size * s;
-            if (i == 1) { result = 0; }
             text_gui[i].setRatio(result);
             if (result > highestRatio) { highestRatio = result; }
 
