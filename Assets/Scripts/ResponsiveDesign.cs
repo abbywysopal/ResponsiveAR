@@ -34,23 +34,26 @@ public class ResponsiveDesign : MonoBehaviour
     double objectMedian;
     double readibilityRatio = (8f / .35f) * 100;
     double highestRatio = (double).0;
+    double ratio;
+    double distance;
+    double scale;
 
 
     IDictionary<int, LOD_TMP> text = new Dictionary<int, LOD_TMP>();
     IDictionary<int, LOD_TMP_GUI> text_gui = new Dictionary<int, LOD_TMP_GUI>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
+    
 
     // Start is called before the first frame update
     void Start()
     { 
-
         SetUp();
         var headPosition = Camera.main.transform.position;
         //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
-        double scale = Math.Abs(parent.transform.localScale.x);
-        double ratio = getRatio(scale, distance);
+        distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        scale = Math.Abs(parent.transform.localScale.x);
+        ratio = getRatio(scale, distance);
         setUpLOD(ratio, scale, distance);
 
         continuousFunction(ratio, scale, distance);
@@ -70,15 +73,45 @@ public class ResponsiveDesign : MonoBehaviour
 
         var headPosition = Camera.main.transform.position;
         //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
-        double scale = Math.Abs(parent.transform.localScale.x);
-        double ratio = getRatio(scale, distance);
+        distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        scale = Math.Abs(parent.transform.localScale.x);
+        ratio = getRatio(scale, distance);
         //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio, scale, distance);
         gazeFunction();
 
     }
 
+    
+    public IDictionary<int, LOD_TMP> getText()
+    {
+        return text;
+    }
+    public IDictionary<int, LOD_TMP_GUI> getTextGUI()
+    {
+        return text_gui;
+    }
+    public IDictionary<int, LOD_Obj> getObjects()
+    {
+        return objects;
+    }
+    public IDictionary<int, LOD_Interact> getInteraction()
+    {
+        return interaction;
+    }
+
+    public double getRatio()
+    {
+        return ratio;
+    }
+    public double getDist()
+    {
+        return distance;
+    }
+    public double getScale()
+    {
+        return scale;
+    }
 
     void SetUp()
     {
@@ -154,6 +187,7 @@ public class ResponsiveDesign : MonoBehaviour
         {
             GroupInteraction(allInteraction);
         }
+
 
     }
 
@@ -375,6 +409,7 @@ public class ResponsiveDesign : MonoBehaviour
                  message += "on";
             }
         }
+
     }
 
     void gazeFunction()
