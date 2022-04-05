@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
 
     public TextMeshPro ClipTime;
     public TextMeshPro SongTitle;
+    public TextMeshPro MuteTitle;
 
     private int fulllength;
     private int playTime;
@@ -58,6 +59,14 @@ public class AudioManager : MonoBehaviour
     {
         Debug.Log("Mute Music");
         source.mute = !source.mute;
+        if (source.mute)
+        {
+            MuteTitle.text = "unmute";
+        }
+        else
+        {
+            MuteTitle.text = "mute";
+        }
     }
 
     IEnumerator WaitForClipEnd()

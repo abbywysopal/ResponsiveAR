@@ -34,23 +34,26 @@ public class ResponsiveDesign : MonoBehaviour
     double objectMedian;
     double readibilityRatio = (8f / .35f) * 100;
     double highestRatio = (double).0;
+    double ratio;
+    double distance;
+    double scale;
 
 
     IDictionary<int, LOD_TMP> text = new Dictionary<int, LOD_TMP>();
     IDictionary<int, LOD_TMP_GUI> text_gui = new Dictionary<int, LOD_TMP_GUI>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
+    
 
     // Start is called before the first frame update
     void Start()
     { 
-
         SetUp();
         var headPosition = Camera.main.transform.position;
         //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
-        double scale = Math.Abs(parent.transform.localScale.x);
-        double ratio = getRatio(scale, distance);
+        distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        scale = Math.Abs(parent.transform.localScale.x);
+        ratio = getRatio(scale, distance);
         setUpLOD(ratio, scale, distance);
 
         continuousFunction(ratio, scale, distance);
@@ -70,15 +73,45 @@ public class ResponsiveDesign : MonoBehaviour
 
         var headPosition = Camera.main.transform.position;
         //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
-        double distance = Math.Abs(dist(parent.transform, Camera.main.transform));
-        double scale = Math.Abs(parent.transform.localScale.x);
-        double ratio = getRatio(scale, distance);
+        distance = Math.Abs(dist(parent.transform, Camera.main.transform));
+        scale = Math.Abs(parent.transform.localScale.x);
+        ratio = getRatio(scale, distance);
         //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio, scale, distance);
         gazeFunction();
 
     }
 
+    
+    public IDictionary<int, LOD_TMP> getText()
+    {
+        return text;
+    }
+    public IDictionary<int, LOD_TMP_GUI> getTextGUI()
+    {
+        return text_gui;
+    }
+    public IDictionary<int, LOD_Obj> getObjects()
+    {
+        return objects;
+    }
+    public IDictionary<int, LOD_Interact> getInteraction()
+    {
+        return interaction;
+    }
+
+    public double getRatio()
+    {
+        return ratio;
+    }
+    public double getDist()
+    {
+        return distance;
+    }
+    public double getScale()
+    {
+        return scale;
+    }
 
     void SetUp()
     {
@@ -155,6 +188,7 @@ public class ResponsiveDesign : MonoBehaviour
             GroupInteraction(allInteraction);
         }
 
+
     }
 
     void setUpLOD(double r, double s, double d)
@@ -214,13 +248,11 @@ public class ResponsiveDesign : MonoBehaviour
     }
 
 
-    //1 point = .0003527 m
-    //12 points = .004233
-    //TODO: setSet(false);?
     void setUpLODText(double r, double s, double d)
     {
 
-        float fontRatio = .04f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        float fontRatio = .09f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+
         //Debug.Log("fontRatio: " + fontRatio);
         //Debug.Log("ratio: " + r);
         for (int i = 1; i <= text.Count; i++)
@@ -242,7 +274,7 @@ public class ResponsiveDesign : MonoBehaviour
         }
 
         //TMPUGUI incorrect sizes
-        fontRatio *= .2f;//something weird going on with canvas and UI text
+        fontRatio *= .1f;//TMProUGUI is 10* larger than TMPro
         //Debug.Log("fontRatio: " + fontRatio);
 
         for (int i = 1; i <= text_gui.Count; i++)
@@ -270,8 +302,8 @@ public class ResponsiveDesign : MonoBehaviour
         //percentages?
         //these are determined by volume 3D scale, lettering is 1D scale
 
-        double objectRatio = .007f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
-        objectRatio *= .01f;
+        double objectRatio = .006f / 1f; //objects do not need to be readable, so should appear at smaller sizes
+        objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
 
@@ -375,6 +407,7 @@ public class ResponsiveDesign : MonoBehaviour
                  message += "on";
             }
         }
+
     }
 
     void gazeFunction()

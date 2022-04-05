@@ -107,6 +107,11 @@ public class LOD_TMP
 		return scale;
 	}
 
+	public string getName(){
+		TextMeshPro t = text[0];
+		return t.transform.gameObject.name;
+	}
+
 }
 
 public class LOD_Obj
@@ -141,6 +146,11 @@ public class LOD_Obj
 		Transform t = g.transform;
 		//return t.localScale.x * pt.localScale.x * t.localScale.y * pt.localScale.y * t.localScale.z * pt.localScale.z;
 		return t.localScale.x * t.localScale.y * t.localScale.z;
+	}
+
+	public string getName(){
+		GameObject g = objects[0];
+		return g.name;
 	}
 
 	public double getLocalSize()
@@ -243,6 +253,11 @@ public class LOD_Interact
 		}
 
 		set = false;
+	}
+
+	public string getName(){
+		Interactable g = interactables[0];
+		return g.transform.gameObject.name;
 	}
 }
 
@@ -348,6 +363,11 @@ public class LOD_TMP_GUI
 		}
 
 		return scale;
+	}
+
+	public string getName(){
+		TextMeshProUGUI t = text[0];
+		return t.transform.gameObject.name;
 	}
 
 }
