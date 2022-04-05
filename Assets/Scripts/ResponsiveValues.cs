@@ -41,11 +41,13 @@ public class ResponsiveValues : MonoBehaviour
     string specifier;
     CultureInfo culture;
 
+    double parent_dist;
+
     // Start is called before the first frame update
     void Start()
     {
         setUp = false;
-        specifier = "E06";
+        specifier = "E02";
         culture = CultureInfo.CreateSpecificCulture("en-US");
     }
 
@@ -58,7 +60,7 @@ public class ResponsiveValues : MonoBehaviour
         interaction = class_parent.GetComponent<ResponsiveDesign>().getInteraction();
         double parent_ratio = class_parent.GetComponent<ResponsiveDesign>().getRatio();
         p_ratio.text = "Ratio: " + parent_ratio.ToString(specifier, culture);
-        double parent_dist = class_parent.GetComponent<ResponsiveDesign>().getDist();
+        parent_dist = class_parent.GetComponent<ResponsiveDesign>().getDist();
         dist.text = "Distance: " + parent_dist.ToString(specifier, culture);
         double parent_scale = class_parent.GetComponent<ResponsiveDesign>().getScale();
         scale.text = "Scale: " + parent_scale.ToString(specifier, culture);
@@ -76,15 +78,17 @@ public class ResponsiveValues : MonoBehaviour
     public void SetUpTableValues()
     {
         int count = 0;
+        double size = 0;
         //objects then text, then interaction
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
-            float ratio = .007f / 0.35f;
+            float ratio = .09f / 1f;
+            size = kvp.Value.getLocalSize();
             names[count].text = kvp.Value.getName();
             types[count].text = "Game Object";
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = kvp.Value.getLocalSize().ToString(specifier, culture);
+            curr_sizes[count].text = size.ToString(specifier, culture);
             actives[count].text = kvp.Value.getSet().ToString();
             kvp.Value.getLOD();
             count += 1;
@@ -94,12 +98,13 @@ public class ResponsiveValues : MonoBehaviour
 
        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
-            float ratio = .04f / 0.35f * .2f;
+            float ratio = .009f / 0.35f * .2f;
+            size = kvp.Value.getTextSize();
             names[count].text = kvp.Value.getName();
             types[count].text = "TMP_GUI";
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = kvp.Value.getTextSize().ToString(specifier, culture);
+            curr_sizes[count].text = size.ToString(specifier, culture);
             last_size = curr_sizes[count].text;
             actives[count].text = kvp.Value.getSet().ToString();
             kvp.Value.getLOD();
@@ -108,12 +113,13 @@ public class ResponsiveValues : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            float ratio = .04f / 0.35f;
+            float ratio = .09f / 1f;
+            size = kvp.Value.getTextSize();
             names[count].text = kvp.Value.getName();
             types[count].text = "TMP";
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = kvp.Value.getTextSize().ToString(specifier, culture);
+            curr_sizes[count].text = size.ToString(specifier, culture);
             last_size = curr_sizes[count].text;
             actives[count].text = kvp.Value.getSet().ToString();
             /*            kvp.Value.getLOD();*/
@@ -123,10 +129,10 @@ public class ResponsiveValues : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            float ratio = .04f / 0.35f;
+            float ratio = .009f / 1f;
             names[count].text = kvp.Value.getName();
             types[count].text = "Interactable";
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
             curr_sizes[count].text = last_size;
             actives[count].text = kvp.Value.getSet().ToString();
@@ -148,12 +154,14 @@ public class ResponsiveValues : MonoBehaviour
     public void updateTableValues()
     {
         int count = 0;
+        double size = 0;
         //objects then text, then interaction
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
-            curr_sizes[count].text = kvp.Value.getLocalSize().ToString(specifier, culture);
+            size = kvp.Value.getLocalSize();
+            curr_sizes[count].text = size.ToString(specifier, culture);
             actives[count].text = kvp.Value.getSet().ToString();
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
         }
 
@@ -161,19 +169,21 @@ public class ResponsiveValues : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
-            curr_sizes[count].text = kvp.Value.getTextSize().ToString(specifier, culture);
+            size = kvp.Value.getTextSize();
+            curr_sizes[count].text = size.ToString(specifier, culture);
             last_size = curr_sizes[count].text;
             actives[count].text = kvp.Value.getSet().ToString();
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
         }
 
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            curr_sizes[count].text = kvp.Value.getTextSize().ToString(specifier, culture);
+            size = kvp.Value.getTextSize();
+            curr_sizes[count].text = size.ToString(specifier, culture);
             last_size = curr_sizes[count].text;
             actives[count].text = kvp.Value.getSet().ToString();
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
 
         }
@@ -182,7 +192,7 @@ public class ResponsiveValues : MonoBehaviour
         {
             curr_sizes[count].text = last_size;
             actives[count].text = kvp.Value.getSet().ToString();
-            ratios[count].text = kvp.Value.getRatio().ToString(specifier, culture);
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
         }
 

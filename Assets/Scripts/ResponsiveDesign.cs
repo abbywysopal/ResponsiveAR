@@ -248,13 +248,11 @@ public class ResponsiveDesign : MonoBehaviour
     }
 
 
-    //1 point = .0003527 m
-    //12 points = .004233
-    //TODO: setSet(false);?
     void setUpLODText(double r, double s, double d)
     {
 
-        float fontRatio = .04f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        float fontRatio = .09f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+
         //Debug.Log("fontRatio: " + fontRatio);
         //Debug.Log("ratio: " + r);
         for (int i = 1; i <= text.Count; i++)
@@ -276,7 +274,7 @@ public class ResponsiveDesign : MonoBehaviour
         }
 
         //TMPUGUI incorrect sizes
-        fontRatio *= .2f;//something weird going on with canvas and UI text
+        fontRatio *= .1f;//TMProUGUI is 10* larger than TMPro
         //Debug.Log("fontRatio: " + fontRatio);
 
         for (int i = 1; i <= text_gui.Count; i++)
@@ -304,8 +302,8 @@ public class ResponsiveDesign : MonoBehaviour
         //percentages?
         //these are determined by volume 3D scale, lettering is 1D scale
 
-        double objectRatio = .007f / 0.35f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
-        objectRatio *= .01f;
+        double objectRatio = .006f / 1f; //objects do not need to be readable, so should appear at smaller sizes
+        objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
 
