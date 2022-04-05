@@ -82,7 +82,10 @@ public class ResponsiveValues : MonoBehaviour
         //objects then text, then interaction
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
-            float ratio = .09f / 1f;
+            float ratio = .006f / 1f; //objects do not need to be readable, so should appear at smaller sizes
+            ratio *= .01f; //ratio is determined by volume unlike the size of text
+            ratio *= .01f;
+
             size = kvp.Value.getLocalSize();
             names[count].text = kvp.Value.getName();
             types[count].text = "Game Object";

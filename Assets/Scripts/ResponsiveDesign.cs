@@ -259,17 +259,17 @@ public class ResponsiveDesign : MonoBehaviour
         {
             double textSize = text[i].getTextSize();
             double size = fontRatio / textSize;
-            double result = size * r;
+            double result = size * s;
             if (i == 1) { result = 0; }
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
-            /*
+
             Debug.Log("LOD: " + i.ToString());
             Debug.Log("textSize: " + textSize.ToString());
             Debug.Log("size: " + size.ToString());
             Debug.Log("result: " + result.ToString());
-            Debug.Log("ratio: " + r.ToString());'
-            */
+            //Debug.Log("ratio: " + r.ToString());
+
 
         }
 
@@ -281,15 +281,15 @@ public class ResponsiveDesign : MonoBehaviour
         {
             double textSize = text_gui[i].getTextSize();
             double size = fontRatio / textSize;
-            double result = size * r;
+            double result = size * s;
             if (i == 1) { result = 0; }
             text_gui[i].setRatio(result);
             if (result > highestRatio) { highestRatio = result; }
 
-            //Debug.Log("LOD: " + i.ToString());
-            //Debug.Log("textSize: " + textSize.ToString());
-            //Debug.Log("size: " + size.ToString());
-            //Debug.Log("result: " + result.ToString());
+            Debug.Log("LOD: " + i.ToString());
+            Debug.Log("textSize: " + textSize.ToString());
+            Debug.Log("size: " + size.ToString());
+            Debug.Log("result: " + result.ToString());
             //Debug.Log("ratio: " + r.ToString());
 
         }
@@ -311,8 +311,6 @@ public class ResponsiveDesign : MonoBehaviour
         //Debug.Log("ratio: " + r);
 
         Transform t = parent.transform;
-        double largestObj = objects[0].getLocalSize();
-        double smallestObj = objects[objects.Count - 1].getLocalSize();
         objects[0].setRatio(0);
 
         //Debug.Log("objectMedian: " + objectMedian.ToString());
@@ -320,17 +318,14 @@ public class ResponsiveDesign : MonoBehaviour
 
         for(int i = 1; i < objects.Count; i++)
         {
-/*            int scaler = objects.Count - i;*/
-
             double sizeObj = objects[i].getLocalSize();
-            double result = r * (objectRatio / sizeObj);
-/*            result /= scaler;*/
+            double result = s * (objectRatio / sizeObj);
 
             if(result > highestRatio)
             {
                 result = highestRatio;
             }
-            objects[i].setRatio(result);
+            objects[i].setRatio(objectRatio);
             //Debug.Log("LOD: " + i.ToString());
             //Debug.Log("sizeObj: " + sizeObj.ToString());
             //Debug.Log("result: " + result.ToString());

@@ -159,11 +159,9 @@ public class LOD_Obj
 		Transform t = g.transform;
 		Transform pt = t.transform.parent;
 		double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
-		Debug.Log(t + ": " + t.transform.localScale);
 		double scale = volume;
 		while (pt != null)
 		{
-			Debug.Log(pt + ": " + pt.transform.localScale);
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
 			scale *= volume;
 			pt = pt.parent;
@@ -354,11 +352,9 @@ public class LOD_TMP_GUI
 		TextMeshProUGUI t = text[0];
 		Transform pt = t.transform.parent;
 		double scale = t.fontSize * t.transform.localScale.x;
-		Debug.Log("t: " + t + ", font: " + scale);
 		while (pt != null)
 		{
 			scale *= pt.transform.localScale.x;
-			Debug.Log("pt: " + pt + ", scale: " + pt.transform.localScale.x + ", font: " + scale);
 			pt = pt.parent;
 		}
 
