@@ -16,8 +16,8 @@ public class ResponsiveValues : MonoBehaviour
     List<TextMeshPro> types;
     [SerializeField]
     List<TextMeshPro> sizes;
-    [SerializeField]
-    List<TextMeshPro> curr_sizes;
+/*    [SerializeField]
+    List<TextMeshPro> curr_sizes;*/
     [SerializeField]
     List<TextMeshPro> actives;
     [SerializeField]
@@ -91,13 +91,13 @@ public class ResponsiveValues : MonoBehaviour
             types[count].text = "Game Object";
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = size.ToString(specifier, culture);
+/*            curr_sizes[count].text = size.ToString(specifier, culture);*/
             actives[count].text = kvp.Value.getSet().ToString();
             kvp.Value.getLOD();
             count += 1;
         }
 
-        string last_size = "";
+/*        string last_size = "";*/
 
        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
@@ -107,8 +107,8 @@ public class ResponsiveValues : MonoBehaviour
             types[count].text = "TMP_GUI";
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = size.ToString(specifier, culture);
-            last_size = curr_sizes[count].text;
+/*            curr_sizes[count].text = size.ToString(specifier, culture);
+            last_size = curr_sizes[count].text;*/
             actives[count].text = kvp.Value.getSet().ToString();
             kvp.Value.getLOD();
             count += 1;
@@ -122,8 +122,8 @@ public class ResponsiveValues : MonoBehaviour
             types[count].text = "TMP";
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = size.ToString(specifier, culture);
-            last_size = curr_sizes[count].text;
+/*            curr_sizes[count].text = size.ToString(specifier, culture);
+            last_size = curr_sizes[count].text;*/
             actives[count].text = kvp.Value.getSet().ToString();
             /*            kvp.Value.getLOD();*/
             count += 1;
@@ -137,7 +137,7 @@ public class ResponsiveValues : MonoBehaviour
             types[count].text = "Interactable";
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             sizes[count].text = ratio.ToString(specifier, culture);
-            curr_sizes[count].text = last_size;
+/*            curr_sizes[count].text = last_size;*/
             actives[count].text = kvp.Value.getSet().ToString();
             count += 1;
         }
@@ -147,7 +147,7 @@ public class ResponsiveValues : MonoBehaviour
             names[i].transform.gameObject.SetActive(false);
             types[i].transform.gameObject.SetActive(false);
             sizes[i].transform.gameObject.SetActive(false);
-            curr_sizes[i].transform.gameObject.SetActive(false);
+/*            curr_sizes[i].transform.gameObject.SetActive(false);*/
             actives[i].transform.gameObject.SetActive(false);
             ratios[i].transform.gameObject.SetActive(false);
         }
@@ -162,19 +162,19 @@ public class ResponsiveValues : MonoBehaviour
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
             size = kvp.Value.getLocalSize();
-            curr_sizes[count].text = size.ToString(specifier, culture);
+/*            curr_sizes[count].text = size.ToString(specifier, culture);*/
             actives[count].text = kvp.Value.getSet().ToString();
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
         }
 
-        string last_size = "";
+/*        string last_size = "";*/
 
         foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
             size = kvp.Value.getTextSize();
-            curr_sizes[count].text = size.ToString(specifier, culture);
-            last_size = curr_sizes[count].text;
+/*            curr_sizes[count].text = size.ToString(specifier, culture);
+            last_size = curr_sizes[count].text;*/
             actives[count].text = kvp.Value.getSet().ToString();
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
@@ -183,8 +183,8 @@ public class ResponsiveValues : MonoBehaviour
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
             size = kvp.Value.getTextSize();
-            curr_sizes[count].text = size.ToString(specifier, culture);
-            last_size = curr_sizes[count].text;
+/*            curr_sizes[count].text = size.ToString(specifier, culture);
+            last_size = curr_sizes[count].text;*/
             actives[count].text = kvp.Value.getSet().ToString();
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
@@ -193,7 +193,7 @@ public class ResponsiveValues : MonoBehaviour
 
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
-            curr_sizes[count].text = last_size;
+/*            curr_sizes[count].text = last_size;*/
             actives[count].text = kvp.Value.getSet().ToString();
             ratios[count].text = (size/parent_dist).ToString(specifier, culture);
             count += 1;
