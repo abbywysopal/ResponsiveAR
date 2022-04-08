@@ -155,7 +155,7 @@ public class ResponsiveDesign : MonoBehaviour
             */
         }
 
-/*        Debug.Log("allTransforms");
+        Debug.Log("allTransforms");
         Debug.Log(allTransforms.Length);
         Debug.Log("allObjects");
         Debug.Log(allObjects.Count);
@@ -165,7 +165,7 @@ public class ResponsiveDesign : MonoBehaviour
         Debug.Log(allText_GUI.Count);
         Debug.Log("allInteraction");
         Debug.Log(allInteraction.Count);
-*/
+
 
 
         if (allText.Count > 0)
@@ -202,48 +202,40 @@ public class ResponsiveDesign : MonoBehaviour
             //Debug.Log("TMP LOD" + kvp.Key + ":");
             //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshPro> list = kvp.Value.getText();
-            /*
             foreach (TextMeshPro t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
-            */
         }
         foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
             //Debug.Log("TMP_GUI LOD" + kvp.Key + ":");
             //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshProUGUI> list = kvp.Value.getText();
-            /*
             foreach (TextMeshProUGUI t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
-            */
         }
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
             //Debug.Log("OBJ LOD" + kvp.Key + ":");
             //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<GameObject> list = kvp.Value.getObjects();
-            /*
             foreach (GameObject t in list)
             {
                 Debug.Log(t);
             }
-            */
         }
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
             //Debug.Log("INT LOD" + kvp.Key + ":");
             //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<Interactable> list = kvp.Value.getInteractables();
-            /*
             foreach (Interactable t in list)
             {
                 Debug.Log(t);
             }
-            */
         }
     }
 
