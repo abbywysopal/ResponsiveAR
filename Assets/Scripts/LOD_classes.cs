@@ -233,10 +233,11 @@ public class LOD_Interact
         {
 			return;
         }
-		Debug.Log("set active and interactive " + v);
 		foreach (Interactable g in interactables)
 		{
-			g.IsInteractive = v;
+			//g.IsInteractive = v;
+			g.IsEnabled = v;
+			Debug.Log("g: " + g + ", is interactive? " + v);
 		}
 		set = v;
 	}
@@ -247,7 +248,9 @@ public class LOD_Interact
 		foreach (Interactable g in interactables)
 		{
 			g.transform.gameObject.SetActive(true);
-			g.IsInteractive = false;
+			//g.IsInteractive = false;
+			g.IsEnabled = false;
+			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
 		}
 
 		set = false;

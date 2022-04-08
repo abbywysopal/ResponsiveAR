@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
-        PlayMusic();
+        //PlayMusic();
     }
 
     public void PlayMusic()

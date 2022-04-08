@@ -323,7 +323,7 @@ public class ResponsiveDesign : MonoBehaviour
             {
                 result = highestRatio;
             }
-            objects[i].setRatio(objectRatio);
+            objects[i].setRatio(result);
             //Debug.Log("LOD: " + i.ToString());
             //Debug.Log("sizeObj: " + sizeObj.ToString());
             //Debug.Log("result: " + result.ToString());
