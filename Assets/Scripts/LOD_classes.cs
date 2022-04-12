@@ -370,3 +370,65 @@ public class LOD_TMP_GUI
 	}
 
 }
+
+
+public class LOD_Select
+{
+	int LOD;
+	double ratio;
+	bool set;
+	List<Selectable> selectables = new List<Selectable>();
+
+	public LOD_Select(){}
+
+	public LOD_Select(int l, double r, List<Selectable> g, bool s)
+	{
+		LOD = l;
+		ratio = r;
+		selectables = g;
+		set = s;
+	}
+
+	public void setLOD(int l) { LOD = l; }
+	public int getLOD() { return LOD; }
+	public void setRatio(double r) { ratio = r; }
+	public double getRatio() { return ratio; }
+	public void setSet(bool s) { set = s; }
+	public bool getSet() { return set; }
+	public void setSelectables(List<Selectable> g) { selectables = g; }
+	public List<Selectable> getSelectables() { return selectables; }
+
+	public void setLOD(bool v)
+	{
+        if (set == v)
+        {
+			return;
+        }
+		foreach (Selectable g in selectables)
+		{
+			g.interactable = v;
+			//g.IsEnabled = v;
+			Debug.Log("g: " + g + ", is interactive? " + v);
+		}
+		set = v;
+	}
+
+	public void setUpSelection()
+	{
+		Debug.Log("set active and disable interactive ");
+		foreach (Selectable g in selectables)
+		{
+			g.transform.gameObject.SetActive(true);
+			g.interactable = false;
+			//g.IsEnabled = false;
+			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+		}
+
+		set = false;
+	}
+
+	public string getName(){
+		Selectable g = selectables[0];
+		return g.transform.gameObject.name;
+	}
+}

@@ -31,24 +31,34 @@ public class NumberDisplay : MonoBehaviour
 
     public void Enter(string str)
     {
+        if(textMesh.text == "Dialing...")
+        {
+            Clear();
+        }
         Debug.Log("Pressed " + str);
         if (textMesh.text.Length < maxLength)
         {
             textMesh.text += str;
         }
-        textMesh.color = Color.white;
     }
 
     public void Delete()
     {
+        if (textMesh.text == "Dialing...")
+        {
+            Clear();
+        }
         textMesh.text = textMesh.text.Remove(textMesh.text.Length - 1);
-        textMesh.color = Color.white;
     }
 
     public void Clear()
     {
         textMesh.text = string.Empty;
-        textMesh.color = Color.white;
+    }
+
+    public void Call()
+    {
+        textMesh.text = "Dialing...";
     }
 
 }

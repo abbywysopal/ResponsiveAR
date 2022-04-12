@@ -36,6 +36,7 @@ public class ResponsiveValues : MonoBehaviour
     IDictionary<int, LOD_TMP_GUI> text_gui = new Dictionary<int, LOD_TMP_GUI>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
+    IDictionary<int, LOD_Select> selection = new Dictionary<int, LOD_Select>();
     bool setUp;
 
     string specifier;
@@ -58,6 +59,7 @@ public class ResponsiveValues : MonoBehaviour
         text_gui = class_parent.GetComponent<ResponsiveDesign>().getTextGUI();
         objects = class_parent.GetComponent<ResponsiveDesign>().getObjects();
         interaction = class_parent.GetComponent<ResponsiveDesign>().getInteraction();
+        selection = class_parent.GetComponent<ResponsiveDesign>().getSelection();
         double parent_ratio = class_parent.GetComponent<ResponsiveDesign>().getRatio();
         p_ratio.text = "Ratio: " + parent_ratio.ToString(specifier, culture);
         parent_dist = class_parent.GetComponent<ResponsiveDesign>().getDist();
@@ -142,6 +144,19 @@ public class ResponsiveValues : MonoBehaviour
             count += 1;
         }
 
+        
+        foreach (KeyValuePair<int, LOD_Select> kvp in selection)
+        {
+            float ratio = .009f / 1f;
+            names[count].text = kvp.Value.getName();
+            types[count].text = "Selectable";
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
+            sizes[count].text = ratio.ToString(specifier, culture);
+/*            curr_sizes[count].text = last_size;*/
+            actives[count].text = kvp.Value.getSet().ToString();
+            count += 1;
+        }
+
         for(int i = count; i < names.Count; i++)
         {
             names[i].transform.gameObject.SetActive(false);
@@ -192,6 +207,14 @@ public class ResponsiveValues : MonoBehaviour
         }
 
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
+        {
+/*            curr_sizes[count].text = last_size;*/
+            actives[count].text = kvp.Value.getSet().ToString();
+            ratios[count].text = (size/parent_dist).ToString(specifier, culture);
+            count += 1;
+        }
+
+        foreach (KeyValuePair<int, LOD_Select> kvp in selection)
         {
 /*            curr_sizes[count].text = last_size;*/
             actives[count].text = kvp.Value.getSet().ToString();

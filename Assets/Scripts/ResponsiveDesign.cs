@@ -10,14 +10,16 @@ using Microsoft.MixedReality.Toolkit.UI;
  * ASSUMPTIONS:
  *  1. Parent is in middle of object
  *  2. collider is in middle of object
+ *      - not currently using gaze function, can add back 
  * 
  */
 
 /*
+ * Interaction: file:///C:/Program%20Files/Unity/Hub/Editor/2020.3.20f1/Editor/Data/Documentation/en/Manual/UIInteractionComponents.html
+ */
+
+/*
  * TODO:
- *  1. compare textsize of applications to textsize on computer
- *  2. run weather app checking scroll
- *  3. find bug in interaction, should not be able to interact when all text is not present
  *  
  *  BUGS:
  * 
@@ -28,8 +30,8 @@ public class ResponsiveDesign : MonoBehaviour
 {
     [SerializeField]
     GameObject parent;
-    [SerializeField]
-    Collider collider;
+    //[SerializeField]
+    //Collider collider;
 
     double objectMedian;
     double readibilityRatio = (8f / .35f) * 100;
@@ -43,6 +45,7 @@ public class ResponsiveDesign : MonoBehaviour
     IDictionary<int, LOD_TMP_GUI> text_gui = new Dictionary<int, LOD_TMP_GUI>();
     IDictionary<int, LOD_Obj> objects = new Dictionary<int, LOD_Obj>();
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
+    IDictionary<int, LOD_Select> selection = new Dictionary<int, LOD_Select>();
     
 
     // Start is called before the first frame update
@@ -57,7 +60,7 @@ public class ResponsiveDesign : MonoBehaviour
         setUpLOD(ratio, scale, distance);
 
         continuousFunction(ratio, scale, distance);
-        gazeFunction();
+        //gazeFunction();
         
 
     }
@@ -78,7 +81,7 @@ public class ResponsiveDesign : MonoBehaviour
         ratio = getRatio(scale, distance);
         //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio, scale, distance);
-        gazeFunction();
+        //gazeFunction();
 
     }
 
@@ -98,6 +101,10 @@ public class ResponsiveDesign : MonoBehaviour
     public IDictionary<int, LOD_Interact> getInteraction()
     {
         return interaction;
+    }
+    public IDictionary<int, LOD_Select> getSelection()
+    {
+        return selection;
     }
 
     public double getRatio()
@@ -119,16 +126,19 @@ public class ResponsiveDesign : MonoBehaviour
         TextMeshProUGUI[] allTMP_GUI;
         Interactable[] interactables;
         Transform[] allTransforms;
+        Selectable[] selectables;
 
         allTMP = parent.GetComponentsInChildren<TextMeshPro>();
         allTMP_GUI = parent.GetComponentsInChildren<TextMeshProUGUI>();
         interactables = parent.GetComponentsInChildren<Interactable>();
         allTransforms = parent.GetComponentsInChildren<Transform>();
+        selectables = parent.GetComponentsInChildren<Selectable>();
 
         List<GameObject> allObjects = new List<GameObject>();
         List<TextMeshPro> allText = new List<TextMeshPro>(allTMP);
         List<TextMeshProUGUI> allText_GUI = new List<TextMeshProUGUI>(allTMP_GUI);
         List<Interactable> allInteraction = new List<Interactable>(interactables);
+        List<Selectable> allSelection = new List<Selectable>(selectables);
 
         allTransforms = parent.GetComponentsInChildren<Transform>();
 
@@ -139,8 +149,9 @@ public class ResponsiveDesign : MonoBehaviour
                 TextMeshPro tmp = child.GetComponent<TextMeshPro>();
                 Interactable i = child.GetComponent<Interactable>();
                 TextMeshProUGUI tmp_gui = child.GetComponent<TextMeshProUGUI>();
+                Selectable s = child.GetComponent<Selectable>();
 
-                if (tmp == null && i == null && tmp_gui == null)
+                if (tmp == null && i == null && tmp_gui == null && s == null)
                 {
                     allObjects.Add(child.gameObject);
                 }
@@ -155,6 +166,7 @@ public class ResponsiveDesign : MonoBehaviour
             */
         }
 
+        /*
         Debug.Log("allTransforms");
         Debug.Log(allTransforms.Length);
         Debug.Log("allObjects");
@@ -165,6 +177,7 @@ public class ResponsiveDesign : MonoBehaviour
         Debug.Log(allText_GUI.Count);
         Debug.Log("allInteraction");
         Debug.Log(allInteraction.Count);
+        */
 
 
 
@@ -188,6 +201,11 @@ public class ResponsiveDesign : MonoBehaviour
             GroupInteraction(allInteraction);
         }
 
+        if(allSelection.Count > 0)
+        {
+            GroupSelection(allSelection);
+        }
+
 
     }
 
@@ -202,40 +220,58 @@ public class ResponsiveDesign : MonoBehaviour
             //Debug.Log("TMP LOD" + kvp.Key + ":");
             //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshPro> list = kvp.Value.getText();
+            /*
             foreach (TextMeshPro t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
             //Debug.Log("TMP_GUI LOD" + kvp.Key + ":");
             //Debug.Log("Ratio:" + kvp.Value.getRatio().ToString());
             List<TextMeshProUGUI> list = kvp.Value.getText();
+            /*
             foreach (TextMeshProUGUI t in list)
             {
                 Debug.Log(t + " " + t.text);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
         {
             //Debug.Log("OBJ LOD" + kvp.Key + ":");
             //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<GameObject> list = kvp.Value.getObjects();
+            /*
             foreach (GameObject t in list)
             {
                 Debug.Log(t);
             }
+            */
         }
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
             //Debug.Log("INT LOD" + kvp.Key + ":");
             //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<Interactable> list = kvp.Value.getInteractables();
+            /*
             foreach (Interactable t in list)
             {
                 Debug.Log(t);
             }
+            */
+        }
+        foreach(KeyValuePair<int, LOD_Select> kvp in selection)
+        {
+            List<Selectable> list = kvp.Value.getSelectables();
+            /*
+            foreach(Selectable t in list)
+            {
+                Debug.Log(t);
+            }
+            */
         }
     }
 
@@ -254,14 +290,6 @@ public class ResponsiveDesign : MonoBehaviour
             double result = size * s;
             text[i].setRatio(result);
             if(result > highestRatio) { highestRatio = result; }
-
-            Debug.Log("LOD: " + i.ToString());
-            Debug.Log("textSize: " + textSize.ToString());
-            Debug.Log("size: " + size.ToString());
-            Debug.Log("result: " + result.ToString());
-            //Debug.Log("ratio: " + r.ToString());
-
-
         }
 
         //TMPUGUI incorrect sizes
@@ -276,35 +304,19 @@ public class ResponsiveDesign : MonoBehaviour
             text_gui[i].setRatio(result);
             if (result > highestRatio) { highestRatio = result; }
 
-            Debug.Log("LOD: " + i.ToString());
-            Debug.Log("textSize: " + textSize.ToString());
-            Debug.Log("size: " + size.ToString());
-            Debug.Log("result: " + result.ToString());
-            //Debug.Log("ratio: " + r.ToString());
-
         }
 
     }
 
     void setUpLODObjects(double r, double s, double d)
     {
-        //TODO: FIX THIS FUNCTION
-        //percentages?
-        //these are determined by volume 3D scale, lettering is 1D scale
 
         double objectRatio = .006f / 1f; //objects do not need to be readable, so should appear at smaller sizes
         objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
-
-        //Debug.Log("fontRatio: " + objectRatio);
-        //Debug.Log("ratio: " + r);
-
         Transform t = parent.transform;
         objects[0].setRatio(0);
-
-        //Debug.Log("objectMedian: " + objectMedian.ToString());
-        //Debug.Log("scale: " + s.ToString());
 
         for(int i = 1; i < objects.Count; i++)
         {
@@ -316,10 +328,6 @@ public class ResponsiveDesign : MonoBehaviour
                 result = highestRatio;
             }
             objects[i].setRatio(result);
-            //Debug.Log("LOD: " + i.ToString());
-            //Debug.Log("sizeObj: " + sizeObj.ToString());
-            //Debug.Log("result: " + result.ToString());
-            //Debug.Log("ratio: " + r.ToString());
         }
     }
 
@@ -331,7 +339,13 @@ public class ResponsiveDesign : MonoBehaviour
             kvp.Value.setRatio(highestRatio);
             kvp.Value.setUpInteraction();
         }
-
+        
+        foreach(KeyValuePair<int, LOD_Select> kvp in selection)
+        {
+            //Debug.Log("higestRatio" + highestRatio.ToString());
+            kvp.Value.setRatio(highestRatio);
+            kvp.Value.setUpSelection();
+        }
     }
 
     void continuousFunction(double ratio, double scale, double distance)
@@ -380,21 +394,32 @@ public class ResponsiveDesign : MonoBehaviour
         foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
             double r = kvp.Value.getRatio();
-            string message = "interaction ";
             if (ratio < r)
             {
                 kvp.Value.setLOD(false);
-                message += "off";
             }
             else
             {
                 kvp.Value.setLOD(true);
-                 message += "on";
+            }
+        }
+        foreach (KeyValuePair<int, LOD_Select> kvp in selection)
+        {
+            double r = kvp.Value.getRatio();
+            if (ratio < r)
+            {
+                kvp.Value.setLOD(false);
+            }
+            else
+            {
+                kvp.Value.setLOD(true);
             }
         }
 
     }
 
+    /*
+     * CAN USE THIS FUNCTION FOR text transparency changes
     void gazeFunction()
     {
         RaycastHit hitInfo;
@@ -418,6 +443,7 @@ public class ResponsiveDesign : MonoBehaviour
                     bool set = kvp.Value.getSet();
                     if (set)
                     {
+                         Debug.Log("call increase in gaze");
                         text[kvp.Key].increaseTransparency();
                     }
 
@@ -446,12 +472,14 @@ public class ResponsiveDesign : MonoBehaviour
                 bool set = kvp.Value.getSet();
                 if (set)
                 {
+                     Debug.Log("call increase in gaze");
                     text[kvp.Key].increaseTransparency();
                 }
 
             }
         }
     }
+    */
 
     double calcDist(Vector3 obj1, Vector3 obj2)
     {
@@ -472,7 +500,6 @@ public class ResponsiveDesign : MonoBehaviour
     //.35m -> 12points
     //.7m 16 points
     //1.5m -> 32 points
-
     double getTextSize(TextMeshPro t)
     {
         Transform pt = t.transform.parent;
@@ -584,54 +611,6 @@ public class ResponsiveDesign : MonoBehaviour
 
     }
 
-    double GetMedian(List<GameObject> AllObjects)
-    {
-        int length = AllObjects.Count;
-        double median;
-        if(length % 2 == 0)
-        {
-            int index1 = length / 2;
-            int index2 = length - 1;
-            GameObject obj1 = AllObjects[index1];
-            GameObject obj2 = AllObjects[index2];
-            double val1 = getObjectSize(obj1);
-            double val2 = getObjectSize(obj2);
-            median = (val1 + val2) / 2;
-        }
-        else
-        {
-            int index1 = length / 2;
-            GameObject obj1 = AllObjects[index1];
-            double val1 = getObjectSize(obj1);
-            median = val1;
-        }
-
-        return median;
-
-    }
-
-    double StandardDeviation(List<GameObject> AllObjects)
-    {
-        double avg = 0;
-
-        foreach(GameObject g in AllObjects)
-        {
-            double v = getObjectSize(g);
-            avg += v;
-        }
-        avg = avg / (AllObjects.Count);
-
-        double sum = 0;
-        foreach (GameObject g in AllObjects)
-        {
-            Transform t = g.transform;
-            double v = getObjectSize(g);
-            sum += ((v - avg) * (v - avg));
-        }
-
-        return Math.Sqrt(sum/AllObjects.Count);
-    }
-
 
     void GroupObjects(List<GameObject> AllObjects)
     {
@@ -639,14 +618,8 @@ public class ResponsiveDesign : MonoBehaviour
         //figure out how to determine structure vs detail
 
         AllObjects.Sort(new VolumeFirst());
-        objectMedian = GetMedian(AllObjects);
-        double sdv = StandardDeviation(AllObjects);
-
-/*        Debug.Log("MEDIAN: " + objectMedian.ToString() + "\nSDV: " + sdv.ToString());*/
-
 
         double oldV = getObjectSize(AllObjects[0]);
-        double largestV = oldV;
         
         int groupId = 0;
         List<GameObject> temp = new List<GameObject>();
@@ -654,13 +627,7 @@ public class ResponsiveDesign : MonoBehaviour
         {
             double newV = getObjectSize(g);
             double diff = oldV - newV;
-            if (groupId == 0 && diff > sdv)
-            {
-                objects[groupId] = new LOD_Obj(groupId, 0, temp, false);
-                temp = new List<GameObject>();
-                groupId += 1;
-            }
-            else if (groupId != 0 && diff > 0)
+            if (diff > 0.0)
             {
                 objects[groupId] = new LOD_Obj(groupId, 0, temp, false);
                 temp = new List<GameObject>();
@@ -694,19 +661,10 @@ public class ResponsiveDesign : MonoBehaviour
         interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
     }
 
-    public static void AddOnClick(Interactable interactable)
+    //selection only at highest LOD
+    void GroupSelection(List<Selectable> allSelection)
     {
-        interactable.OnClick.AddListener(() => Debug.Log("Interactable clicked"));
+        selection[1] = new LOD_Select(1, 0, allSelection, false);
     }
-
-
-    /*
-     * 
-     * could make hour and minute hand large then decrease size as you scale
-     * look at position as well as scale
-     * 
-     * 
-     * 
-     */
 
 }
