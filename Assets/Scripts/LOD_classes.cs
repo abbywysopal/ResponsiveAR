@@ -20,6 +20,8 @@ public class LOD_TMP
 		LOD = l;
 		ratio = r;
 		text = t;
+		set = !s;
+		setLOD(s);
 		set = s;
 	}
 
@@ -128,6 +130,8 @@ public class LOD_Obj
 		LOD = l;
 		ratio = r;
 		objects = g;
+		set = !s;
+		setLOD(s);
 		set = s;
 	}
 
@@ -215,6 +219,8 @@ public class LOD_Interact
 		LOD = l;
 		ratio = r;
 		interactables = g;
+		set = !s;
+		setLOD(s);
 		set = s;
 	}
 
@@ -294,6 +300,8 @@ public class LOD_TMP_GUI
 		LOD = l;
 		ratio = r;
 		text = t;
+		set = !s;
+		setLOD(s);
 		set = s;
 	}
 
@@ -403,6 +411,10 @@ public class LOD_Select
 		LOD = l;
 		ratio = r;
 		selectables = g;
+		/*
+		set = !s;
+		setLOD(s);
+		*/
 		set = s;
 	}
 
