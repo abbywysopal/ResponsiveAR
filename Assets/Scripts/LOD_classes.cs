@@ -260,6 +260,23 @@ public class LOD_Interact
 		Interactable g = interactables[0];
 		return g.transform.gameObject.name;
 	}
+
+	public double getLocalSize()
+	{
+		GameObject g = interactables[0].gameObject;
+		Transform t = g.transform;
+		Transform pt = t.transform.parent;
+		double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+		double scale = volume;
+		while (pt != null)
+		{
+			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			scale *= volume;
+			pt = pt.parent;
+		}
+
+		return scale;
+	}
 }
 
 
@@ -430,5 +447,22 @@ public class LOD_Select
 	public string getName(){
 		Selectable g = selectables[0];
 		return g.transform.gameObject.name;
+	}
+
+	public double getLocalSize()
+	{
+		GameObject g = selectables[0].gameObject;
+		Transform t = g.transform;
+		Transform pt = t.transform.parent;
+		double volume = t.transform.localScale.x * t.transform.localScale.y * t.transform.localScale.z;
+		double scale = volume;
+		while (pt != null)
+		{
+			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			scale *= volume;
+			pt = pt.parent;
+		}
+
+		return scale;
 	}
 }

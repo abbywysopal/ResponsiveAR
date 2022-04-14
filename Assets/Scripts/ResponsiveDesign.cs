@@ -25,7 +25,7 @@ using Microsoft.MixedReality.Toolkit.UI;
  * 
  */
 [RequireComponent(typeof(Transform))]
-[RequireComponent(typeof(Collider))]
+/*[RequireComponent(typeof(Collider))]*/
 public class ResponsiveDesign : MonoBehaviour
 {
     [SerializeField]
@@ -256,22 +256,18 @@ public class ResponsiveDesign : MonoBehaviour
             //Debug.Log("INT LOD" + kvp.Key + ":");
             //Debug.Log("Ratio: " + kvp.Value.getRatio().ToString());
             List<Interactable> list = kvp.Value.getInteractables();
-            /*
-            foreach (Interactable t in list)
+/*            foreach (Interactable t in list)
             {
                 Debug.Log(t);
-            }
-            */
+            }*/
         }
         foreach(KeyValuePair<int, LOD_Select> kvp in selection)
         {
             List<Selectable> list = kvp.Value.getSelectables();
-            /*
-            foreach(Selectable t in list)
+/*            foreach(Selectable t in list)
             {
                 Debug.Log(t);
-            }
-            */
+            }*/
         }
     }
 
@@ -283,7 +279,7 @@ public class ResponsiveDesign : MonoBehaviour
 
         //Debug.Log("fontRatio: " + fontRatio);
         //Debug.Log("ratio: " + r);
-        for (int i = 1; i <= text.Count; i++)
+        for (int i = 0; i < text.Count; i++)
         {
             double textSize = text[i].getTextSize();
             double size = fontRatio / textSize;
@@ -315,10 +311,9 @@ public class ResponsiveDesign : MonoBehaviour
         objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
-        Transform t = parent.transform;
-        objects[0].setRatio(0);
+/*        objects[0].setRatio(0);*/
 
-        for(int i = 1; i < objects.Count; i++)
+        for(int i = 0; i < objects.Count; i++)
         {
             double sizeObj = objects[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
@@ -333,7 +328,35 @@ public class ResponsiveDesign : MonoBehaviour
 
     void setUpLODInteraction(double r, double s, double d)
     {
-        foreach(KeyValuePair<int, LOD_Interact> kvp in interaction)
+        double objectRatio = .006f / 1f; //objects do not need to be readable, so should appear at smaller sizes
+        objectRatio *= .01f; //ratio is determined by volume unlike the size of text
+        objectRatio *= .01f;
+
+        for (int i = 0; i < interaction.Count; i++)
+        {
+            double sizeObj = interaction[i].getLocalSize();
+            double result = s * (objectRatio / sizeObj);
+
+            if (result > highestRatio)
+            {
+                result = highestRatio;
+            }
+            interaction[i].setRatio(result);
+        }
+
+        for (int i = 0; i < selection.Count; i++)
+        {
+            double sizeObj = selection[i].getLocalSize();
+            double result = s * (objectRatio / sizeObj);
+
+            if (result > highestRatio)
+            {
+                result = highestRatio;
+            }
+            selection[i].setRatio(result);
+        }
+
+/*        foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
         {
             //Debug.Log("higestRatio" + highestRatio.ToString());
             kvp.Value.setRatio(highestRatio);
@@ -345,7 +368,7 @@ public class ResponsiveDesign : MonoBehaviour
             //Debug.Log("higestRatio" + highestRatio.ToString());
             kvp.Value.setRatio(highestRatio);
             kvp.Value.setUpSelection();
-        }
+        }*/
     }
 
     void continuousFunction(double ratio, double scale, double distance)
@@ -553,7 +576,7 @@ public class ResponsiveDesign : MonoBehaviour
     {
         allText.Sort(new TextSizeFirst());
         double oldSize = getTextSize(allText[0]);
-        int groupId = 1;
+        int groupId = 0;
         List<TextMeshPro> temp = new List<TextMeshPro>();
         foreach (TextMeshPro t in allText)
         {
@@ -590,7 +613,7 @@ public class ResponsiveDesign : MonoBehaviour
     {
         allText.Sort(new TextSizeFirst_GUI());
         double oldSize = getTextSize(allText[0]);
-        int groupId = 1;
+        int groupId = 0;
         List<TextMeshProUGUI> temp = new List<TextMeshProUGUI>();
         foreach (TextMeshProUGUI t in allText)
         {
@@ -658,13 +681,59 @@ public class ResponsiveDesign : MonoBehaviour
     //inteaction only at highest LOD
     void GroupInteraction(List<Interactable> allInteraction)
     {
-        interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
+
+        //interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
+
+        allInteraction.Sort(new VolumeFirst_Interact());
+
+        double oldV = getObjectSize(allInteraction[0].gameObject);
+
+        int groupId = 0;
+        List<Interactable> temp = new List<Interactable>();
+        foreach (Interactable g in allInteraction)
+        {
+            double newV = getObjectSize(g.gameObject);
+            double diff = oldV - newV;
+            if (diff > 0.0)
+            {
+                interaction[groupId] = new LOD_Interact(groupId, 0, temp, false);
+                temp = new List<Interactable>();
+                groupId += 1;
+            }
+
+            temp.Add(g);
+            oldV = newV;
+        }
+
+        interaction[groupId] = new LOD_Interact(groupId, 0, temp, false);
     }
 
     //selection only at highest LOD
     void GroupSelection(List<Selectable> allSelection)
     {
-        selection[1] = new LOD_Select(1, 0, allSelection, false);
+        //selection[1] = new LOD_Select(1, 0, allSelection, false);
+        allSelection.Sort(new VolumeFirst_Select());
+
+        double oldV = getObjectSize(allSelection[0].gameObject);
+
+        int groupId = 0;
+        List<Selectable> temp = new List<Selectable>();
+        foreach (Selectable g in allSelection)
+        {
+            double newV = getObjectSize(g.gameObject);
+            double diff = oldV - newV;
+            if (diff > 0.0)
+            {
+                selection[groupId] = new LOD_Select(groupId, 0, temp, false);
+                temp = new List<Selectable>();
+                groupId += 1;
+            }
+
+            temp.Add(g);
+            oldV = newV;
+        }
+
+        selection[groupId] = new LOD_Select(groupId, 0, temp, false);
     }
 
 }
