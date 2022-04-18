@@ -164,7 +164,7 @@ public class ResponsiveDesign : MonoBehaviour
             */
         }
 
-        /*
+
         Debug.Log("allTransforms");
         Debug.Log(allTransforms.Length);
         Debug.Log("allObjects");
@@ -175,8 +175,6 @@ public class ResponsiveDesign : MonoBehaviour
         Debug.Log(allText_GUI.Count);
         Debug.Log("allInteraction");
         Debug.Log(allInteraction.Count);
-        */
-
 
 
         if (allText.Count > 0)
