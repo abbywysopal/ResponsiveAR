@@ -61,4 +61,9 @@ public class NumberDisplay : MonoBehaviour
         textMesh.text = "Dialing...";
     }
 
+    public void Enter_keys()
+    {
+        bool valid = UserStudyTask.touchpad_enter(textMesh.text);
+    }
+
 }
