@@ -243,7 +243,7 @@ public class LOD_Interact
 		{
 			//g.IsInteractive = v;
 			g.IsEnabled = v;
-			Debug.Log("g: " + g + ", is interactive? " + v);
+/*			Debug.Log("g: " + g + ", is interactive? " + v);*/
 		}
 		set = v;
 	}
@@ -256,7 +256,7 @@ public class LOD_Interact
 			g.transform.gameObject.SetActive(true);
 			//g.IsInteractive = false;
 			g.IsEnabled = false;
-			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+/*			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");*/
 		}
 
 		set = false;
@@ -437,7 +437,7 @@ public class LOD_Select
 		{
 			g.interactable = v;
 			//g.IsEnabled = v;
-			Debug.Log("g: " + g + ", is interactive? " + v);
+/*			Debug.Log("g: " + g + ", is interactive? " + v);*/
 		}
 		set = v;
 	}
@@ -450,7 +450,7 @@ public class LOD_Select
 			g.transform.gameObject.SetActive(true);
 			g.interactable = false;
 			//g.IsEnabled = false;
-			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+/*			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");*/
 		}
 
 		set = false;

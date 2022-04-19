@@ -12,6 +12,8 @@ public class NumberDisplay : MonoBehaviour
     // Assign in editor
     [SerializeField] private TextMeshPro textMesh;
 
+    public static UserStudyTask study;
+
     void OnEnable()
     {
         Clear();
@@ -29,9 +31,14 @@ public class NumberDisplay : MonoBehaviour
         
     }
 
+    public static void setTask(UserStudyTask s)
+    {
+        study = s;
+    }
+
     public void Enter(string str)
     {
-        if(textMesh.text == "Dialing...")
+        if (textMesh.text == "Dialing..." || textMesh.text == "INCORRECT")
         {
             Clear();
         }
@@ -44,7 +51,7 @@ public class NumberDisplay : MonoBehaviour
 
     public void Delete()
     {
-        if (textMesh.text == "Dialing...")
+        if (textMesh.text == "Dialing..." || textMesh.text == "INCORRECT")
         {
             Clear();
         }
@@ -63,7 +70,15 @@ public class NumberDisplay : MonoBehaviour
 
     public void Enter_keys()
     {
-        bool valid = UserStudyTask.touchpad_enter(textMesh.text);
+        bool valid = study.touchpad_enter(textMesh.text);
+        if (valid)
+        {
+            textMesh.text = "Dialing...";
+        }
+        else
+        {
+            textMesh.text = "INCORRECT";
+        }
     }
 
 }

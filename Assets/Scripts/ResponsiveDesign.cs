@@ -59,8 +59,6 @@ public class ResponsiveDesign : MonoBehaviour
 
         continuousFunction(ratio);
         //gazeFunction();
-        
-
     }
 
    
@@ -222,8 +220,8 @@ public class ResponsiveDesign : MonoBehaviour
             double size = fontRatio / textSize;
             double result = size * s;
             text[i].setRatio(result);
-            Debug.Log("textSize: " + textSize);
-            Debug.Log("ratio: " + result);
+/*            Debug.Log("textSize: " + textSize);
+            Debug.Log("ratio: " + result);*/
 
         }
 
@@ -248,8 +246,8 @@ public class ResponsiveDesign : MonoBehaviour
             double sizeObj = objects[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             objects[i].setRatio(result);
-            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);
+/*            Debug.Log("objSize: " + sizeObj);
+            Debug.Log("ratio: " + result);*/
         }
 
         for (int i = 0; i < interaction.Count; i++)
@@ -257,8 +255,8 @@ public class ResponsiveDesign : MonoBehaviour
             double sizeObj = interaction[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             interaction[i].setRatio(result);
-            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);
+/*            Debug.Log("objSize: " + sizeObj);
+            Debug.Log("ratio: " + result);*/
         }
 
         objectRatio *= .01f;//UI 10* smaller than rest
@@ -267,8 +265,8 @@ public class ResponsiveDesign : MonoBehaviour
             double sizeObj = selection[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             selection[i].setRatio(result);
-            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);
+/*            Debug.Log("objSize: " + sizeObj);
+            Debug.Log("ratio: " + result);*/
         }
     }
 
@@ -286,8 +284,8 @@ public class ResponsiveDesign : MonoBehaviour
             double size = fontRatio / textSize;
             double result = size * s;
             text[i].setRatio(result);
-            Debug.Log("textSize 2: " + textSize);
-            Debug.Log("ratio: " + result);
+/*            Debug.Log("textSize 2: " + textSize);
+            Debug.Log("ratio: " + result);*/
 
         }
 
@@ -546,7 +544,6 @@ public class ResponsiveDesign : MonoBehaviour
         foreach (TextMeshPro t in allText)
         {
             double newSize = getTextSize(t);
-            Debug.Log("textSize 1: " + newSize);
             double diff = oldSize - newSize;
             if (diff > 0.0)
             {
