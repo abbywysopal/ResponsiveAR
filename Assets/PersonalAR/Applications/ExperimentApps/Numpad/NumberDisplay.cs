@@ -73,7 +73,7 @@ public class NumberDisplay : MonoBehaviour
         bool valid = study.touchpad_enter(textMesh.text);
         if (valid)
         {
-            textMesh.text = "Dialing...";
+            textMesh.text = "";
         }
         else
         {
