@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Microsoft.MixedReality.Toolkit.Audio;
 
 public class Task
 {
@@ -14,6 +15,7 @@ public class Task
 	long start_time;
 	long end_time;
 	bool isReponsive;
+	string description;
 
 	public Task(int t, GameObject d, GameObject r, GameObject g)
 	{
@@ -21,6 +23,10 @@ public class Task
 		Dialogue = d;
 		Task_Reminder = r;
 		Task_Object = g;
+
+		Transform tran = Dialogue.transform.Find("DescriptionText");
+		TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
+		description = tmp.text;
 	}
 
 	public void SetUp()
@@ -28,8 +34,10 @@ public class Task
 		//task object at distance
 		//dialogue set to true
 		Dialogue.SetActive(true);
-		Task_Object.SetActive(false);
+		Task_Object.SetActive(true);
 		Task_Reminder.SetActive(false);
+		TextToSpeech tts = Dialogue.transform.GetComponent<TextToSpeech>();
+		tts.StartSpeaking(description);
 
 	}
 
@@ -39,7 +47,7 @@ public class Task
 		Dialogue.SetActive(false);
 		task_complete = false;
 		start_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-		Task_Object.SetActive(true);
+
 		Task_Reminder.SetActive(true);
 	}
 
@@ -47,7 +55,6 @@ public class Task
     {
 		Debug.Log("EndTask");
 
-/*		Dialogue.SetActive(true);*/
 		end_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 		Task_Object.SetActive(false);
 		Task_Reminder.SetActive(false);
@@ -72,9 +79,7 @@ public class Task
 
 	public void recordTask(SceneStudyManager record)
     {
-		Transform t = Dialogue.transform.Find("DescriptionText");
-		TextMeshPro tmp = t.GetComponent<TextMeshPro>();
-		record.startNewSession(start_time, end_time, tmp.text, isReponsive, end_time - start_time);
+		record.startNewSession(start_time, end_time, description, isReponsive, end_time - start_time);
 	}
 
 	public void setTPosition(float d1, float d2, float d3)

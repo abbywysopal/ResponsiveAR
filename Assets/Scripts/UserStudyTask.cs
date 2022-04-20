@@ -145,7 +145,7 @@ public class UserStudyTask : MonoBehaviour
         Debug.Log("setUpTask " + current_task);
         if(current_task == 0)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.8f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].setResponsive(true);
             tasks[current_task].SetUp();
@@ -154,13 +154,13 @@ public class UserStudyTask : MonoBehaviour
         if (current_task == 1)
         {
             tasks[current_task].SetUp();
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.4f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             touch_pad_task_num = "8058272338";
         }
         if (current_task == 2)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.8f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].SetUp();
             tasks[current_task].setResponsive(false);
@@ -169,7 +169,7 @@ public class UserStudyTask : MonoBehaviour
         if (current_task == 3)
         {
             tasks[current_task].SetUp();
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.4f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].setResponsive(false);
             touch_pad_task_num = "8058272338";
