@@ -12,8 +12,8 @@ public class Weather : MonoBehaviour
     [SerializeField] List<TextMeshProUGUI> times;
     [SerializeField] List<TextMeshProUGUI> periods;
     [SerializeField] List<TextMeshProUGUI> temps;
-    [SerializeField] static TextMeshProUGUI location;
-    [SerializeField] static TextMeshProUGUI main_temp;
+    [SerializeField] TextMeshProUGUI location;
+    [SerializeField] TextMeshProUGUI main_temp;
     [SerializeField] TextMeshProUGUI min_temp;
     [SerializeField] TextMeshProUGUI max_temp;
     [SerializeField] Slider slider;
@@ -26,6 +26,7 @@ public class Weather : MonoBehaviour
     double lat = 34.413359;
     double lon = -119.844820;
     WeatherInfo weather;
+    public static UserStudyTask study;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,8 @@ public class Weather : MonoBehaviour
         Debug.Log(apiCall_forcast);
         minutesBetweenUpdate = 10f;
         timer = 0;
+
+        Debug.Log("WEATHER START");
 
 /*        
         Debug.Log(weather.location.name);
@@ -64,15 +67,25 @@ public class Weather : MonoBehaviour
 
 
     }
-
-    public static string getCurrentTemp()
+    
+    public static void setTask(UserStudyTask s)
     {
-        return main_temp.text;
+        study = s;
     }
 
-    public static string getLocation()
+    public void setCurrentTemp()
     {
-        return location.text;
+        study.setCorrentAnswer(main_temp.text);
+    }
+
+    public void setLocation()
+    {
+        study.setCorrentAnswer(location.text);
+    }
+
+    public void setMinTemp()
+    {
+        study.setCorrentAnswer(min_temp.text);
     }
 
     public string getMinTemp()

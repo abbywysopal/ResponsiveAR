@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+//using UnityEngine.CoreModule;
 
 public class UserStudyTask : MonoBehaviour
 {
@@ -31,35 +32,32 @@ public class UserStudyTask : MonoBehaviour
 
     private string correct_answer;
 
-    public bool complete(string num)
+    public bool complete(string answer)
     {
         Debug.Log("current_task: " + current_task.ToString());
-        Debug.Log("number entered: " + num);
+        Debug.Log(answer.Length + ", " + correct_answer.Length);
+        Debug.Log("answer entered: " + answer);
+        Debug.Log("correct_answer: " + correct_answer);
         bool task_complete = false;
-        if ((current_task == 0 || current_task == 1) && num == correct_answer)
-        {
-            task_complete = true;
-        }
 
-        if (current_task == 2 && num == correct_answer)
-        {
-            task_complete = true;
-        }
-
-        if(current_task == 3 && num == correct_answer)
+        if(answer.CompareTo(correct_answer) == 0)
         {
             task_complete = true;
         }
 
         if (task_complete)
         {
+            Debug.Log("SUCCESS");
             tasks[current_task].setTaskComplete(true);
             tasks[current_task].recordTask(record);
             current_task += 1;
             NextTask();
+            return true;
         }
 
-        return task_complete;
+        Debug.Log("INCORRECT");
+
+        return false;
     }
 
     public bool touchpad_enter(string entered_num)
@@ -72,8 +70,9 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 3;
+        current_task = 0;
         NumberDisplay.setTask(this);
+        Weather.setTask(this);
         Final_popup.SetActive(false);
         tasks = new List<Task>();
         setUpTask_Objs();
@@ -140,6 +139,11 @@ public class UserStudyTask : MonoBehaviour
         }
     }
 
+    public void setCorrentAnswer(string a)
+    {
+        correct_answer = a.ToLower();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -149,46 +153,38 @@ public class UserStudyTask : MonoBehaviour
     public void setUpTask()
     {
         Debug.Log("setUpTask " + current_task);
+        tasks[current_task].SetUp();
+        tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
         if(current_task == 0)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].setResponsive(true);
-            tasks[current_task].SetUp();
             correct_answer = "9499174580";
         }
         if (current_task == 1)
         {
-            tasks[current_task].SetUp();
             tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
-            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             correct_answer = "8058272338";
         }
         if (current_task == 2)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
-            tasks[current_task].SetUp();
             tasks[current_task].setResponsive(false);
             correct_answer = "9499174580";
         }
         if (current_task == 3)
         {
-            tasks[current_task].SetUp();
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
-
-            correct_answer = Weather.getCurrentTemp();
-            Debug.Log("temp: " + correct_answer);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 4.5f);
         }
 
         if (current_task == 4)
         {
-            tasks[current_task].SetUp();
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
-            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
-            correct_answer = Weather.getLocation();
-            Debug.Log("location: " + correct_answer);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+        }
+
+        if (current_task == 5)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
         }
 
 
@@ -201,11 +197,8 @@ public class UserStudyTask : MonoBehaviour
 
     public void EnterAnswer(TextMeshProUGUI text)
     {
-        bool correct = complete(text.text);
-        if (!correct)
-        {
-            text.text = "INCORRECT";
-        }
+        string input = text.text.Substring(0, text.text.Length - 1).ToLower();
+        complete(input);
     }
 
 }
