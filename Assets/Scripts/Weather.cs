@@ -12,8 +12,8 @@ public class Weather : MonoBehaviour
     [SerializeField] List<TextMeshProUGUI> times;
     [SerializeField] List<TextMeshProUGUI> periods;
     [SerializeField] List<TextMeshProUGUI> temps;
-    [SerializeField] TextMeshProUGUI location;
-    [SerializeField] TextMeshProUGUI main_temp;
+    [SerializeField] static TextMeshProUGUI location;
+    [SerializeField] static TextMeshProUGUI main_temp;
     [SerializeField] TextMeshProUGUI min_temp;
     [SerializeField] TextMeshProUGUI max_temp;
     [SerializeField] Slider slider;
@@ -65,6 +65,21 @@ public class Weather : MonoBehaviour
 
     }
 
+    public static string getCurrentTemp()
+    {
+        return main_temp.text;
+    }
+
+    public static string getLocation()
+    {
+        return location.text;
+    }
+
+    public string getMinTemp()
+    {
+        return min_temp.text;
+    }
+
     private IEnumerator GetWeatherInfo()
     {
         var www = new UnityWebRequest(apiCall_forcast)
@@ -90,7 +105,7 @@ public class Weather : MonoBehaviour
     void Update()
     {
         //if ip found then
-        if (timer <= 0)
+/*        if (timer <= 0)
         {
             StartCoroutine(GetWeatherInfo());
             timer = minutesBetweenUpdate * 60;
@@ -98,7 +113,7 @@ public class Weather : MonoBehaviour
         else
         {
             timer -= Time.deltaTime;
-        }
+        }*/
     }
 
     void setUp(string loc, float t, float min, float max)

@@ -29,31 +29,37 @@ public class UserStudyTask : MonoBehaviour
 
     SceneStudyManager record;
 
-    private string touch_pad_task_num;
+    private string correct_answer;
 
     public bool complete(string num)
     {
         Debug.Log("current_task: " + current_task.ToString());
         Debug.Log("number entered: " + num);
-        if ((current_task == 0 || current_task == 1) && num == touch_pad_task_num)
+        bool task_complete = false;
+        if ((current_task == 0 || current_task == 1) && num == correct_answer)
+        {
+            task_complete = true;
+        }
+
+        if (current_task == 2 && num == correct_answer)
+        {
+            task_complete = true;
+        }
+
+        if(current_task == 3 && num == correct_answer)
+        {
+            task_complete = true;
+        }
+
+        if (task_complete)
         {
             tasks[current_task].setTaskComplete(true);
             tasks[current_task].recordTask(record);
             current_task += 1;
             NextTask();
-            return true;
         }
 
-        if ((current_task == 2 || current_task == 3) && num == touch_pad_task_num)
-        {
-            tasks[current_task].setTaskComplete(true);
-            tasks[current_task].recordTask(record);
-            current_task += 1;
-            NextTask();
-            return true;
-        }
-
-        return false;
+        return task_complete;
     }
 
     public bool touchpad_enter(string entered_num)
@@ -66,7 +72,7 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 0;
+        current_task = 3;
         NumberDisplay.setTask(this);
         Final_popup.SetActive(false);
         tasks = new List<Task>();
@@ -149,14 +155,14 @@ public class UserStudyTask : MonoBehaviour
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].setResponsive(true);
             tasks[current_task].SetUp();
-            touch_pad_task_num = "9499174580";
+            correct_answer = "9499174580";
         }
         if (current_task == 1)
         {
             tasks[current_task].SetUp();
             tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
-            touch_pad_task_num = "8058272338";
+            correct_answer = "8058272338";
         }
         if (current_task == 2)
         {
@@ -164,21 +170,42 @@ public class UserStudyTask : MonoBehaviour
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
             tasks[current_task].SetUp();
             tasks[current_task].setResponsive(false);
-            touch_pad_task_num = "9499174580";
+            correct_answer = "9499174580";
         }
         if (current_task == 3)
         {
             tasks[current_task].SetUp();
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
+            tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
+
+            correct_answer = Weather.getCurrentTemp();
+            Debug.Log("temp: " + correct_answer);
+        }
+
+        if (current_task == 4)
+        {
+            tasks[current_task].SetUp();
             tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
-            tasks[current_task].setResponsive(false);
-            touch_pad_task_num = "8058272338";
+            correct_answer = Weather.getLocation();
+            Debug.Log("location: " + correct_answer);
         }
+
+
     }
 
     public void StartTask()
     {
         tasks[current_task].StartTask();
+    }
+
+    public void EnterAnswer(TextMeshProUGUI text)
+    {
+        bool correct = complete(text.text);
+        if (!correct)
+        {
+            text.text = "INCORRECT";
+        }
     }
 
 }

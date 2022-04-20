@@ -49,6 +49,11 @@ public class Task
 		start_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
 		Task_Reminder.SetActive(true);
+		Transform keyboard = Task_Reminder.transform.Find("NonNativeKeyBoard");
+		if(keyboard != null)
+        {
+			keyboard.gameObject.SetActive(true);
+        }
 	}
 
 	public void EndTask()
