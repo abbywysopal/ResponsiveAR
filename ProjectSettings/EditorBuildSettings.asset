@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Experimental - NonNativeKeyboard/Scenes/NonNativeKeyboardExample.unity
+    guid: 5bbd1461a38725245a0eabe0fad1b477
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ad376e979396cf84a8514b630a6253ec, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 6ee99399676f5834496ef80996f2a179, type: 2}

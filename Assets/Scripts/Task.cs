@@ -11,22 +11,29 @@ public class Task
 	GameObject Dialogue;
 	GameObject Task_Object;
 	GameObject Task_Reminder;
+	GameObject keyboard;
 	bool task_complete;
 	long start_time;
 	long end_time;
 	bool isReponsive;
 	string description;
+	bool needKeyboard;
 
-	public Task(int t, GameObject d, GameObject r, GameObject g)
+	public Task(int t, GameObject d, GameObject r, GameObject g, GameObject k)
 	{
 		task_num = t;
 		Dialogue = d;
 		Task_Reminder = r;
 		Task_Object = g;
+		keyboard = k;
 
+		
 		Transform tran = Dialogue.transform.Find("DescriptionText");
 		TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
 		description = tmp.text;
+		needKeyboard = false;
+		isReponsive = true;
+		task_complete = false;
 	}
 
 	public void SetUp()
@@ -49,16 +56,20 @@ public class Task
 		start_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
 		Task_Reminder.SetActive(true);
-		Transform keyboard = Task_Reminder.transform.Find("NonNativeKeyBoard");
-		if(keyboard != null)
+
+		if(needKeyboard)
         {
-			keyboard.gameObject.SetActive(true);
+			keyboard.SetActive(true);
         }
 	}
 
 	public void EndTask()
     {
 		Debug.Log("EndTask");
+		if(needKeyboard)
+        {
+			keyboard.SetActive(false);
+        }
 
 		end_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 		Task_Object.SetActive(false);
@@ -73,6 +84,11 @@ public class Task
         {
 			EndTask();
         }
+    }
+
+	public void setNeedKeyboard(bool b)
+    {
+		needKeyboard = b;
     }
 
 	public void Debug_Log()
@@ -95,7 +111,7 @@ public class Task
 
 	public void setRPosition(float d1, float d2, float d3)
 	{
-		Task_Reminder.transform.position = new Vector3(Task_Reminder.transform.position.x, d2, Task_Reminder.transform.position.z);
+		Task_Reminder.transform.position = new Vector3(Task_Reminder.transform.position.x, d2, d3);
 	}
 
 	public void setResponsive(bool b)

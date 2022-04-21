@@ -19,6 +19,9 @@ public class UserStudyTask : MonoBehaviour
     [SerializeField]
     GameObject Final_popup;
 
+    [SerializeField] GameObject keyboard;
+
+
     List<Task> tasks;
 
     private long task_start_time;
@@ -70,7 +73,9 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 3;
+        current_task = 0;
+        keyboard.SetActive(false);
+        //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
         Weather.setTask(this);
         Final_popup.SetActive(false);
@@ -122,7 +127,7 @@ public class UserStudyTask : MonoBehaviour
     {
         for(int i = 0; i < Dialogues.Count; i++)
         {
-            Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i]);
+            Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i], keyboard);
 
             tasks.Add(task);
             Dialogues[i].SetActive(false);
@@ -154,7 +159,7 @@ public class UserStudyTask : MonoBehaviour
     {
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
-        tasks[current_task].setRPosition(0.0f, -0.5f, 0.0f);
+        tasks[current_task].setRPosition(0.0f, -0.3f, 2.64f);
         if(current_task == 0)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
@@ -174,17 +179,18 @@ public class UserStudyTask : MonoBehaviour
         }
         if (current_task == 3)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 4.5f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 4.7f);
+             tasks[current_task].setNeedKeyboard(true);
         }
-
         if (current_task == 4)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.5f);
+            tasks[current_task].setNeedKeyboard(true);
         }
-
         if (current_task == 5)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            tasks[current_task].setNeedKeyboard(true);
         }
 
 
