@@ -70,7 +70,7 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 0;
+        current_task = 3;
         NumberDisplay.setTask(this);
         Weather.setTask(this);
         Final_popup.SetActive(false);
@@ -154,7 +154,7 @@ public class UserStudyTask : MonoBehaviour
     {
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
-        tasks[current_task].setRPosition(0.0f, -0.7f, 0.0f);
+        tasks[current_task].setRPosition(0.0f, -0.5f, 0.0f);
         if(current_task == 0)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
