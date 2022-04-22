@@ -10581,7 +10581,7 @@ Transform:
   - {fileID: 1517244263}
   - {fileID: 62977617}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &294002444
 GameObject:
@@ -12878,7 +12878,7 @@ Transform:
   m_Children:
   - {fileID: 1189506514}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &340013482
 GameObject:
@@ -13744,7 +13744,7 @@ Transform:
   - {fileID: 1492651331}
   - {fileID: 809241713}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &357526769
 GameObject:
@@ -17711,7 +17711,7 @@ Transform:
   - {fileID: 6415800276446532622}
   - {fileID: 2013511044}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &493478364
 GameObject:
@@ -29950,7 +29950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to the resposinve design user study. You will be asked to complete
+  m_text: Welcome to the responsive design user study. You will be asked to complete
     9 tasks. Each task will be timed. When you are ready to begin the press the start
     "Start" button.
   m_isRightToLeft: 0
@@ -53446,7 +53446,7 @@ Transform:
   - {fileID: 372510158}
   - {fileID: 1798732896}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1258990654
 GameObject:
@@ -57424,7 +57424,7 @@ Transform:
   m_Children:
   - {fileID: 704590331}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1350227355
 GameObject:
@@ -68699,7 +68699,7 @@ Transform:
   - {fileID: 828257713}
   - {fileID: 1597496697}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1622051410
 GameObject:
@@ -71655,7 +71655,7 @@ Transform:
   - {fileID: 278356554}
   - {fileID: 1381538940}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1697169887
 GameObject:
@@ -83405,7 +83405,7 @@ Transform:
   - {fileID: 1434366750}
   - {fileID: 169869864}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951338690
 GameObject:
@@ -87458,7 +87458,7 @@ Transform:
   - {fileID: 2142123340}
   - {fileID: 2038606883}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033897410
 GameObject:
@@ -89899,6 +89899,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 338507818}
   - {fileID: 1350204104}
   - {fileID: 2026690325}
   - {fileID: 1949170560}
@@ -89909,7 +89910,6 @@ Transform:
   - {fileID: 1621008083}
   - {fileID: 293646907}
   - {fileID: 348607190}
-  - {fileID: 338507818}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -91382,7 +91382,7 @@ Transform:
   - {fileID: 509278994}
   - {fileID: 314999247}
   m_Father: {fileID: 2087654405}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132548382
 GameObject:
