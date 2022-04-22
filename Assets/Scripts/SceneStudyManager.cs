@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections;
 using System.Linq;
@@ -134,11 +134,14 @@ public class SceneStudyManager : MonoBehaviour
     public void SaveIntoJson()
     {
         filename = "/RecordStudy_Session_" + sessionNumber + "_" + startTime + ".json";
-        if (sessionNumber == 0){
+        if (sessionNumber == 0)
+        {
             string data = JsonUtility.ToJson(_RecordStudy);
             System.IO.File.WriteAllText(Application.persistentDataPath + filename, data);
             Debug.Log("filename:" + Application.persistentDataPath + filename);
-        }else{
+        }
+        else
+        {
             string data = JsonUtility.ToJson(_RecordStudy.obj.sessionRecordings[0]);
             System.IO.File.WriteAllText(Application.persistentDataPath + filename, data);
         }
@@ -160,7 +163,7 @@ public class SceneStudyManager : MonoBehaviour
 
         currentFrame.rightHandRay = getRightHandRay();
         currentFrame.leftHandRay = getLeftHandRay();
-        
+
         obj.sessionRecordings[0].frames.Add(currentFrame);
     }
 
@@ -172,14 +175,15 @@ public class SceneStudyManager : MonoBehaviour
         _RecordStudy.obj = obj;
         SaveIntoJson();
 
-        if(newSession){
+        if (newSession)
+        {
             sessionNumber++;
             obj.sessionRecordings.Clear();
             currentSession = new SessionRecording();
             obj.sessionRecordings.Add(currentSession);
             newSession = false;
         }
-   
+
     }
 
     public void startNewSession(long st, long et, string desc, bool b, long t)
@@ -202,10 +206,10 @@ public class SceneStudyManager : MonoBehaviour
             return rightEndPoint;
         }
 
-        return new Vector3(0,0,0);
+        return new Vector3(0, 0, 0);
     }
 
-      public Vector3 getLeftHandRay()
+    public Vector3 getLeftHandRay()
     {
         Vector3 leftEndPoint;
         if (PointerUtils.TryGetHandRayEndPoint(Handedness.Left, out leftEndPoint))
@@ -213,7 +217,7 @@ public class SceneStudyManager : MonoBehaviour
             return leftEndPoint;
         }
 
-        return new Vector3(0,0,0);
+        return new Vector3(0, 0, 0);
     }
 
     #endregion
