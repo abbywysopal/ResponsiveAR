@@ -73,7 +73,7 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 0;
+        current_task = 6;
         keyboard.SetActive(false);
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
@@ -192,6 +192,27 @@ public class UserStudyTask : MonoBehaviour
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
             tasks[current_task].setNeedKeyboard(true);
         }
+        if(current_task == 6)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            correct_answer = "2nd Title";
+        }
+        if (current_task == 7)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            correct_answer = "5th Title";
+        }
+        if (current_task == 8)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            correct_answer = "4th Author";
+        }
+        if (current_task == 9)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            correct_answer = "1st Author";
+        }
+
 
 
     }
@@ -206,5 +227,12 @@ public class UserStudyTask : MonoBehaviour
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
         complete(input);
     }
+
+    public void EnterAnswer(string text)
+    {
+        Debug.Log("pressed text: " + text);
+        complete(text);
+    }
+
 
 }
