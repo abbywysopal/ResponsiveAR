@@ -118,7 +118,7 @@ public class Weather : MonoBehaviour
     void Update()
     {
         //if ip found then
-/*        if (timer <= 0)
+        if (timer <= 0)
         {
             StartCoroutine(GetWeatherInfo());
             timer = minutesBetweenUpdate * 60;
@@ -126,7 +126,7 @@ public class Weather : MonoBehaviour
         else
         {
             timer -= Time.deltaTime;
-        }*/
+        }
     }
 
     void setUp(string loc, float t, float min, float max)

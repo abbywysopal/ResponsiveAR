@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Microsoft.MixedReality.Toolkit.Audio;
 //using UnityEngine.CoreModule;
 
 public class UserStudyTask : MonoBehaviour
@@ -18,6 +19,9 @@ public class UserStudyTask : MonoBehaviour
 
     [SerializeField]
     GameObject Final_popup;
+
+    [SerializeField]
+    GameObject Start_popup;
 
     [SerializeField] GameObject keyboard;
 
@@ -54,6 +58,7 @@ public class UserStudyTask : MonoBehaviour
             tasks[current_task].setTaskComplete(true);
             tasks[current_task].recordTask(record);
             current_task += 1;
+            keyboard.SetActive(false);
             NextTask();
             return true;
         }
@@ -73,20 +78,31 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 6;
+        current_task = 0;
         keyboard.SetActive(false);
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
         Weather.setTask(this);
         Final_popup.SetActive(false);
+        Start_popup.SetActive(true);
         tasks = new List<Task>();
         setUpTask_Objs();
-        StartStudy();
+        WelcomeMessage();
 
+    }
+
+    public void WelcomeMessage()
+    {
+        Start_popup.SetActive(true);
+		TextToSpeech tts = Start_popup.transform.GetComponent<TextToSpeech>();
+        Transform tran = Start_popup.transform.Find("DescriptionText");
+        TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
+		tts.StartSpeaking(tmp.text);
     }
 
     public void StartStudy()
     {
+        Start_popup.SetActive(false);
         record.startRecording();
         NextTask();
     }
@@ -127,7 +143,8 @@ public class UserStudyTask : MonoBehaviour
     {
         for(int i = 0; i < Dialogues.Count; i++)
         {
-            Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i], keyboard);
+            Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i]);
+            //Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i], keyboard);
 
             tasks.Add(task);
             Dialogues[i].SetActive(false);
@@ -155,62 +172,64 @@ public class UserStudyTask : MonoBehaviour
         
     }
 
+    /*
+     * to turn off responsive design  tasks[current_task].setResponsive(false);
+     */
+
     public void setUpTask()
     {
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
-        tasks[current_task].setRPosition(0.0f, -0.3f, 2.64f);
+        tasks[current_task].setRPosition(0.0f, -0.25f, 1.64f);
         if(current_task == 0)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            tasks[current_task].moveDescY(-0.1f);
+            correct_answer = "2nd Title";
+        }
+        if (current_task == 1)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            tasks[current_task].moveDescY(-0.1f);
+            correct_answer = "5th Title";
+        }
+        if (current_task == 2)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            tasks[current_task].moveDescY(-0.1f);
+            correct_answer = "4th Author";
+        }
+        if (current_task == 3)
+        {
+            tasks[current_task].setTPosition(0.0f, 0.0f, 1.5f);
+            tasks[current_task].moveDescY(-0.2f);
+            correct_answer = "1st Conf";
+        }
+        if(current_task == 4)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
             tasks[current_task].setResponsive(true);
-            correct_answer = "9499174580";
+            correct_answer = "9499274580";
         }
-        if (current_task == 1)
+        if (current_task == 5)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             correct_answer = "8058272338";
         }
-        if (current_task == 2)
-        {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            tasks[current_task].setResponsive(false);
-            correct_answer = "9499174580";
-        }
-        if (current_task == 3)
+        if (current_task == 6)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 4.7f);
-             tasks[current_task].setNeedKeyboard(true);
-        }
-        if (current_task == 4)
-        {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.5f);
-            tasks[current_task].setNeedKeyboard(true);
-        }
-        if (current_task == 5)
-        {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            tasks[current_task].setNeedKeyboard(true);
-        }
-        if(current_task == 6)
-        {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
-            correct_answer = "2nd Title";
+            //tasks[current_task].setNeedKeyboard(true);
         }
         if (current_task == 7)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
-            correct_answer = "5th Title";
+            tasks[current_task].setTPosition(0.0f, 0.0f, 3.2f);
+            //tasks[current_task].setNeedKeyboard(true);
         }
         if (current_task == 8)
         {
             tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            correct_answer = "4th Author";
-        }
-        if (current_task == 9)
-        {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            correct_answer = "1st Author";
+            //tasks[current_task].setNeedKeyboard(true);
         }
 
 
@@ -219,13 +238,23 @@ public class UserStudyTask : MonoBehaviour
 
     public void StartTask()
     {
+        task_complete = false;
         tasks[current_task].StartTask();
     }
 
     public void EnterAnswer(TextMeshProUGUI text)
     {
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
+        input = input.Trim();
         complete(input);
+    }
+
+    public void closeKeyboard(GameObject keyboard)
+    {
+        if (task_complete)
+        {
+            keyboard.SetActive(false);
+        }
     }
 
     public void EnterAnswer(string text)
