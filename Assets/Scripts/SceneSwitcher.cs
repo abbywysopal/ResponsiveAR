@@ -35,4 +35,9 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene("OpeningScene", LoadSceneMode.Additive);
     }
 
+    public void Tutorial()
+    {
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        SceneManager.LoadScene("OpeningScene", LoadSceneMode.Additive);
+    }
 }
