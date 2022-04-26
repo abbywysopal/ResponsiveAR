@@ -26,4 +26,9 @@ public class Articles : MonoBehaviour
         Debug.Log("log log log glo click click");
     }
 
+    public void click(string c)
+    {
+        Debug.Log(c);
+    }
+
 }
