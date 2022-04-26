@@ -55,6 +55,7 @@ public class TutorialSteps : MonoBehaviour
         TextToSpeech tts = Steps[0].transform.GetComponent<TextToSpeech>();
         Transform tran = Steps[0].transform.Find("DescriptionText");
         TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
+        Debug.Log("start speaking");
         tts.StartSpeaking(tmp.text);
 
 
@@ -66,7 +67,7 @@ public class TutorialSteps : MonoBehaviour
 
         Debug.Log("Done");
 
-/*        NextStep();*/
+        NextStep();
     }
 
     void NextStep()
