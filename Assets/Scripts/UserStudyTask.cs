@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 using Microsoft.MixedReality.Toolkit.Audio;
 //using UnityEngine.CoreModule;
 
@@ -24,6 +25,8 @@ public class UserStudyTask : MonoBehaviour
     GameObject Start_popup;
 
     [SerializeField] GameObject keyboard;
+
+    [SerializeField] GameObject Display;
 
 
     List<Task> tasks;
@@ -78,11 +81,12 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 0;
+        current_task = 6;
         keyboard.SetActive(false);
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
         Weather.setTask(this);
+        Display.SetActive(true);
         Final_popup.SetActive(false);
         Start_popup.SetActive(true);
         tasks = new List<Task>();
@@ -121,6 +125,25 @@ public class UserStudyTask : MonoBehaviour
             Final_popup.SetActive(true);
             record.stopRecording();
         }
+    }
+
+    void UpdateDisplay()
+    {
+        Transform tran = Display.transform.Find("DescriptionText");
+        TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
+        tmp.text = "";
+        tmp.text = "localPosition: " + Task_Objs[current_task].transform.localPosition.ToString() + "\n";
+        tmp.text += "localScale: " + Task_Objs[current_task].transform.localScale.ToString() + "\n";
+
+        var headPosition = Camera.main.transform.position;
+        tmp.text += "headPosition: " + headPosition.ToString() + "\n";
+        double distance = Math.Abs(dist(Task_Objs[current_task].transform, Camera.main.transform));
+        tmp.text += "distance: " + distance.ToString() + "\n";
+    }
+
+    double dist(Transform t1, Transform t2)
+    {
+        return (t1.position - t2.position).magnitude;
     }
 
     void GetResults()
@@ -169,7 +192,7 @@ public class UserStudyTask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateDisplay();
     }
 
     /*
@@ -181,55 +204,66 @@ public class UserStudyTask : MonoBehaviour
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
         tasks[current_task].setRPosition(0.0f, -0.25f, 1.64f);
+        tasks[current_task].setTPosition(0.0f, 0.05f, 0.71f, Camera.main.transform.position);
+        keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.2f, 0.5f);
         if(current_task == 0)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            tasks[current_task].setTScale(.3f);
             tasks[current_task].moveDescY(-0.1f);
             correct_answer = "2nd Title";
         }
         if (current_task == 1)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
+            tasks[current_task].setTScale(.3f);
             tasks[current_task].moveDescY(-0.1f);
             correct_answer = "5th Title";
         }
         if (current_task == 2)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            tasks[current_task].setTScale(.35f);
             tasks[current_task].moveDescY(-0.1f);
             correct_answer = "4th Author";
         }
         if (current_task == 3)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.5f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 1.5f);
+            tasks[current_task].setTScale(.35f);
             tasks[current_task].moveDescY(-0.2f);
             correct_answer = "1st Conf";
         }
         if(current_task == 4)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            tasks[current_task].setResponsive(true);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
+            //tasks[current_task].setResponsive(true);
+            tasks[current_task].setTScale(.65f);
             correct_answer = "9499274580";
         }
         if (current_task == 5)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
+            tasks[current_task].setTScale(.8f);
             correct_answer = "8058272338";
         }
         if (current_task == 6)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 4.7f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 4.7f);
             //tasks[current_task].setNeedKeyboard(true);
+            tasks[current_task].setTScale(.3f);
         }
         if (current_task == 7)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 3.2f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.2f);
             //tasks[current_task].setNeedKeyboard(true);
+            tasks[current_task].setTScale(.4f);
         }
         if (current_task == 8)
         {
-            tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
+            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
             //tasks[current_task].setNeedKeyboard(true);
+            tasks[current_task].setTScale(.5f);
         }
 
 

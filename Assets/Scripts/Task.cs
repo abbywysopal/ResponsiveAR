@@ -109,8 +109,17 @@ public class Task
 
 	public void setTPosition(float d1, float d2, float d3)
     {
-
 		Task_Object.transform.position = new Vector3(d1, d2, d3);
+	}
+
+	public void setTPosition(float d1, float d2, float d3, Vector3 cam_pos)
+    {
+		Task_Object.transform.position = cam_pos + new Vector3(d1, d2, d3);
+	}
+
+	public void setTScale(float s1)
+    {
+		Task_Object.transform.localScale = new Vector3(s1, s1, s1);
 	}
 
 	public void setRPosition(float d1, float d2, float d3)

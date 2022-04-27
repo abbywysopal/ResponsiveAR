@@ -210,7 +210,7 @@ public class ResponsiveDesign : MonoBehaviour
         //setUpLODText(s);
         //setUpLODObjects(s);
 
-        float fontRatio = .05f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
+        float fontRatio = .075f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
 
         //Debug.Log("fontRatio: " + fontRatio);
         //Debug.Log("ratio: " + r);
