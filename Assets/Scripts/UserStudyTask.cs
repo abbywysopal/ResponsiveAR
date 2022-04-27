@@ -81,17 +81,17 @@ public class UserStudyTask : MonoBehaviour
     {
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        current_task = 6;
+        current_task = 0;
         keyboard.SetActive(false);
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
         Weather.setTask(this);
         Display.SetActive(true);
         Final_popup.SetActive(false);
-        Start_popup.SetActive(true);
+        //Start_popup.SetActive(true);
         tasks = new List<Task>();
         setUpTask_Objs();
-        WelcomeMessage();
+        //WelcomeMessage();
 
     }
 
@@ -164,6 +164,8 @@ public class UserStudyTask : MonoBehaviour
 
     void setUpTask_Objs()
     {
+        Start_popup.SetActive(false);
+        Final_popup.SetActive(false);
         for(int i = 0; i < Dialogues.Count; i++)
         {
             Task task = new Task(i, Dialogues[i], Reminders[i], Task_Objs[i]);
@@ -195,6 +197,35 @@ public class UserStudyTask : MonoBehaviour
         UpdateDisplay();
     }
 
+    public void ToggleTask(int t)
+    {
+        if (tasks[t].isStarted)
+        {
+            ToggleEndTask(t);
+        }
+        else
+        {
+            ToggleStartTask(t);
+        }
+    }
+
+    void ToggleStartTask(int t)
+    {
+        if (tasks[current_task].isStarted)
+        {
+            ToggleEndTask(current_task);
+        }
+        current_task = t;
+        setUpTask();
+    }
+
+    void ToggleEndTask(int t)
+    {
+        keyboard.SetActive(false);
+        Dialogues[t].SetActive(false);
+        tasks[t].EndTask();
+    }
+
     /*
      * to turn off responsive design  tasks[current_task].setResponsive(false);
      */
@@ -203,8 +234,8 @@ public class UserStudyTask : MonoBehaviour
     {
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
-        tasks[current_task].setRPosition(0.0f, -0.25f, 1.64f);
-        tasks[current_task].setTPosition(0.0f, 0.05f, 0.71f, Camera.main.transform.position);
+        tasks[current_task].setRPosition(0.0f, -0.1f, 1f);
+        tasks[current_task].setTPosition(0.0f, 0.03f, 0.70f, Camera.main.transform.position);
         keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.2f, 0.5f);
         if(current_task == 0)
         {
@@ -223,14 +254,14 @@ public class UserStudyTask : MonoBehaviour
         if (current_task == 2)
         {
             //tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            tasks[current_task].setTScale(.35f);
+            tasks[current_task].setTScale(.4f);
             tasks[current_task].moveDescY(-0.1f);
             correct_answer = "4th Author";
         }
         if (current_task == 3)
         {
             //tasks[current_task].setTPosition(0.0f, 0.0f, 1.5f);
-            tasks[current_task].setTScale(.35f);
+            tasks[current_task].setTScale(.5f);
             tasks[current_task].moveDescY(-0.2f);
             correct_answer = "1st Conf";
         }
@@ -239,12 +270,14 @@ public class UserStudyTask : MonoBehaviour
             //tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
             //tasks[current_task].setResponsive(true);
             tasks[current_task].setTScale(.65f);
+            tasks[current_task].moveDescY(-0.1f);
             correct_answer = "9499274580";
         }
         if (current_task == 5)
         {
             //tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
-            tasks[current_task].setTScale(.8f);
+            tasks[current_task].setTScale(.9f);
+            tasks[current_task].moveDescY(-0.2f);
             correct_answer = "8058272338";
         }
         if (current_task == 6)

@@ -16,6 +16,7 @@ public class Task
 	long start_time;
 	long end_time;
 	bool isReponsive;
+	public bool isStarted;
 	string description;
 	//bool needKeyboard;
 
@@ -45,7 +46,7 @@ public class Task
 		Task_Reminder.SetActive(false);
 		TextToSpeech tts = Dialogue.transform.GetComponent<TextToSpeech>();
 		tts.StartSpeaking(description);
-
+		isStarted = true;
 	}
 
 	public void StartTask()
@@ -79,6 +80,7 @@ public class Task
 		Task_Object.SetActive(false);
 		Task_Reminder.SetActive(false);
 		//save_data
+		isStarted = false;
 	}
 
 	public void setTaskComplete(bool v)

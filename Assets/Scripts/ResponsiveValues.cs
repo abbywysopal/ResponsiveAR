@@ -125,7 +125,7 @@ public class ResponsiveValues : MonoBehaviour
 
 /*        string last_size = "";*/
 
-        ratio = .005f / 1f;
+        ratio = .009f / 1f;
        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
         {
             
