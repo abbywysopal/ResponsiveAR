@@ -124,6 +124,8 @@ public class UserStudyTask : MonoBehaviour
         NextTask();
     }
 
+
+
     void NextTask()
     {
         if(current_task < total_tasks)
@@ -245,7 +247,7 @@ public class UserStudyTask : MonoBehaviour
         }
         if (current_task == 2)
         {
-            tasks[current_task].setTScale(.3f);
+            tasks[current_task].setTScale(.35f);
             tasks[current_task].moveDescY(-0.05f);
             correct_answer = "4th Author";
         }
@@ -283,6 +285,7 @@ public class UserStudyTask : MonoBehaviour
         if (isRecording)
         {
            log_data_start();
+
         }
 
     }
