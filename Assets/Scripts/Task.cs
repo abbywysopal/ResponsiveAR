@@ -26,13 +26,10 @@ public class Task
 		Dialogue = d;
 		Task_Reminder = r;
 		Task_Object = g;
-		//keyboard = k;
-
 		
 		Transform tran = Dialogue.transform.Find("DescriptionText");
 		TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
 		description = tmp.text;
-		//needKeyboard = false;
 		isReponsive = true;
 		task_complete = false;
 	}
@@ -42,7 +39,7 @@ public class Task
 		//task object at distance
 		//dialogue set to true
 		Dialogue.SetActive(true);
-		Task_Object.SetActive(true);
+		Task_Object.SetActive(false);
 		Task_Reminder.SetActive(false);
 		TextToSpeech tts = Dialogue.transform.GetComponent<TextToSpeech>();
 		tts.StartSpeaking(description);
@@ -56,14 +53,9 @@ public class Task
 		task_complete = false;
 		start_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
+		Task_Object.SetActive(true);
 		Task_Reminder.SetActive(true);
 
-		/*
-		if(needKeyboard)
-        {
-			keyboard.SetActive(true);
-        }
-		*/
 	}
 
 	public void EndTask()
@@ -117,6 +109,7 @@ public class Task
 	public void setTPosition(float d1, float d2, float d3, Vector3 cam_pos)
     {
 		Task_Object.transform.position = cam_pos + new Vector3(d1, d2, d3);
+		Task_Reminder.transform.position = cam_pos + new Vector3(d1, d2 - .2f, d3);
 	}
 
 	public void setTScale(float s1)
@@ -149,4 +142,18 @@ public class Task
 		return end_time - start_time;
     }
 
+	public string getObjectName()
+    {
+		return Task_Object.name;
+    }
+
+	public Vector3 getObjectScale()
+    {
+		return Task_Object.transform.localScale;
+    }
+
+	public Vector3 getObjectPosition()
+    {
+		return Task_Object.transform.position;
+    }
 }

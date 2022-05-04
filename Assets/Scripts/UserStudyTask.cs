@@ -4,7 +4,8 @@ using UnityEngine;
 using TMPro;
 using System;
 using Microsoft.MixedReality.Toolkit.Audio;
-//using UnityEngine.CoreModule;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class UserStudyTask : MonoBehaviour
 {
@@ -26,9 +27,6 @@ public class UserStudyTask : MonoBehaviour
 
     [SerializeField] GameObject keyboard;
 
-    [SerializeField] GameObject Display;
-
-
     List<Task> tasks;
 
     private long task_start_time;
@@ -38,7 +36,12 @@ public class UserStudyTask : MonoBehaviour
     private int total_tasks;
     public long UserID;
 
+    private bool responsive = true;
+
     SceneStudyManager record;
+    bool isRecording = false;
+
+    private static List<ExperimentEventData> currentEvents;
 
     private string correct_answer;
 
@@ -63,6 +66,11 @@ public class UserStudyTask : MonoBehaviour
             current_task += 1;
             keyboard.SetActive(false);
             NextTask();
+            
+            if (isRecording)
+            {
+               log_data_end(answer);
+            }
             return true;
         }
 
@@ -76,9 +84,15 @@ public class UserStudyTask : MonoBehaviour
         return complete(entered_num);
     }
 
+    public void setResponsive(bool b)
+    {
+        responsive = b;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        currentEvents = new List<ExperimentEventData>();
         record = gameObject.GetComponent<SceneStudyManager>();
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         current_task = 0;
@@ -86,13 +100,11 @@ public class UserStudyTask : MonoBehaviour
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
         Weather.setTask(this);
-        Display.SetActive(true);
         Final_popup.SetActive(false);
         //Start_popup.SetActive(true);
         tasks = new List<Task>();
         setUpTask_Objs();
         //WelcomeMessage();
-
     }
 
     public void WelcomeMessage()
@@ -108,6 +120,7 @@ public class UserStudyTask : MonoBehaviour
     {
         Start_popup.SetActive(false);
         record.startRecording();
+        isRecording = true;
         NextTask();
     }
 
@@ -124,22 +137,10 @@ public class UserStudyTask : MonoBehaviour
             GetResults();
             Final_popup.SetActive(true);
             record.stopRecording();
+            isRecording = false;
         }
     }
 
-    void UpdateDisplay()
-    {
-        Transform tran = Display.transform.Find("DescriptionText");
-        TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
-        tmp.text = "";
-        tmp.text = "localPosition: " + Task_Objs[current_task].transform.localPosition.ToString() + "\n";
-        tmp.text += "localScale: " + Task_Objs[current_task].transform.localScale.ToString() + "\n";
-
-        var headPosition = Camera.main.transform.position;
-        tmp.text += "headPosition: " + headPosition.ToString() + "\n";
-        double distance = Math.Abs(dist(Task_Objs[current_task].transform, Camera.main.transform));
-        tmp.text += "distance: " + distance.ToString() + "\n";
-    }
 
     double dist(Transform t1, Transform t2)
     {
@@ -194,7 +195,6 @@ public class UserStudyTask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateDisplay();
     }
 
     public void ToggleTask(int t)
@@ -234,73 +234,82 @@ public class UserStudyTask : MonoBehaviour
     {
         Debug.Log("setUpTask " + current_task);
         tasks[current_task].SetUp();
-        tasks[current_task].setRPosition(0.0f, -0.1f, 1f);
-        tasks[current_task].setTPosition(0.0f, 0.03f, 0.70f, Camera.main.transform.position);
+        //moved from .65 to .55
+        tasks[current_task].setTPosition(0.0f, 0.03f, 0.6f, Camera.main.transform.position);
         keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.2f, 0.5f);
         if(current_task == 0)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
-            tasks[current_task].setTScale(.3f);
-            tasks[current_task].moveDescY(-0.1f);
+            tasks[current_task].setTScale(.25f);
+            //tasks[current_task].moveDescY(-0.1f);
             correct_answer = "2nd Title";
         }
         if (current_task == 1)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.0f);
-            tasks[current_task].setTScale(.3f);
-            tasks[current_task].moveDescY(-0.1f);
+            tasks[current_task].setTScale(.25f);
+            //tasks[current_task].moveDescY(-0.1f);
             correct_answer = "5th Title";
         }
         if (current_task == 2)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            tasks[current_task].setTScale(.4f);
-            tasks[current_task].moveDescY(-0.1f);
+            tasks[current_task].setTScale(.3f);
+            tasks[current_task].moveDescY(-0.05f);
             correct_answer = "4th Author";
         }
         if (current_task == 3)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 1.5f);
-            tasks[current_task].setTScale(.5f);
-            tasks[current_task].moveDescY(-0.2f);
+            tasks[current_task].setTScale(.55f);
+            tasks[current_task].moveDescY(-0.07f);
             correct_answer = "1st Conf";
         }
         if(current_task == 4)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.5f);
-            //tasks[current_task].setResponsive(true);
-            tasks[current_task].setTScale(.65f);
-            tasks[current_task].moveDescY(-0.1f);
+            tasks[current_task].setTScale(.6f);
+            //tasks[current_task].moveDescY(-0.1f);
             correct_answer = "9499274580";
         }
         if (current_task == 5)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 1.6f);
             tasks[current_task].setTScale(.9f);
-            tasks[current_task].moveDescY(-0.2f);
+            //tasks[current_task].moveDescY(-0.2f);
             correct_answer = "8058272338";
         }
         if (current_task == 6)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 4.7f);
-            //tasks[current_task].setNeedKeyboard(true);
             tasks[current_task].setTScale(.3f);
         }
         if (current_task == 7)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 3.2f);
-            //tasks[current_task].setNeedKeyboard(true);
-            tasks[current_task].setTScale(.4f);
+            tasks[current_task].setTScale(.38f);
         }
         if (current_task == 8)
         {
-            //tasks[current_task].setTPosition(0.0f, 0.0f, 2.0f);
-            //tasks[current_task].setNeedKeyboard(true);
             tasks[current_task].setTScale(.5f);
         }
 
+        if (isRecording)
+        {
+           log_data_start();
+        }
 
+    }
 
+    private void log_data_start()
+    {
+        ExperimentEventData currentEventData = new ExperimentEventData();
+        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
+        currentEventData.isResponsive = responsive;
+        currentEventData.eventName = "start";
+        currentEventData.task_number = current_task;
+
+        currentEventData.task_type = tasks[current_task].getObjectName();
+        currentEventData.object_position = tasks[current_task].getObjectPosition();
+        currentEventData.object_scale = tasks[current_task].getObjectScale();
+
+        
+        currentEventData.correct_answer = correct_answer;
+        currentEventData.guess = "";
+        currentEvents.Add(currentEventData);
     }
 
     public void StartTask()
@@ -313,6 +322,11 @@ public class UserStudyTask : MonoBehaviour
     {
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
         input = input.Trim();
+        
+        if (isRecording)
+        {
+           log_data_entered(input);
+        }
         complete(input);
     }
 
@@ -327,8 +341,72 @@ public class UserStudyTask : MonoBehaviour
     public void EnterAnswer(string text)
     {
         Debug.Log("pressed text: " + text);
+        if (isRecording)
+        {
+           log_data_entered(text);
+        }
         complete(text);
     }
 
+    private void log_data_end(string guess)
+    {
+        ExperimentEventData currentEventData = new ExperimentEventData();
+        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
+        currentEventData.isResponsive = responsive;
+        currentEventData.eventName = "complete";
+        currentEventData.task_number = current_task;
 
+        currentEventData.task_type = tasks[current_task].getObjectName();
+        currentEventData.object_position = tasks[current_task].getObjectPosition();
+        currentEventData.object_scale = tasks[current_task].getObjectScale();
+
+        currentEventData.correct_answer = correct_answer;
+        currentEventData.guess = guess;
+        currentEvents.Add(currentEventData);
+    }
+
+    private void log_data_entered(string guess)
+    {
+        ExperimentEventData currentEventData = new ExperimentEventData();
+        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
+        currentEventData.isResponsive = responsive;
+        currentEventData.eventName = "answer";
+        currentEventData.task_number = current_task;
+
+        currentEventData.task_type = tasks[current_task].getObjectName();
+        currentEventData.object_position = tasks[current_task].getObjectPosition();
+        currentEventData.object_scale = tasks[current_task].getObjectScale();
+
+        currentEventData.correct_answer = correct_answer;
+        currentEventData.guess = guess;
+        currentEvents.Add(currentEventData);
+
+    }
+
+    public static List<ExperimentEventData> GetExperimentEventData()
+    {
+        List<ExperimentEventData> eventDataCopy = currentEvents;
+        currentEvents = new List<ExperimentEventData>();
+        return eventDataCopy;
+    }
+
+}
+
+[System.Serializable]
+public class ExperimentEventData
+{
+    public long unixTime;
+    public string systemTime;
+    public bool isResponsive;
+    public string eventName;
+
+    public int task_number;
+    public string task_type;
+    public Vector3 object_scale;
+    public Vector3 object_position;
+
+    public string correct_answer;
+    public string guess;
 }

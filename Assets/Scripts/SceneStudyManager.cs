@@ -10,11 +10,9 @@ using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
-
 using UnityEngine.Events;
 using Microsoft.MixedReality.Toolkit.Extensions;
 using Microsoft.MixedReality.Toolkit.Utilities;
-
 using Microsoft;
 
 
@@ -49,6 +47,9 @@ public struct StudyFrame
     public Vector3 rightHandRay;
     public Vector3 leftHandRay;
 
+    public List<ExperimentEventData> experimentEvents;
+
+    public ResponsiveData responsiveData;
 }
 
 
@@ -163,6 +164,9 @@ public class SceneStudyManager : MonoBehaviour
 
         currentFrame.rightHandRay = getRightHandRay();
         currentFrame.leftHandRay = getLeftHandRay();
+
+        currentFrame.experimentEvents = UserStudyTask.GetExperimentEventData();
+        currentFrame.responsiveData = ResponsiveDesign.GetResponsiveData();
 
         obj.sessionRecordings[0].frames.Add(currentFrame);
     }

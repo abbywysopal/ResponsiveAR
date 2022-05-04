@@ -29,7 +29,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (userStudyScene)
         {
-            SceneManager.UnloadScene("UserStudyScene");
+            SceneManager.UnloadSceneAsync("UserStudyScene");
             userStudyScene = false;
         }
         else
@@ -43,7 +43,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (designScene)
         {
-            SceneManager.UnloadScene("DuplicatesAndTables");
+            SceneManager.UnloadSceneAsync("DuplicatesAndTables");
             designScene = false;
         }
         else
@@ -58,7 +58,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (MRTKEXScene)
         {
-            SceneManager.UnloadScene("MRTKExamples");
+            SceneManager.UnloadSceneAsync("MRTKExamples");
             MRTKEXScene = false;
         }
         else
@@ -73,7 +73,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (tutorialScene)
         {
-            SceneManager.UnloadScene("Tutorial");
+            SceneManager.UnloadSceneAsync("Tutorial");
             tutorialScene = false;
         }
         else

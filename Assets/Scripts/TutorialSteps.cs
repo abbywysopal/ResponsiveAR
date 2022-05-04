@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Microsoft.MixedReality.Toolkit.Audio;
+using UnityEngine.SceneManagement;
+using System.Threading;
 //using UnityEngine.CoreModule;
 
 public class TutorialSteps : MonoBehaviour
@@ -10,6 +12,8 @@ public class TutorialSteps : MonoBehaviour
 
     [SerializeField]
     List<GameObject> Steps;
+
+    [SerializeField] GameObject Slate;
 
     private static bool step_complete;
     private int current_step;
@@ -43,6 +47,7 @@ public class TutorialSteps : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Slate.SetActive(false);
         current_step = 0;
         setUpTask();
         StartTutorial();
@@ -58,31 +63,27 @@ public class TutorialSteps : MonoBehaviour
         Debug.Log("start speaking");
         tts.StartSpeaking(tmp.text);
 
-
-
-        while (tts.IsSpeaking())
-        {
-            Debug.Log("Speaking");
-        }
-
-        Debug.Log("Done");
-
-        NextStep();
     }
 
-    void NextStep()
+    public void NextStep()
     {
         Steps[current_step].SetActive(false);
         current_step += 1;
         correct_answer = current_step.ToString();
         if (current_step < total_steps)
         {
-            Debug.Log("NextNextStep " + current_step);
+            Debug.Log("NextStep " + current_step);
             Steps[current_step].SetActive(true);
             TextToSpeech tts = Steps[current_step].transform.GetComponent<TextToSpeech>();
             Transform tran = Steps[current_step].transform.Find("DescriptionText");
             TextMeshPro tmp = tran.GetComponent<TextMeshPro>();
             tts.StartSpeaking(tmp.text);
+        }
+        else
+        {
+            Slate.SetActive(false);
+            SceneManager.LoadScene("UserStudyScene", LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync("Tutorial");
         }
     }
 
@@ -117,5 +118,9 @@ public class TutorialSteps : MonoBehaviour
         complete(text);
     }
 
+    public void adjustKeyboard(GameObject g)
+    {
+        g.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.2f, 0.5f);
+    }
 
 }

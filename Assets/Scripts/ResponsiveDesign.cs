@@ -9,8 +9,6 @@ using Microsoft.MixedReality.Toolkit.UI;
 /*
  * ASSUMPTIONS:
  *  1. Parent is in middle of object
- *  2. collider is in middle of object
- *      - not currently using gaze function, can add back 
  * 
  */
 
@@ -20,6 +18,8 @@ using Microsoft.MixedReality.Toolkit.UI;
 
 /*
  * TODO:
+ *  
+ *  - not currently using gaze function, can add back 
  *  
  *  BUGS:
  * 
@@ -45,6 +45,7 @@ public class ResponsiveDesign : MonoBehaviour
     IDictionary<int, LOD_Interact> interaction = new Dictionary<int, LOD_Interact>();
     IDictionary<int, LOD_Select> selection = new Dictionary<int, LOD_Select>();
     
+    private static ResponsiveData responsiveData;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +79,7 @@ public class ResponsiveDesign : MonoBehaviour
         //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio);
         //gazeFunction();
+        log_data();
 
     }
 
@@ -241,13 +243,15 @@ public class ResponsiveDesign : MonoBehaviour
         objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
+        Debug.Log("OBJECTS");
         for(int i = 0; i < objects.Count; i++)
         {
             double sizeObj = objects[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             objects[i].setRatio(result);
-/*            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);*/
+            Debug.Log(objects[i].getName());
+            Debug.Log("objSize: " + sizeObj);
+            Debug.Log("ratio: " + result);
         }
 
         for (int i = 0; i < interaction.Count; i++)
@@ -259,14 +263,16 @@ public class ResponsiveDesign : MonoBehaviour
             Debug.Log("ratio: " + result);*/
         }
 
+        Debug.Log("SELECTION");
         objectRatio *= .01f;//UI 10* smaller than rest
         for (int i = 0; i < selection.Count; i++)
         {
             double sizeObj = selection[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             selection[i].setRatio(result);
-/*            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);*/
+            Debug.Log(selection[i].getName());
+            Debug.Log("objSize: " + sizeObj);
+            Debug.Log("ratio: " + result);
         }
     }
 
@@ -699,4 +705,41 @@ public class ResponsiveDesign : MonoBehaviour
         selection[groupId] = new LOD_Select(groupId, 0, temp, false);
     }
 
+    private void log_data()
+    {
+        responsiveData = new ResponsiveData();
+        responsiveData.distance = distance;
+        responsiveData.ratio = ratio;
+
+        responsiveData.scale = parent.transform.localScale;
+        responsiveData.position = parent.transform.position;
+
+        responsiveData.text = text;
+        responsiveData.text_gui = text_gui;
+        responsiveData.objects = objects;
+        responsiveData.interaction = interaction;
+        responsiveData.selection = selection;
+    }
+
+    public static ResponsiveData GetResponsiveData()
+    {
+        return responsiveData;
+    }
+
+}
+
+[System.Serializable]
+public class ResponsiveData
+{
+    public IDictionary<int, LOD_TMP> text;
+    public IDictionary<int, LOD_TMP_GUI> text_gui;
+    public IDictionary<int, LOD_Obj> objects;
+    public IDictionary<int, LOD_Interact> interaction;
+    public IDictionary<int, LOD_Select> selection;
+
+    public Vector3 scale;
+    public Vector3 position;
+
+    public double ratio;
+    public double distance;
 }

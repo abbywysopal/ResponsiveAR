@@ -167,6 +167,17 @@ public class LOD_Obj
 		while (pt != null)
 		{
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+					Debug.Log("before Volume: " + volume);
+					volume *= area;
+					Debug.Log("after Volume: " + volume);
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
@@ -277,6 +288,17 @@ public class LOD_Interact
 		while (pt != null)
 		{
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+					Debug.Log("before Volume: " + volume);
+					volume *= area;
+					Debug.Log("after Volume: " + volume);
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
@@ -411,10 +433,8 @@ public class LOD_Select
 		LOD = l;
 		ratio = r;
 		selectables = g;
-		/*
 		set = !s;
 		setLOD(s);
-		*/
 		set = s;
 	}
 
@@ -437,7 +457,7 @@ public class LOD_Select
 		{
 			g.interactable = v;
 			//g.IsEnabled = v;
-/*			Debug.Log("g: " + g + ", is interactive? " + v);*/
+			Debug.Log("g: " + g + ", is interactive? " + v);
 		}
 		set = v;
 	}
@@ -450,7 +470,7 @@ public class LOD_Select
 			g.transform.gameObject.SetActive(true);
 			g.interactable = false;
 			//g.IsEnabled = false;
-/*			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");*/
+			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
 		}
 
 		set = false;
@@ -470,7 +490,19 @@ public class LOD_Select
 		double scale = volume;
 		while (pt != null)
 		{
+			Debug.Log("Name: " + pt.name);
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+					Debug.Log("before Volume: " + volume);
+					volume *= area;
+					Debug.Log("after Volume: " + volume);
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
