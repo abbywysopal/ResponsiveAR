@@ -104,7 +104,7 @@ public class UserStudyTask : MonoBehaviour
         //Start_popup.SetActive(true);
         tasks = new List<Task>();
         setUpTask_Objs();
-        //WelcomeMessage();
+        WelcomeMessage();
     }
 
     public void WelcomeMessage()
@@ -179,12 +179,6 @@ public class UserStudyTask : MonoBehaviour
         }
 
         total_tasks = tasks.Count;
-        Debug.Log("total_tasks: " + total_tasks);
-
-        foreach (Task t in tasks)
-        {
-            t.Debug_Log();
-        }
     }
 
     public void setCorrentAnswer(string a)
