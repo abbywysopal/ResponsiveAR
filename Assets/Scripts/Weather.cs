@@ -115,7 +115,7 @@ public class Weather : MonoBehaviour
     void Update()
     {
         //if ip found then
-
+        /*
         if (timer <= 0)
         {
             StartCoroutine(GetWeatherInfo());
@@ -125,7 +125,7 @@ public class Weather : MonoBehaviour
         {
             timer -= Time.deltaTime;
         }
-
+        */
     }
 
     void setUp(string loc, float t, float min, float max)
@@ -172,6 +172,11 @@ public class Weather : MonoBehaviour
         }
 
 
+    }
+
+    public void clicked(string input)
+    {
+        Debug.Log("clicked: " + input);
     }
 }
 

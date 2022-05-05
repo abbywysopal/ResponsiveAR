@@ -89,6 +89,7 @@ public class StudyObject
 {
     public float tickRate = Const.TICK_RATE;
     public string userID = "abc";
+    public DateTime start_time;
 
     public List<SessionRecording> sessionRecordings;
 }
@@ -270,6 +271,7 @@ public class SceneStudyManager : MonoBehaviour
 
         obj.tickRate = Const.TICK_RATE;
         obj.userID = startTime.ToString();
+        obj.start_time = System.DateTime.Now;
         obj.sessionRecordings = new List<SessionRecording>();
         currentSession = new SessionRecording();
         obj.sessionRecordings.Add(currentSession);

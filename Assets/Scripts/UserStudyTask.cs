@@ -123,7 +123,7 @@ public class UserStudyTask : MonoBehaviour
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         current_task = 0;
         keyboard.SetActive(false);
-        //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
+        //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -2.0f, 0.36f);
         NumberDisplay.setTask(this);
         Final_popup.SetActive(false);
         //Start_popup.SetActive(true);
@@ -272,7 +272,7 @@ public class UserStudyTask : MonoBehaviour
         tasks[current_task].SetUp();
         //moved from .65 to .55
         tasks[current_task].setTPosition(0.0f, 0.03f, 0.6f, Camera.main.transform.position);
-        keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.25f, 0.5f);
+        keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.45f, 0.5f);
         if(current_task == 0)
         {
             tasks[current_task].setTScale(.25f);
@@ -319,7 +319,7 @@ public class UserStudyTask : MonoBehaviour
         if (current_task == 7)
         {
             tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
-            tasks[current_task].setTScale(.35f);
+            tasks[current_task].setTScale(.4f);
             tasks[current_task].moveDescY(0.12f);
             correct_answer = Task_Objs[current_task].GetComponent<Weather>().getLocation();
         }
@@ -327,8 +327,8 @@ public class UserStudyTask : MonoBehaviour
         {
             tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
             correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMinTemp();
-            tasks[current_task].setTScale(.5f);
-             tasks[current_task].moveDescY(0.12f);
+            tasks[current_task].setTScale(.9f);
+            tasks[current_task].moveDescY(0.12f);
         }
 
         if (isRecording)
@@ -382,6 +382,7 @@ public class UserStudyTask : MonoBehaviour
         complete(input);
     }
 
+    /*
     public void closeKeyboard(GameObject keyboard)
     {
         if (task_complete)
@@ -389,6 +390,7 @@ public class UserStudyTask : MonoBehaviour
             keyboard.SetActive(false);
         }
     }
+    */
 
     public void EnterAnswer(string text)
     {

@@ -38,9 +38,12 @@ public class TutorialSteps : MonoBehaviour
 
         if (answer.CompareTo(correct_answer) == 0)
         {
-            log_data("end", answer);
-            end_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            record.startNewSession(start_time, end_time, description, false, end_time - start_time);
+            if (isRecording)
+            {
+                log_data("end", answer);
+                end_time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                record.startNewSession(start_time, end_time, description, false, end_time - start_time);
+            }
             step_complete = true;
             NextStep();
             return true;
@@ -87,7 +90,10 @@ public class TutorialSteps : MonoBehaviour
         if (current_step < total_steps)
         {
             Debug.Log("NextStep " + current_step);
-            log_data("start", "");
+            if (isRecording)
+            {
+                log_data("start", "");
+            }
 
             /*
             if(current_step > 2)
@@ -140,7 +146,10 @@ public class TutorialSteps : MonoBehaviour
     {
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
         input = input.Trim();
-        log_data("entered", input);
+        if (isRecording)
+        {
+            log_data("entered", input);
+        }
         complete(input);
     }
 
@@ -155,7 +164,10 @@ public class TutorialSteps : MonoBehaviour
     public void EnterAnswer(string text)
     {
         Debug.Log("pressed text: " + text);
-        log_data("entered", text);
+        if (isRecording)
+        {
+            log_data("entered", text);
+        }
         complete(text);
     }
 

@@ -193,7 +193,10 @@ public class LOD_Obj
 		}
 		foreach (GameObject g in objects)
 		{
-			g.SetActive(v);
+			if(g != null)
+            {
+				g.SetActive(v);
+            }
 		}
 		set = v;
 	}
