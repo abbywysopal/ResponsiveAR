@@ -34,6 +34,7 @@ public class RecordStudy
 public struct StudyFrame
 {
     public long frameNum;
+    public long unixTime;
     public long timestamp;
 
     public Vector3 hPos;
@@ -106,6 +107,8 @@ public class SceneStudyManager : MonoBehaviour
 
     public long startTime;
     public string filename;
+    public string record_type = "/RecordStudy/Session_";
+    string pathString = "";
 
     public int sessionNumber = 0;
     public bool newSession = false;
@@ -116,7 +119,22 @@ public class SceneStudyManager : MonoBehaviour
 
     public void startRecording()
     {
+        record_type = "Experiment";
+        pathString = Application.persistentDataPath +  "/ResponsiveAR/" + "Experiment/";
+        System.IO.Directory.CreateDirectory(pathString);
+
         Debug.Log("StartRecording");
+        recording = true;
+    }
+
+    public void startRecordingTutorial()
+    {
+        record_type = "Tutorial";
+        pathString = Application.persistentDataPath + "/ResponsiveAR/" + "Tutorial/";
+        System.IO.Directory.CreateDirectory(pathString);
+
+        Debug.Log("StartRecording");
+        Debug.Log(pathString);
         recording = true;
     }
 
@@ -134,17 +152,18 @@ public class SceneStudyManager : MonoBehaviour
 
     public void SaveIntoJson()
     {
-        filename = "/RecordStudy_Session_" + sessionNumber + "_" + startTime + ".json";
+        filename = Application.persistentDataPath + "/ResponsiveAR/" + record_type + "/" + record_type + "Session_" + sessionNumber + "_" + startTime + ".json";
+        Debug.Log(pathString);
         if (sessionNumber == 0)
         {
             string data = JsonUtility.ToJson(_RecordStudy);
-            System.IO.File.WriteAllText(Application.persistentDataPath + filename, data);
-            Debug.Log("filename:" + Application.persistentDataPath + filename);
+            System.IO.File.WriteAllText(filename, data);
+            Debug.Log("filename:" + filename);
         }
         else
         {
             string data = JsonUtility.ToJson(_RecordStudy.obj.sessionRecordings[0]);
-            System.IO.File.WriteAllText(Application.persistentDataPath + filename, data);
+            System.IO.File.WriteAllText(filename, data);
         }
     }
 
@@ -152,7 +171,8 @@ public class SceneStudyManager : MonoBehaviour
     public void SaveStudy()
     {
         currentFrame.frameNum++;
-        currentFrame.timestamp = System.DateTimeOffset.Now.ToUnixTimeMilliseconds() - startTime;
+        currentFrame.unixTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        currentFrame.timestamp = currentFrame.unixTime - startTime;
 
         currentFrame.hPos = Camera.main.transform.position;
         currentFrame.hRot = Camera.main.transform.rotation;
@@ -165,8 +185,16 @@ public class SceneStudyManager : MonoBehaviour
         currentFrame.rightHandRay = getRightHandRay();
         currentFrame.leftHandRay = getLeftHandRay();
 
-        currentFrame.experimentEvents = UserStudyTask.GetExperimentEventData();
-        currentFrame.responsiveData = ResponsiveDesign.GetResponsiveData();
+        if(record_type == "/Tutorial_Session_")
+        {
+            currentFrame.experimentEvents = TutorialSteps.GetExperimentEventData();
+            currentFrame.responsiveData = null;
+        }
+        else
+        {
+            currentFrame.experimentEvents = UserStudyTask.GetExperimentEventData();
+            currentFrame.responsiveData = ResponsiveDesign.GetResponsiveData();
+        }
 
         obj.sessionRecordings[0].frames.Add(currentFrame);
     }
@@ -247,6 +275,7 @@ public class SceneStudyManager : MonoBehaviour
         obj.sessionRecordings.Add(currentSession);
         currentFrame = new StudyFrame();
         currentFrame.frameNum = 0;
+        pathString = Application.persistentDataPath + "/";
 
     }
 

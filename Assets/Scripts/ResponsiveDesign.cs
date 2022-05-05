@@ -243,15 +243,11 @@ public class ResponsiveDesign : MonoBehaviour
         objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
-        Debug.Log("OBJECTS");
         for(int i = 0; i < objects.Count; i++)
         {
             double sizeObj = objects[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             objects[i].setRatio(result);
-            Debug.Log(objects[i].getName());
-            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);
         }
 
         for (int i = 0; i < interaction.Count; i++)
@@ -263,16 +259,38 @@ public class ResponsiveDesign : MonoBehaviour
             Debug.Log("ratio: " + result);*/
         }
 
-        Debug.Log("SELECTION");
         objectRatio *= .01f;//UI 10* smaller than rest
         for (int i = 0; i < selection.Count; i++)
         {
             double sizeObj = selection[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             selection[i].setRatio(result);
-            Debug.Log(selection[i].getName());
-            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);
+        }
+    }
+
+    public void disableResponsiveDesign()
+    {
+        foreach(KeyValuePair<int, LOD_TMP> kvp in text)
+        {
+            kvp.Value.setLOD(true);
+            kvp.Value.setTransparency(255);
+        }
+        foreach (KeyValuePair<int, LOD_TMP_GUI> kvp in text_gui)
+        {
+            kvp.Value.setLOD(true);
+            kvp.Value.setTransparency(255);
+        }
+        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
+        {
+            kvp.Value.setLOD(true);
+        }
+        foreach (KeyValuePair<int, LOD_Interact> kvp in interaction)
+        {
+            kvp.Value.setLOD(true);
+        }
+        foreach (KeyValuePair<int, LOD_Select> kvp in selection)
+        {
+            kvp.Value.setLOD(true);
         }
     }
 

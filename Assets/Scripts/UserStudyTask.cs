@@ -6,6 +6,7 @@ using System;
 using Microsoft.MixedReality.Toolkit.Audio;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UserStudyTask : MonoBehaviour
 {
@@ -47,11 +48,31 @@ public class UserStudyTask : MonoBehaviour
 
     public bool complete(string answer)
     {
+
         Debug.Log("current_task: " + current_task.ToString());
         Debug.Log(answer.Length + ", " + correct_answer.Length);
         Debug.Log("answer entered: " + answer);
         Debug.Log("correct_answer: " + correct_answer);
         bool task_complete = false;
+
+        if(current_task == 6)
+        {
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMainTemp();
+        }
+
+        
+        if(current_task == 7)
+        {
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getLocation();
+        }
+
+        
+        if(current_task == 8)
+        {
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMinTemp();
+        }
+
+
 
         if(answer.CompareTo(correct_answer) == 0)
         {
@@ -62,15 +83,15 @@ public class UserStudyTask : MonoBehaviour
         {
             Debug.Log("SUCCESS");
             tasks[current_task].setTaskComplete(true);
-            tasks[current_task].recordTask(record);
+            if (isRecording)
+            {
+               log_data_end(answer);
+               tasks[current_task].recordTask(record);
+            }
             current_task += 1;
             keyboard.SetActive(false);
             NextTask();
             
-            if (isRecording)
-            {
-               log_data_end(answer);
-            }
             return true;
         }
 
@@ -86,7 +107,12 @@ public class UserStudyTask : MonoBehaviour
 
     public void setResponsive(bool b)
     {
+        Debug.Log("set Responsive in U.S.");
         responsive = b;
+        foreach(Task t in tasks)
+        {
+            t.setResponsive(b);
+        }
     }
 
     // Start is called before the first frame update
@@ -99,10 +125,10 @@ public class UserStudyTask : MonoBehaviour
         keyboard.SetActive(false);
         //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.6f, 0.36f);
         NumberDisplay.setTask(this);
-        Weather.setTask(this);
         Final_popup.SetActive(false);
         //Start_popup.SetActive(true);
         tasks = new List<Task>();
+        Task_Objs[6].SetActive(true);
         setUpTask_Objs();
         WelcomeMessage();
     }
@@ -116,8 +142,18 @@ public class UserStudyTask : MonoBehaviour
 		tts.StartSpeaking(tmp.text);
     }
 
-    public void StartStudy()
+    public void StartStudyResponsive()
     {
+        setResponsive(true);
+        Start_popup.SetActive(false);
+        record.startRecording();
+        isRecording = true;
+        NextTask();
+    }
+
+    public void StartStudyNonResponsive()
+    {
+        setResponsive(false);
         Start_popup.SetActive(false);
         record.startRecording();
         isRecording = true;
@@ -136,10 +172,13 @@ public class UserStudyTask : MonoBehaviour
         else
         {
             Debug.Log("Finished Experiement");
+            /*
             GetResults();
             Final_popup.SetActive(true);
+            */
             record.stopRecording();
             isRecording = false;
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
     }
 
@@ -185,6 +224,7 @@ public class UserStudyTask : MonoBehaviour
 
     public void setCorrentAnswer(string a)
     {
+        Debug.Log("set answer to " + a);
         correct_answer = a.ToLower();
     }
 
@@ -232,7 +272,7 @@ public class UserStudyTask : MonoBehaviour
         tasks[current_task].SetUp();
         //moved from .65 to .55
         tasks[current_task].setTPosition(0.0f, 0.03f, 0.6f, Camera.main.transform.position);
-        keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.2f, 0.5f);
+        keyboard.transform.position = Camera.main.transform.position + new Vector3( 0.053f, -0.25f, 0.5f);
         if(current_task == 0)
         {
             tasks[current_task].setTScale(.25f);
@@ -247,14 +287,14 @@ public class UserStudyTask : MonoBehaviour
         }
         if (current_task == 2)
         {
-            tasks[current_task].setTScale(.35f);
+            tasks[current_task].setTScale(.31f);
             tasks[current_task].moveDescY(-0.05f);
             correct_answer = "4th Author";
         }
         if (current_task == 3)
         {
             tasks[current_task].setTScale(.55f);
-            tasks[current_task].moveDescY(-0.07f);
+            tasks[current_task].moveDescY(-0.09f);
             correct_answer = "1st Conf";
         }
         if(current_task == 4)
@@ -271,32 +311,41 @@ public class UserStudyTask : MonoBehaviour
         }
         if (current_task == 6)
         {
+            tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMainTemp();
             tasks[current_task].setTScale(.3f);
+            tasks[current_task].moveDescY(0.12f);
         }
         if (current_task == 7)
         {
-            tasks[current_task].setTScale(.38f);
+            tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
+            tasks[current_task].setTScale(.35f);
+            tasks[current_task].moveDescY(0.12f);
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getLocation();
         }
         if (current_task == 8)
         {
+            tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
+            correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMinTemp();
             tasks[current_task].setTScale(.5f);
+             tasks[current_task].moveDescY(0.12f);
         }
 
         if (isRecording)
         {
-           log_data_start();
+           log_data("instruction");
 
         }
 
     }
 
-    private void log_data_start()
+    private void log_data(string type)
     {
         ExperimentEventData currentEventData = new ExperimentEventData();
-        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.unixTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
         currentEventData.isResponsive = responsive;
-        currentEventData.eventName = "start";
+        currentEventData.eventName = type;
         currentEventData.task_number = current_task;
 
         currentEventData.task_type = tasks[current_task].getObjectName();
@@ -309,16 +358,22 @@ public class UserStudyTask : MonoBehaviour
         currentEvents.Add(currentEventData);
     }
 
+
     public void StartTask()
     {
         task_complete = false;
         tasks[current_task].StartTask();
+        if (isRecording)
+        {
+            log_data("start");
+        }
     }
 
     public void EnterAnswer(TextMeshProUGUI text)
     {
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
         input = input.Trim();
+        input = input.ToLower();
         
         if (isRecording)
         {
@@ -348,7 +403,7 @@ public class UserStudyTask : MonoBehaviour
     private void log_data_end(string guess)
     {
         ExperimentEventData currentEventData = new ExperimentEventData();
-        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.unixTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
         currentEventData.isResponsive = responsive;
         currentEventData.eventName = "complete";
@@ -366,7 +421,7 @@ public class UserStudyTask : MonoBehaviour
     private void log_data_entered(string guess)
     {
         ExperimentEventData currentEventData = new ExperimentEventData();
-        currentEventData.unixTime = Utils.UnixTimestampMilliseconds();
+        currentEventData.unixTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         currentEventData.systemTime = System.DateTime.Now.ToString("HH-mm-ss-ff");
         currentEventData.isResponsive = responsive;
         currentEventData.eventName = "answer";

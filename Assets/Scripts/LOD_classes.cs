@@ -173,9 +173,9 @@ public class LOD_Obj
 				double area = rectTransform.rect.width * rectTransform.rect.height;
 				if(area > 0)
                 {
-					Debug.Log("before Volume: " + volume);
+
 					volume *= area;
-					Debug.Log("after Volume: " + volume);
+
                 }
             }
 			scale *= volume;
@@ -254,14 +254,14 @@ public class LOD_Interact
 		{
 			//g.IsInteractive = v;
 			g.IsEnabled = v;
-/*			Debug.Log("g: " + g + ", is interactive? " + v);*/
+
 		}
 		set = v;
 	}
 
 	public void setUpInteraction()
 	{
-		Debug.Log("set active and disable interactive ");
+
 		foreach (Interactable g in interactables)
 		{
 			g.transform.gameObject.SetActive(true);
@@ -294,9 +294,9 @@ public class LOD_Interact
 				double area = rectTransform.rect.width * rectTransform.rect.height;
 				if(area > 0)
                 {
-					Debug.Log("before Volume: " + volume);
+
 					volume *= area;
-					Debug.Log("after Volume: " + volume);
+
                 }
             }
 			scale *= volume;
@@ -457,20 +457,20 @@ public class LOD_Select
 		{
 			g.interactable = v;
 			//g.IsEnabled = v;
-			Debug.Log("g: " + g + ", is interactive? " + v);
+
 		}
 		set = v;
 	}
 
 	public void setUpSelection()
 	{
-		Debug.Log("set active and disable interactive ");
+
 		foreach (Selectable g in selectables)
 		{
 			g.transform.gameObject.SetActive(true);
 			g.interactable = false;
 			//g.IsEnabled = false;
-			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+
 		}
 
 		set = false;
@@ -490,7 +490,7 @@ public class LOD_Select
 		double scale = volume;
 		while (pt != null)
 		{
-			Debug.Log("Name: " + pt.name);
+
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
 			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
 			if(rectTransform != null)
@@ -498,9 +498,9 @@ public class LOD_Select
 				double area = rectTransform.rect.width * rectTransform.rect.height;
 				if(area > 0)
                 {
-					Debug.Log("before Volume: " + volume);
+
 					volume *= area;
-					Debug.Log("after Volume: " + volume);
+
                 }
             }
 			scale *= volume;

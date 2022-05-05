@@ -39,6 +39,7 @@ public class Weather : MonoBehaviour
         minutesBetweenUpdate = 10f;
         timer = 0;
 
+        GetWeatherInfo();
         Debug.Log("WEATHER START");
 
 /*        
@@ -73,24 +74,20 @@ public class Weather : MonoBehaviour
         study = s;
     }
 
-    public void setCurrentTemp()
+
+    public string getMainTemp()
     {
-        study.setCorrentAnswer(main_temp.text);
+        return main_temp.text;
     }
 
-    public void setLocation()
-    {
-        study.setCorrentAnswer(location.text);
-    }
-
-    public void setMinTemp()
-    {
-        study.setCorrentAnswer(min_temp.text);
-    }
-
-    public string getMinTemp()
+        public string getMinTemp()
     {
         return min_temp.text;
+    }
+
+        public string getLocation()
+    {
+        return location.text.ToLower();
     }
 
     private IEnumerator GetWeatherInfo()
@@ -118,7 +115,7 @@ public class Weather : MonoBehaviour
     void Update()
     {
         //if ip found then
-        /*
+
         if (timer <= 0)
         {
             StartCoroutine(GetWeatherInfo());
@@ -128,7 +125,7 @@ public class Weather : MonoBehaviour
         {
             timer -= Time.deltaTime;
         }
-        */
+
     }
 
     void setUp(string loc, float t, float min, float max)

@@ -129,12 +129,17 @@ public class Task
 
 	public void setResponsive(bool b)
     {
+		Debug.Log("set Responsive task");
 		isReponsive = b;
 		ResponsiveDesign rd = Task_Object.GetComponent<ResponsiveDesign>();
         if (!b)
         {
-			rd.enabled = false;
+			Debug.Log("disable responsive design");
+			//rd.enabled = false;
+			rd.disableResponsiveDesign();
         }
+
+		rd.enabled = b;
 	}
 
 	public long total_time()
