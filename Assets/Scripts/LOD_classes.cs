@@ -513,3 +513,9 @@ public class LOD_Select
 		return scale;
 	}
 }
+
+/*
+ * Welcome to the Improving Usability of AR Applications User Study. 
+ * 
+ * 
+ */

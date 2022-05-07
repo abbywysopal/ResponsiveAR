@@ -172,13 +172,9 @@ public class UserStudyTask : MonoBehaviour
         else
         {
             Debug.Log("Finished Experiement");
-            /*
-            GetResults();
             Final_popup.SetActive(true);
-            */
             record.stopRecording();
             isRecording = false;
-            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
         }
     }
 
@@ -327,7 +323,7 @@ public class UserStudyTask : MonoBehaviour
         {
             tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
             correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMinTemp();
-            tasks[current_task].setTScale(.9f);
+            tasks[current_task].setTScale(.7f);
             tasks[current_task].moveDescY(0.12f);
         }
 

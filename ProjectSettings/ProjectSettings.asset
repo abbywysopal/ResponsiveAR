@@ -642,6 +642,7 @@ PlayerSettings:
       Location: True
       SpatialPerception: True
       InternetClient: True
+      WebCam: True
       Microphone: True
   metroTargetDeviceFamilies: {}
   metroFTAName: 
