@@ -67,7 +67,7 @@ public class Weather : MonoBehaviour
 
         public string getLocation()
     {
-        return location.text.ToLower();
+        return  location.text.ToLower();
     }
 
     private IEnumerator GetWeatherInfo()

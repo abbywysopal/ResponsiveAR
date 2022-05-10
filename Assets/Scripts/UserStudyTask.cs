@@ -123,7 +123,7 @@ public class UserStudyTask : MonoBehaviour
         UserID = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
         current_task = 0;
         keyboard.SetActive(false);
-        //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -2.0f, 0.36f);
+        //keyboard.transform.position = keyboard.transform.position + new Vector3( 0.0f, -1.8f, 0.38f);
         NumberDisplay.setTask(this);
         Final_popup.SetActive(false);
         //Start_popup.SetActive(true);
@@ -295,7 +295,7 @@ public class UserStudyTask : MonoBehaviour
         }
         if(current_task == 4)
         {
-            tasks[current_task].setTScale(.6f);
+            tasks[current_task].setTScale(.55f);
             //tasks[current_task].moveDescY(-0.1f);
             correct_answer = "9499274580";
         }
@@ -368,8 +368,16 @@ public class UserStudyTask : MonoBehaviour
     public void EnterAnswer(TextMeshProUGUI text)
     {
         string input = text.text.Substring(0, text.text.Length - 1).ToLower();
-        input = input.Trim();
+        char[] charsToTrim = {' '};
+        input = input.Trim(charsToTrim);
         input = input.ToLower();
+
+        while(input.Contains("  "))
+        {
+            int index = input.IndexOf("  ");
+            input =  input.Substring(0, index) +  input.Substring(index+1);
+        }
+        Debug.Log("eneterd: " + input);
         
         if (isRecording)
         {
