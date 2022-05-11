@@ -74,7 +74,7 @@ public class SessionRecording
     public long sessionNumber;
     public float tickRate = Const.TICK_RATE;
     public List<StudyFrame> frames;
-    public bool isReponsive;
+    public bool isResponsive;
 
     public SessionRecording(float t = Const.TICK_RATE)
     {
@@ -224,7 +224,7 @@ public class SceneStudyManager : MonoBehaviour
         obj.sessionRecordings[0].start_time = st;
         obj.sessionRecordings[0].end_time = et;
         obj.sessionRecordings[0].task = desc;
-        obj.sessionRecordings[0].isReponsive = b;
+        obj.sessionRecordings[0].isResponsive = b;
         obj.sessionRecordings[0].total_time = t;
 
         newSession = true;

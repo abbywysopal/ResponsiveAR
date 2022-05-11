@@ -3073,7 +3073,6 @@ GameObject:
   m_Component:
   - component: {fileID: 96785458}
   - component: {fileID: 96785486}
-  - component: {fileID: 96785487}
   - component: {fileID: 96785456}
   - component: {fileID: 96785457}
   m_Layer: 0
@@ -3124,14 +3123,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &96785487
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96785459}
-  m_Mesh: {fileID: 0}
 --- !u!1 &101015178
 GameObject:
   m_ObjectHideFlags: 0
@@ -15188,7 +15179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 457794840}
   - component: {fileID: 457794916}
-  - component: {fileID: 457794917}
   - component: {fileID: 457794842}
   - component: {fileID: 457794843}
   m_Layer: 0
@@ -15339,14 +15329,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &457794917
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457794841}
-  m_Mesh: {fileID: 0}
 --- !u!1 &465020078
 GameObject:
   m_ObjectHideFlags: 0
@@ -18288,7 +18270,6 @@ GameObject:
   m_Component:
   - component: {fileID: 556090550}
   - component: {fileID: 556090570}
-  - component: {fileID: 556090571}
   - component: {fileID: 556090548}
   - component: {fileID: 556090549}
   m_Layer: 0
@@ -18339,14 +18320,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &556090571
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556090551}
-  m_Mesh: {fileID: 0}
 --- !u!1 &573415713
 GameObject:
   m_ObjectHideFlags: 0
@@ -22893,37 +22866,6 @@ Transform:
   - {fileID: 1914742142}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &702796245
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 702796246}
-  m_Layer: 0
-  m_Name: HandMenu_LayoutOptions
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &702796246
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702796245}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2062566333}
-  m_Father: {fileID: 1157600072}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705265208
 GameObject:
@@ -32919,6 +32861,23 @@ PrefabInstance:
       value: -538.52985
       objectReference: {fileID: 0}
     - target: {fileID: 3310027813937053646, guid: bc5f3663391bc8b4fbe79313540d2b15, type: 3}
+      propertyPath: m_text
+      value: MRTK provides building blocks for the spatial interactions and UI for
+        mixed reality
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310027813937053646, guid: bc5f3663391bc8b4fbe79313540d2b15, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310027813937053646, guid: bc5f3663391bc8b4fbe79313540d2b15, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310027813937053646, guid: bc5f3663391bc8b4fbe79313540d2b15, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3310027813937053646, guid: bc5f3663391bc8b4fbe79313540d2b15, type: 3}
       propertyPath: m_textAlignment
       value: 65535
       objectReference: {fileID: 0}
@@ -38044,37 +38003,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2698969085085914751, guid: 342b0f25662efc9438b5259ea89fd0a4, type: 3}
   m_PrefabInstance: {fileID: 1152942585}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1157600071
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1157600072}
-  m_Layer: 0
-  m_Name: SceneContent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1157600072
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157600071}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 702796246}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1169423947
 GameObject:
   m_ObjectHideFlags: 0
@@ -41485,14 +41413,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!33 &1319093432
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1319093444}
-  m_Mesh: {fileID: 0}
 --- !u!23 &1319093433
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41544,7 +41464,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1319093445}
   - component: {fileID: 1319093433}
-  - component: {fileID: 1319093432}
   - component: {fileID: 1319093447}
   - component: {fileID: 1319093446}
   m_Layer: 0
@@ -50088,7 +50007,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1552593820}
   - component: {fileID: 1552593888}
-  - component: {fileID: 1552593889}
   - component: {fileID: 1552593822}
   - component: {fileID: 1552593823}
   m_Layer: 0
@@ -50239,14 +50157,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1552593889
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552593821}
-  m_Mesh: {fileID: 0}
 --- !u!1001 &1557548777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53067,7 +52977,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1657373960}
   - component: {fileID: 1657374068}
-  - component: {fileID: 1657374069}
   - component: {fileID: 1657373962}
   - component: {fileID: 1657373963}
   m_Layer: 0
@@ -53218,14 +53127,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1657374069
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657373961}
-  m_Mesh: {fileID: 0}
 --- !u!1 &1665531358
 GameObject:
   m_ObjectHideFlags: 0
@@ -67948,7 +67849,7 @@ GameObject:
   - component: {fileID: 6266962934665697122}
   - component: {fileID: 6266962934665697053}
   m_Layer: 0
-  m_Name: PalmUpHandMenu_InPalm_3x3
+  m_Name: HnadMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67962,12 +67863,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062566332}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.232, y: 0, z: 0}
+  m_LocalPosition: {x: -0.902, y: 0.1298, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1264426230}
-  m_Father: {fileID: 702796246}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2063383202
 GameObject:
@@ -73535,7 +73436,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2360790911280865978}
   - component: {fileID: 2360790911280865990}
-  - component: {fileID: 2360790911280865991}
   - component: {fileID: 2360790911280865976}
   - component: {fileID: 2360790911280865977}
   m_Layer: 0
@@ -73586,14 +73486,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2360790911280865991
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2360790911280865979}
-  m_Mesh: {fileID: 0}
 --- !u!4 &2360790911366060083
 Transform:
   m_ObjectHideFlags: 0
@@ -74884,7 +74776,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3156356665250046490}
   - component: {fileID: 3156356665250046566}
-  - component: {fileID: 3156356665250046567}
   - component: {fileID: 3156356665250046488}
   - component: {fileID: 3156356665250046489}
   m_Layer: 0
@@ -74935,14 +74826,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &3156356665250046567
-MeshFilter:
-  m_ObjectHideFlags: 59
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3156356665250046491}
-  m_Mesh: {fileID: 0}
 --- !u!4 &3210925625667407588
 Transform:
   m_ObjectHideFlags: 0
@@ -79153,7 +79036,7 @@ MonoBehaviour:
   trackedHandness: 3
   trackedHandJoint: 2
   transformOverride: {fileID: 0}
-  additionalOffset: {x: 0.1, y: -0.06, z: 0.04}
+  additionalOffset: {x: 0, y: 0, z: 0}
   additionalRotation: {x: 0, y: 0, z: 0}
   updateSolvers: 1
 --- !u!114 &6266962934665697123
@@ -79215,10 +79098,34 @@ MonoBehaviour:
         m_CallState: 2
   onFirstHandDetected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1264426229}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onLastHandLost:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1264426229}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   facingCameraTrackingThreshold: 75
   requireFlatHand: 0
   flatHandThreshold: 45

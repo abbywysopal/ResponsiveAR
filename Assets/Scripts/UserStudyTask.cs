@@ -128,7 +128,6 @@ public class UserStudyTask : MonoBehaviour
         Final_popup.SetActive(false);
         //Start_popup.SetActive(true);
         tasks = new List<Task>();
-        Task_Objs[6].SetActive(true);
         setUpTask_Objs();
         WelcomeMessage();
     }
