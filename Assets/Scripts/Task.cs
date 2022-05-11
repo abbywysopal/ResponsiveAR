@@ -18,7 +18,6 @@ public class Task
 	bool isReponsive;
 	public bool isStarted;
 	string description;
-	//bool needKeyboard;
 
 	public Task(int t, GameObject d, GameObject r, GameObject g)
 	{

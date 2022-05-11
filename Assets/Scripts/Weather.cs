@@ -60,12 +60,12 @@ public class Weather : MonoBehaviour
         return main_temp.text;
     }
 
-        public string getMinTemp()
+    public string getMinTemp()
     {
         return min_temp.text;
     }
 
-        public string getLocation()
+    public string getLocation()
     {
         return  location.text.ToLower();
     }
@@ -126,6 +126,7 @@ public class Weather : MonoBehaviour
         visibility.text = "Visibility: " + v.ToString() + "mi";
 
         float ratio = t / max;
+        Debug.Log("slider " + t);
         
         slider.value = t;
     }
@@ -135,7 +136,16 @@ public class Weather : MonoBehaviour
         for (int i = 0; i < times.Count; i++)
         {
             int newTime = hour + i;
-            int temp = (int)weather.forecast.forecastday[0].hour[newTime].temp_f;
+            int temp = Int32.Parse(main_temp.text);
+
+            if(newTime < 24)
+            {
+                 temp = (int)weather.forecast.forecastday[0].hour[newTime].temp_f;
+            }
+            else
+            {
+                temp = (int)weather.forecast.forecastday[1].hour[newTime - 24].temp_f;
+            }
 
             string tt = "AM";
             if (newTime >= 12)

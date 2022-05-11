@@ -283,7 +283,7 @@ public class UserStudyTask : MonoBehaviour
         }
         if (current_task == 2)
         {
-            tasks[current_task].setTScale(.31f);
+            tasks[current_task].setTScale(.35f);
             tasks[current_task].moveDescY(-0.05f);
             correct_answer = "4th Author";
         }
@@ -315,7 +315,7 @@ public class UserStudyTask : MonoBehaviour
         if (current_task == 7)
         {
             tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
-            tasks[current_task].setTScale(.4f);
+            tasks[current_task].setTScale(.43f);
             tasks[current_task].moveDescY(0.12f);
             correct_answer = Task_Objs[current_task].GetComponent<Weather>().getLocation();
         }
@@ -323,7 +323,7 @@ public class UserStudyTask : MonoBehaviour
         {
             tasks[current_task].setTPosition(0.0f, 0.08f, 0.6f, Camera.main.transform.position);
             correct_answer = Task_Objs[current_task].GetComponent<Weather>().getMinTemp();
-            tasks[current_task].setTScale(.7f);
+            tasks[current_task].setTScale(.77f);
             tasks[current_task].moveDescY(0.12f);
         }
 

@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Experimental - MixedRealityKeyboard/Scenes/MixedRealityKeyboardExample.unity
     guid: b21a91f417fdc7b41b531772ff092fcb
+  - enabled: 0
+    path: Assets/Scenes/OpenLab.unity
+    guid: 7c0bb3049589c9e47a02ab3bbed14140
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ad376e979396cf84a8514b630a6253ec, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 6ee99399676f5834496ef80996f2a179, type: 2}
