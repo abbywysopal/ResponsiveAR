@@ -139,9 +139,10 @@ public class ResponsiveValues : MonoBehaviour
             count += 1;
         }
 
+        ratio *= 10;
+
         foreach (KeyValuePair<int, LOD_TMP> kvp in text)
         {
-            ratio *= 10;
             size = kvp.Value.getTextSize();
             names[count].text = kvp.Value.getName();
             types[count].text = "TMP";

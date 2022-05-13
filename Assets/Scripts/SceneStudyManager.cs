@@ -121,7 +121,16 @@ public class SceneStudyManager : MonoBehaviour
     public void startRecording()
     {
         record_type = "Experiment";
-        pathString = Application.persistentDataPath +  "/ResponsiveAR/" + "Experiment/";
+        if(pathString == "")
+        {
+            startTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            pathString = Application.persistentDataPath + "/" + startTime.ToString() + "/" + "Experiment/";
+        }
+        else
+        {
+            pathString = Application.persistentDataPath + "/" + startTime.ToString() + "/" +  "Experiment/";
+        }
+
         System.IO.Directory.CreateDirectory(pathString);
 
         Debug.Log("StartRecording");
@@ -131,7 +140,16 @@ public class SceneStudyManager : MonoBehaviour
     public void startRecordingTutorial()
     {
         record_type = "Tutorial";
-        pathString = Application.persistentDataPath + "/ResponsiveAR/" + "Tutorial/";
+        if(pathString == "")
+        {
+            startTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            pathString = Application.persistentDataPath + "/" + startTime.ToString() + "/" + "Tutorial/";
+        }
+        else
+        {
+            pathString = Application.persistentDataPath + "/" + startTime.ToString() + "/" + "Tutorial/";
+        }
+
         System.IO.Directory.CreateDirectory(pathString);
 
         Debug.Log("StartRecording");
@@ -153,7 +171,7 @@ public class SceneStudyManager : MonoBehaviour
 
     public void SaveIntoJson()
     {
-        filename = Application.persistentDataPath + "/ResponsiveAR/" + record_type + "/" + record_type + "Session_" + sessionNumber + "_" + startTime + ".json";
+        filename = pathString + record_type + "Session_" + sessionNumber + "_" + startTime + ".json";
         Debug.Log(pathString);
         if (sessionNumber == 0)
         {
@@ -266,7 +284,7 @@ public class SceneStudyManager : MonoBehaviour
         parent = gameObject;
         Application.targetFrameRate = Const.FRAME_RATE;
         startTime = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
+        pathString = Application.persistentDataPath + "/" + startTime.ToString() + "/";
         obj = new StudyObject();
 
         obj.tickRate = Const.TICK_RATE;
@@ -277,7 +295,7 @@ public class SceneStudyManager : MonoBehaviour
         obj.sessionRecordings.Add(currentSession);
         currentFrame = new StudyFrame();
         currentFrame.frameNum = 0;
-        pathString = Application.persistentDataPath + "/";
+        //pathString = Application.persistentDataPath + "/";
 
     }
 

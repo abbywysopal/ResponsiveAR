@@ -294,7 +294,7 @@ public class ResponsiveDesign : MonoBehaviour
         }
     }
 
-
+    //https://docs.microsoft.com/en-us/windows/mixed-reality/design/typography
     void setUpLODText(double s)
     {
 

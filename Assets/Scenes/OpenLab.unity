@@ -8966,7 +8966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d9acc7968244a8886f3af591305bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeProfile: {fileID: 11400000, guid: 7e7c962b9eb9dfa44993d5b2f2576752, type: 2}
+  activeProfile: {fileID: 11400000, guid: 768dc01e86d7daf4792b05e7a2252eb3, type: 2}
 --- !u!4 &301268646
 Transform:
   m_ObjectHideFlags: 0
@@ -40012,7 +40012,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264426229}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8adeb8b21c6d120408d0aea984f6b26d, type: 3}
   m_Name: 
@@ -67442,7 +67442,7 @@ GameObject:
   - component: {fileID: 6266962934665697122}
   - component: {fileID: 6266962934665697053}
   m_Layer: 0
-  m_Name: HnadMenu
+  m_Name: HandMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
