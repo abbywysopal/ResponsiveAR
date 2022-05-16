@@ -732,11 +732,7 @@ public class ResponsiveDesign : MonoBehaviour
         responsiveData.scale = parent.transform.localScale;
         responsiveData.position = parent.transform.position;
 
-        responsiveData.text = text;
-        responsiveData.text_gui = text_gui;
-        responsiveData.objects = objects;
-        responsiveData.interaction = interaction;
-        responsiveData.selection = selection;
+        responsiveData.name = parent.name;
     }
 
     public static ResponsiveData GetResponsiveData()
@@ -749,11 +745,7 @@ public class ResponsiveDesign : MonoBehaviour
 [System.Serializable]
 public class ResponsiveData
 {
-    public IDictionary<int, LOD_TMP> text;
-    public IDictionary<int, LOD_TMP_GUI> text_gui;
-    public IDictionary<int, LOD_Obj> objects;
-    public IDictionary<int, LOD_Interact> interaction;
-    public IDictionary<int, LOD_Select> selection;
+    public string name;
 
     public Vector3 scale;
     public Vector3 position;

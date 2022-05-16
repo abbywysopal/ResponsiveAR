@@ -102,6 +102,11 @@ public class UserStudyTask : MonoBehaviour
 
     public bool touchpad_enter(string entered_num)
     {
+        if (isRecording)
+        {
+            log_data_entered(entered_num);
+        }
+      
         return complete(entered_num);
     }
 
