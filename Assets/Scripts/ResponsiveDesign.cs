@@ -25,13 +25,10 @@ using Microsoft.MixedReality.Toolkit.UI;
  * 
  */
 [RequireComponent(typeof(Transform))]
-/*[RequireComponent(typeof(Collider))]*/
 public class ResponsiveDesign : MonoBehaviour
 {
     [SerializeField]
     GameObject parent;
-    //[SerializeField]
-    //Collider collider;
 
     double objectMedian;
     double ratio;
@@ -52,14 +49,12 @@ public class ResponsiveDesign : MonoBehaviour
     { 
         SetUp();
         var headPosition = Camera.main.transform.position;
-        //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
         distance = Math.Abs(dist(parent.transform, Camera.main.transform));
         scale = Math.Abs(parent.transform.localScale.x);
         ratio = getRatio(scale, distance);
         setUpLOD(scale);
 
         continuousFunction(ratio);
-        //gazeFunction();
     }
 
    
@@ -72,13 +67,10 @@ public class ResponsiveDesign : MonoBehaviour
         */
 
         var headPosition = Camera.main.transform.position;
-        //double disToHead = calcDist(Camera.main.transform.position, parent.transform.position);
         distance = Math.Abs(dist(parent.transform, Camera.main.transform));
         scale = Math.Abs(parent.transform.localScale.x);
         ratio = getRatio(scale, distance);
-        //Debug.Log("Ratio: " + ratio.ToString());
         continuousFunction(ratio);
-        //gazeFunction();
         log_data();
 
     }
@@ -156,28 +148,7 @@ public class ResponsiveDesign : MonoBehaviour
 
                 child.gameObject.SetActive(false);
             }
-            /*
-            else
-            {
-                child.gameObject.SetActive(true);
-            }
-            */
         }
-
-        /*
-        Debug.Log("allTransforms");
-        Debug.Log(allTransforms.Length);
-        Debug.Log("allObjects");
-        Debug.Log(allObjects.Count);
-        Debug.Log("allText");
-        Debug.Log(allText.Count);
-        Debug.Log("allText_GUI");
-        Debug.Log(allText_GUI.Count);
-        Debug.Log("allInteraction");
-        Debug.Log(allInteraction.Count);
-        */
-
-
 
         if (allText.Count > 0)
         {
@@ -209,37 +180,26 @@ public class ResponsiveDesign : MonoBehaviour
 
     void setUpLOD(double s)
     {
-        //setUpLODText(s);
-        //setUpLODObjects(s);
 
         float fontRatio = .09f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
 
-        //Debug.Log("fontRatio: " + fontRatio);
-        //Debug.Log("ratio: " + r);
         for (int i = 0; i < text.Count; i++)
         {
             double textSize = text[i].getTextSize();
-            double size = fontRatio / textSize;
-            double result = size * s;
+            double result = s * (fontRatio / textSize);
             text[i].setRatio(result);
-/*            Debug.Log("textSize: " + textSize);
-            Debug.Log("ratio: " + result);*/
-
         }
 
         fontRatio *= .1f;//TMProUGUI is 10* larger than TMPro
-        //Debug.Log("fontRatio: " + fontRatio);
 
         for (int i = 0; i < text_gui.Count; i++)
         {
             double textSize = text_gui[i].getTextSize();
-            double size = fontRatio / textSize;
-            double result = size * s;
+            double result = s * (fontRatio / textSize);
             text_gui[i].setRatio(result);
-
         }
 
-        double objectRatio = .001f / 1f; //objects do not need to be readable, so should appear at smaller sizes
+        double objectRatio = .0045f / 1f; //objects do not need to be readable, so should appear at smaller sizes
         objectRatio *= .01f; //ratio is determined by volume unlike the size of text
         objectRatio *= .01f;
 
@@ -250,13 +210,12 @@ public class ResponsiveDesign : MonoBehaviour
             objects[i].setRatio(result);
         }
 
+        objectRatio /= .01f;
         for (int i = 0; i < interaction.Count; i++)
         {
             double sizeObj = interaction[i].getLocalSize();
             double result = s * (objectRatio / sizeObj);
             interaction[i].setRatio(result);
-/*            Debug.Log("objSize: " + sizeObj);
-            Debug.Log("ratio: " + result);*/
         }
 
         objectRatio *= .01f;//UI 10* smaller than rest
@@ -293,71 +252,6 @@ public class ResponsiveDesign : MonoBehaviour
             kvp.Value.setLOD(true);
         }
     }
-
-    //https://docs.microsoft.com/en-us/windows/mixed-reality/design/typography
-    void setUpLODText(double s)
-    {
-
-        float fontRatio = .05f / 1f; //https://www.sciencebuddies.org/science-fair-projects/science-fair/display-board-fonts
-
-        //Debug.Log("fontRatio: " + fontRatio);
-        //Debug.Log("ratio: " + r);
-        for (int i = 0; i < text.Count; i++)
-        {
-            double textSize = text[i].getTextSize();
-            double size = fontRatio / textSize;
-            double result = size * s;
-            text[i].setRatio(result);
-/*            Debug.Log("textSize 2: " + textSize);
-            Debug.Log("ratio: " + result);*/
-
-        }
-
-        fontRatio *= .1f;//TMProUGUI is 10* larger than TMPro
-        //Debug.Log("fontRatio: " + fontRatio);
-
-        for (int i = 0; i < text_gui.Count; i++)
-        {
-            double textSize = text_gui[i].getTextSize();
-            double size = fontRatio / textSize;
-            double result = size * s;
-            text_gui[i].setRatio(result);
-
-        }
-
-    }
-
-    void setUpLODObjects(double s)
-    {
-
-        double objectRatio = .005f / 1f; //objects do not need to be readable, so should appear at smaller sizes
-        objectRatio *= .01f; //ratio is determined by volume unlike the size of text
-        objectRatio *= .01f;
-
-/*        objects[0].setRatio(0);*/
-
-        for(int i = 0; i < objects.Count; i++)
-        {
-            double sizeObj = objects[i].getLocalSize();
-            double result = s * (objectRatio / sizeObj);
-            objects[i].setRatio(result);
-        }
-
-        for (int i = 0; i < interaction.Count; i++)
-        {
-            double sizeObj = interaction[i].getLocalSize();
-            double result = s * (objectRatio / sizeObj);
-            interaction[i].setRatio(result);
-        }
-
-        for (int i = 0; i < selection.Count; i++)
-        {
-            double sizeObj = selection[i].getLocalSize();
-            double result = s * (objectRatio / sizeObj);
-            selection[i].setRatio(result);
-        }
-    }
-
 
     void continuousFunction(double ratio)
     {
@@ -428,69 +322,6 @@ public class ResponsiveDesign : MonoBehaviour
 
     }
 
-    /*
-     * CAN USE THIS FUNCTION FOR text transparency changes
-    void gazeFunction()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(
-                Camera.main.transform.position,
-                Camera.main.transform.forward,
-                out hitInfo,
-                20.0f,
-                Physics.DefaultRaycastLayers))
-        {
-            // If the Raycast has succeeded and hit a hologram
-            // hitInfo's point represents the position being gazed at
-            // hitInfo's collider GameObject represents the hologram being gazed at
-            if (hitInfo.collider == collider)
-            {
-
-                //Debug.Log("HIT");
-                //Debug.Log(hitInfo.collider);
-                foreach (KeyValuePair<int, LOD_TMP> kvp in text)
-                {
-                    bool set = kvp.Value.getSet();
-                    if (set)
-                    {
-                         Debug.Log("call increase in gaze");
-                        text[kvp.Key].increaseTransparency();
-                    }
-
-                }
-            }
-            else
-            {
-                //Debug.Log("Hit something else");
-                //Debug.Log(hitInfo.collider);
-                foreach (KeyValuePair<int, LOD_TMP> kvp in text)
-                {
-                    bool set = kvp.Value.getSet();
-                    if (!set)
-                    {
-                         text[kvp.Key].decreaseTransparency();
-                    }
-
-                }
-            }
-        }
-        else
-        {
-            //Debug.Log("Out of focus");
-            foreach (KeyValuePair<int, LOD_TMP> kvp in text)
-            {
-                bool set = kvp.Value.getSet();
-                if (set)
-                {
-                     Debug.Log("call increase in gaze");
-                    text[kvp.Key].increaseTransparency();
-                }
-
-            }
-        }
-    }
-    */
-
     double calcDist(Vector3 obj1, Vector3 obj2)
     {
         double x = obj1.x - obj2.x;
@@ -513,10 +344,10 @@ public class ResponsiveDesign : MonoBehaviour
     double getTextSize(TextMeshPro t)
     {
         Transform pt = t.transform.parent;
-        double scale = t.fontSize * t.transform.localScale.x;
+        double scale = t.fontSize * t.transform.localScale.y;
         while (pt != null)
         {
-            scale *= pt.transform.localScale.x;
+            scale *= pt.transform.localScale.y;
             pt = pt.parent;
         }
 
@@ -526,10 +357,10 @@ public class ResponsiveDesign : MonoBehaviour
     double getTextSize(TextMeshProUGUI t)
     {
         Transform pt = t.transform.parent;
-        double scale = t.fontSize * t.transform.localScale.x;
+        double scale = t.fontSize * t.transform.localScale.y;
         while (pt != null)
         {
-            scale *= pt.transform.localScale.x;
+            scale *= pt.transform.localScale.y;
             pt = pt.parent;
         }
 
@@ -581,18 +412,6 @@ public class ResponsiveDesign : MonoBehaviour
         }
 
         text[groupId] = new LOD_TMP(groupId, 0, temp, false);
-
-    /*       foreach (KeyValuePair<int, LOD_TMP> kvp in text)
-               {
-            //Debug.Log("kvp.Key: " + kvp.Key);
-            List<TextMeshPro> list = kvp.Value.getText();
-            foreach (TextMeshPro t in list)
-            {
-                double s = getTextSize(t);
-                Debug.Log(t + " fontSize: " + t.fontSize.ToString() + " global size:" + s.ToString());
-            }
-        }
-    */
 
     }
 
@@ -650,26 +469,12 @@ public class ResponsiveDesign : MonoBehaviour
 
         objects[groupId] =  new LOD_Obj(groupId, 0, temp, false);
 
-/*        foreach (KeyValuePair<int, LOD_Obj> kvp in objects)
-        {
-            Debug.Log("kvp.Key: " + kvp.Key);
-            List<GameObject> list = kvp.Value.getObjects();
-            foreach (GameObject g in list)
-            {
-                double v = getObjectSize(g);
-                Debug.Log(g + " " + " " + v.ToString());
-            }
-        }
-*/
-
     }
 
 
     //inteaction only at highest LOD
     void GroupInteraction(List<Interactable> allInteraction)
     {
-
-        //interaction[1] = new LOD_Interact(1, 0, allInteraction, false);
 
         allInteraction.Sort(new VolumeFirst_Interact());
 

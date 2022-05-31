@@ -404,10 +404,10 @@ public class LOD_TMP_GUI
 	{
 		TextMeshProUGUI t = text[0];
 		Transform pt = t.transform.parent;
-		double scale = t.fontSize * t.transform.localScale.x;
+		double scale = t.fontSize * t.transform.localScale.y;
 		while (pt != null)
 		{
-			scale *= pt.transform.localScale.x;
+			scale *= pt.transform.localScale.y;
 			pt = pt.parent;
 		}
 
