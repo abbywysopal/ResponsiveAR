@@ -134,7 +134,7 @@ public class UserStudyTask : MonoBehaviour
         //Start_popup.SetActive(true);
         tasks = new List<Task>();
         setUpTask_Objs();
-        WelcomeMessage();
+        //WelcomeMessage();
     }
 
     public void WelcomeMessage()

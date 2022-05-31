@@ -10,6 +10,7 @@ public class SceneSwitcher : MonoBehaviour
     bool tutorialScene;
     bool MRTKEXScene;
     bool designScene;
+    bool openLabScene;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,7 @@ public class SceneSwitcher : MonoBehaviour
          tutorialScene = false;
          MRTKEXScene = false;
          designScene = false;
+         openLabScene = false;
     }
 
     // Update is called once per frame
@@ -83,6 +85,23 @@ public class SceneSwitcher : MonoBehaviour
         }
     }
 
+
+        
+    public void ToggleOpenLab()
+    {
+        if (openLabScene)
+        {
+            SceneManager.UnloadSceneAsync("OpenLab");
+            openLabScene = false;
+        }
+        else
+        {
+            SceneManager.LoadScene("OpenLab", LoadSceneMode.Additive);
+            openLabScene = true;
+        }
+    }
+
+
     public void UserStudyScene()
     {
         SceneManager.LoadScene("UserStudyScene", LoadSceneMode.Additive);
@@ -102,4 +121,6 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial", LoadSceneMode.Additive);
     }
+
+
 }
