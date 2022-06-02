@@ -1,46 +1,46 @@
 ,Timestamp,userID,What is your gender identity?,What is your age?,Do you have normal or corrected-to-normal vision?,"If you have corrected-to-normal vision, what type of correction will you wear during the study?",Do you have any hearing impairments?,"If yes, what type of impairment?","If yes, will you be wearing an assistive hearing device during the study?","Do you have any other sensory or perceptual impairments (e.g. color blindness, lazy eye, monocular vision)?","If yes, what are your sensory or perceptual impairments?",Please indicate your proficiency in English:,Have you ever been diagnosed with epilepsy or have had a history of seizures?,Which hand is your dominant hand?,Do you play video or computer games? *,How many hours during a typical week do you play video or computer games?,I am familiar with virtual reality (VR).,How many times have you used VR before?,I am familiar with augmented reality (AR).,How many times have you used AR applications?,How many times have you used an AR headset?,How much time do you spend using technology per day?,Mode,Application,Time,Guesses,Avg Dist,Avg Ratio
-0,2022/05/15 10:05:24 PM MDT,30,Male,33,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,5,1,10+,3,1 - 5,1,13+ hours,0,Article,57031,4,0.615969756,0.549512691
-1,2022/05/16 11:27:09 AM MDT,31,Female,19,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,6,0,6,0,0,6 - 9 Hours,1,Article,17031,4,0.635106182,0.527921262
-2,2022/05/15 9:07:50 PM MDT,32,Female,24,Yes,Not applicable,No,,No,No,,1,No,Right-handed,No,0,1,10+,1,1 - 5,1,13+ hours,0,Article,18383,6,0.587771948,0.646757681
-3,2022/05/15 11:26:21 PM MDT,33,Female,20,Yes,Contacts,No,,,No,,1,No,Right-handed,No,0,5,5 - 10,1,10+,0,9 - 12 Hours,1,Article,18449,4,0.634934784,0.577216573
-4,2022/05/15 3:45:01 PM MDT,34,Male,20,Yes,Contacts,No,,,No,,1,No,Left-handed,Yes,12,5,1 - 5,3,10+,1,9 - 12 Hours,0,Article,50476,9,0.588538351,0.557542671
-5,2022/05/17 8:56:10 AM MDT,35,Male,33,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,10,1,10+,1,5 - 10,1,13+ hours,1,Article,29268,4,0.603870115,0.615588118
-6,2022/05/16 11:38:39 AM MDT,36,Male,41,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,1,1,10+,1,10+,1,13+ hours,0,Article,26141,4,0.584653944,0.601896068
-7,2022/05/17 11:21:50 AM MDT,37,Male,24,Yes,Contacts,No,,No,No,,1,No,Ambidextrous,No,0,3,0,5,1 - 5,0,6 - 9 Hours,1,Article,15321,5,0.6196692429999999,0.6286131420000001
-8,2022/05/26 11:55:53 AM MDT,38,Male,23,Yes,Contacts,No,,,No,,0,No,Left-handed,Yes,0.5,5,10+,4,10+,1,9 - 12 Hours,0,Article,34780,4,0.575971501,0.5989138820000001
-9,2022/05/17 4:02:28 PM MDT,39,Male,30,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,5,1 - 5,5,1 - 5,1,0 - 2 Hours,1,Article,22522,4,0.5973011460000001,0.579790256
-10,2022/05/17 5:34:24 PM MDT,40,Female,31,Yes,Contacts,No,,,No,,0,No,Right-handed,No,0,6,1 - 5,5,1 - 5,0,6 - 9 Hours,0,Article,128797,7,0.727573317,0.431589469
-11,2022/05/18 3:53:44 AM MDT,41,Female,21,Yes,Glasses,No,,,No,,1,No,Left-handed,Yes,10,3,1 - 5,3,10+,1,9 - 12 Hours,1,Article,20087,4,0.5943927170000001,0.615081676
-12,2022/05/19 12:56:44 PM MDT,43,Female,19,Yes,Not applicable,No,,No,Yes,Very minor lazy eye but it doesn't affect my overall vision,1,No,Right-handed,Yes,5,3,0,2,10+,0,6 - 9 Hours,1,Article,108861,12,0.6473269939999999,0.532924131
-13,2022/05/18 1:01:23 PM MDT,44,Female,28,Yes,Glasses,No,,,No,,0,No,Right-handed,No,1,5,10+,6,10+,1,13+ hours,0,Article,27551,6,0.625025266,0.588078814
-14,2022/05/19 1:39:53 PM MDT,45,Female,22,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,12,1,0,5,1 - 5,0,9 - 12 Hours,1,Article,58152,5,0.608301681,0.6914533159999999
-15,2022/05/20 11:10:32 AM MDT,46,Female,21,Yes,Not applicable,No,,No,No,,1,No,Right-handed,Yes,I used to I have t played since 2018,1,1 - 5,1,10+,0,13+ hours,0,Article,89602,7,0.609343975,0.536866153
-16,2022/05/25 9:15:09 PM MDT,47,Male,28,Yes,Not applicable,No,,No,No,,1,No,Left-handed,No,0,3,1 - 5,2,5 - 10,1,6 - 9 Hours,1,Article,35084,4,0.602968675,0.671100789
-17,2022/05/23 7:43:14 PM MDT,48,Female,22,Yes,Contacts,No,,,No,,0,No,Right-handed,Yes,15,6,1 - 5,6,0,0,13+ hours,0,Article,48873,12,0.529884296,0.659903231
-18,2022/05/17 3:03:52 PM MDT,49,Female,18,Yes,Glasses,No,,,No,,1,No,Right-handed,No,0,7,0,5,1 - 5,0,3 - 5 Hours,1,Article,18892,6,0.646602586,0.533768703
-19,2022/05/19 11:07:41 AM MDT,51,Male,19,Yes,Not applicable,No,,,No,,1,No,Right-handed,Yes,4,5,1 - 5,3,1 - 5,1,6 - 9 Hours,1,Article,24929,5,0.674550924,0.500910741
-20,2022/05/23 4:02:50 PM MDT,53,Male,28,Yes,Not applicable,No,,No,No,,0,No,Right-handed,Yes,1,1,10+,1,10+,1,6 - 9 Hours,1,Article,22452,4,0.605943981,0.544247856
-21,2022/05/23 4:50:37 PM MDT,54,Non-nonbinary,18,Yes,Glasses,No,,,No,,1,No,Right-handed,Yes,2,2,5 - 10,1,10+,0,9 - 12 Hours,0,Article,37431,4,0.655800342,0.5644629489999999
-22,2022/05/25 12:53:03 PM MDT,55,Female,18,Yes,,No,,No,No,,1,No,Right-handed,No,0,5,1 - 5,4,10+,1,6 - 9 Hours,1,Article,66382,7,0.6832463459999999,0.55229457
-23,2022/05/17 11:28:34 AM MDT,56,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,0.01 like not often anymore,6,1 - 5,4,1 - 5,0,9 - 12 Hours,0,Article,69299,10,0.667119404,0.49419794899999997
-24,2022/05/17 6:14:53 PM MDT,57,Female,25,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,<1,5,1 - 5,3,1 - 5,1,6 - 9 Hours,1,Article,61038,6,0.754030071,0.497172689
-25,2022/05/18 10:09:42 AM MDT,58,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,No,N/a,7,0,7,0,0,6 - 9 Hours,0,Article,43152,4,0.605398894,0.641102996
-26,2022/05/18 2:31:34 PM MDT,59,Male,20,Yes,Not applicable,No,,No,No,,1,No,Right-handed,Yes,2,4,1 - 5,3,1 - 5,0,9 - 12 Hours,1,Article,31702,5,0.687700968,0.54666068
-27,2022/05/20 5:28:45 PM MDT,60,Male,21,Yes,Not applicable,No,,,No,,1,No,Right-handed,Yes,1,6,1 - 5,6,1 - 5,1,6 - 9 Hours,0,Article,25789,5,0.61614296,0.613418261
-28,2022/05/22 8:52:29 PM MDT,61,Non-binary,22,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,10,3,1 - 5,3,10+,0,6 - 9 Hours,1,Article,10803,4,0.6070513820000001,0.584496462
-29,2022/05/23 1:54:17 PM MDT,63,Female,21,Yes,Not applicable,No,,,No,,1,No,Right-handed,No,0,3,1 - 5,5,10+,1,6 - 9 Hours,1,Article,55029,7,0.617650176,0.618358241
-30,2022/05/24 12:01:10 AM MDT,64,Female,20,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,1,7,0,7,0,0,6 - 9 Hours,0,Article,38890,7,0.643040718,0.71336811
-31,2022/05/23 5:56:32 PM MDT,65,Male,20,Yes,Glasses,No,,No,No,,0,No,Left-handed,No,0,1,5 - 10,3,1 - 5,0,3 - 5 Hours,1,Article,50409,5,0.594161822,0.651696057
-32,2022/05/27 2:36:12 PM MDT,67,Female,19,Yes,Not applicable,No,,No,No,,1,No,Left-handed,No,3,4,1 - 5,6,0,0,6 - 9 Hours,1,Article,27320,4,0.5599452779999999,0.6540201170000001
-33,2022/05/20 11:41:36 AM MDT,68,Male,22,Yes,Glasses,No,,No,No,,0,No,Right-handed,Yes,7,3,1 - 5,3,0,0,9 - 12 Hours,0,Article,32974,9,0.603618257,0.5560803870000001
-34,2022/05/24 5:28:01 PM MDT,69,Female,20,Yes,Not applicable,No,,No,No,,1,No,Right-handed,No,0,3,1 - 5,3,10+,0,3 - 5 Hours,1,Article,24510,4,0.596671677,0.535513424
-35,2022/05/19 1:54:17 AM MDT,70,Female,19,No,Not applicable,No,,No,No,,1,No,Right-handed,No,0,5,1 - 5,6,0,0,3 - 5 Hours,0,Article,32826,4,0.6113973739999999,0.557008455
-36,2022/05/23 2:31:32 PM MDT,71,Female,19,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,1,5,0,7,0,0,6 - 9 Hours,1,Article,35255,4,0.587740344,0.620172536
-37,2022/05/20 10:09:40 AM MDT,78,Female,20,Yes,Not applicable,No,,,Yes,slight diplopia (slight turnout in right eye occasionally),1,No,Right-handed,No,0,2,1 - 5,2,10+,0,3 - 5 Hours,0,Article,51217,7,0.598439289,0.563041224
-38,2022/05/25 1:02:36 PM MDT,79,Male,18,Yes,Glasses,No,,No,No,,1,No,Ambidextrous,Yes,3-5,2,5 - 10,3,1 - 5,1,9 - 12 Hours,0,Article,49997,4,0.5548851579999999,0.631092456
-39,2022/05/26 5:46:00 PM MDT,80,Female,22,Yes,Glasses,No,,No,Yes,astigmatism in the right eye ,1,No,Right-handed,Yes,2hr,2,5 - 10,4,5 - 10,1,9 - 12 Hours,0,Article,24712,8,0.660931124,0.575156789
-40,2022/05/25 3:01:28 PM MDT,82,Female,20,Yes,,No,,,No,,1,No,Right-handed,No,0,3,1 - 5,2,1 - 5,1,6 - 9 Hours,0,Article,23810,4,0.5887049360000001,0.591795359
-41,2022/05/23 11:00:50 AM MDT,83,Female,24,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,2,10+,2,10+,1,13+ hours,1,Article,26770,6,0.671444808,0.50549284
-42,2022/05/26 2:52:41 PM MDT,84,Genderfluid,21,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,2,5,1 - 5,3,1 - 5,0,6 - 9 Hours,0,Article,23518,7,0.613527128,0.5610775370000001
-43,2022/05/26 6:56:52 PM MDT,85,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,No,0,4,1 - 5,7,0,0,6 - 9 Hours,1,Article,36142,5,0.573673636,0.679520239
-44,2022/05/25 2:03:14 PM MDT,86,Male,32,No,,No,,No,No,,1,No,Right-handed,Yes,4,1,10+,1,10+,1,6 - 9 Hours,0,Article,56931,7,0.651579321,0.636341786
+0,2022/05/15 10:05:24 PM MDT,30,Male,33,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,5,1,10+,3,1 - 5,1,13+ hours,0,Article,57031,4,0.6159697564261419,0.549512690562884
+1,2022/05/16 11:27:09 AM MDT,31,Female,19,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,6,0,6,0,0,6 - 9 Hours,1,Article,17031,4,0.6351061818399961,0.5279212615973731
+2,2022/05/15 9:07:50 PM MDT,32,Female,24,Yes,Not applicable,No,,No,No,,1,No,Right-handed,No,0,1,10+,1,1 - 5,1,13+ hours,0,Article,18383,6,0.587771947746856,0.6467576805740575
+3,2022/05/15 11:26:21 PM MDT,33,Female,20,Yes,Contacts,No,,,No,,1,No,Right-handed,No,0,5,5 - 10,1,10+,0,9 - 12 Hours,1,Article,18449,4,0.6349347843384934,0.5772165733337238
+4,2022/05/15 3:45:01 PM MDT,34,Male,20,Yes,Contacts,No,,,No,,1,No,Left-handed,Yes,12,5,1 - 5,3,10+,1,9 - 12 Hours,0,Article,50476,9,0.5885383513229164,0.5575426710161749
+5,2022/05/17 8:56:10 AM MDT,35,Male,33,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,10,1,10+,1,5 - 10,1,13+ hours,1,Article,29268,4,0.6038701149011533,0.6155881178408266
+6,2022/05/16 11:38:39 AM MDT,36,Male,41,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,1,1,10+,1,10+,1,13+ hours,0,Article,26141,4,0.5846539435004368,0.6018960682143387
+7,2022/05/17 11:21:50 AM MDT,37,Male,24,Yes,Contacts,No,,No,No,,1,No,Ambidextrous,No,0,3,0,5,1 - 5,0,6 - 9 Hours,1,Article,15321,5,0.6196692431105234,0.6286131418003859
+8,2022/05/26 11:55:53 AM MDT,38,Male,23,Yes,Contacts,No,,,No,,0,No,Left-handed,Yes,0.5,5,10+,4,10+,1,9 - 12 Hours,0,Article,34780,4,0.5759715011249582,0.598913882162163
+9,2022/05/17 4:02:28 PM MDT,39,Male,30,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,5,1 - 5,5,1 - 5,1,0 - 2 Hours,1,Article,22522,4,0.5973011459645754,0.5797902562634744
+10,2022/05/17 5:34:24 PM MDT,40,Female,31,Yes,Contacts,No,,,No,,0,No,Right-handed,No,0,6,1 - 5,5,1 - 5,0,6 - 9 Hours,0,Article,128797,7,0.7275733165254912,0.4315894685371444
+11,2022/05/18 3:53:44 AM MDT,41,Female,21,Yes,Glasses,No,,,No,,1,No,Left-handed,Yes,10,3,1 - 5,3,10+,1,9 - 12 Hours,1,Article,20087,4,0.5943927165496172,0.6150816762689325
+12,2022/05/19 12:56:44 PM MDT,43,Female,19,Yes,Not applicable,No,,No,Yes,Very minor lazy eye but it doesn't affect my overall vision,1,No,Right-handed,Yes,5,3,0,2,10+,0,6 - 9 Hours,1,Article,108861,12,0.6473269942072531,0.5329241314757905
+13,2022/05/18 1:01:23 PM MDT,44,Female,28,Yes,Glasses,No,,,No,,0,No,Right-handed,No,1,5,10+,6,10+,1,13+ hours,0,Article,27551,6,0.6250252659888323,0.5880788137399123
+14,2022/05/19 1:39:53 PM MDT,45,Female,22,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,12,1,0,5,1 - 5,0,9 - 12 Hours,1,Article,58152,5,0.608301680745589,0.6914533156118379
+15,2022/05/20 11:10:32 AM MDT,46,Female,21,Yes,Not applicable,No,,No,No,,1,No,Right-handed,Yes,I used to I have t played since 2018,1,1 - 5,1,10+,0,13+ hours,0,Article,89602,7,0.6093439748593531,0.5368661532131134
+16,2022/05/25 9:15:09 PM MDT,47,Male,28,Yes,Not applicable,No,,No,No,,1,No,Left-handed,No,0,3,1 - 5,2,5 - 10,1,6 - 9 Hours,1,Article,35084,4,0.6029686747699445,0.6711007887988857
+17,2022/05/23 7:43:14 PM MDT,48,Female,22,Yes,Contacts,No,,,No,,0,No,Right-handed,Yes,15,6,1 - 5,6,0,0,13+ hours,0,Article,48873,12,0.5298842964077404,0.6599032310254571
+18,2022/05/17 3:03:52 PM MDT,49,Female,18,Yes,Glasses,No,,,No,,1,No,Right-handed,No,0,7,0,5,1 - 5,0,3 - 5 Hours,1,Article,18892,6,0.6466025858609863,0.5337687034536786
+19,2022/05/19 11:07:41 AM MDT,51,Male,19,Yes,Not applicable,No,,,No,,1,No,Right-handed,Yes,4,5,1 - 5,3,1 - 5,1,6 - 9 Hours,1,Article,24929,5,0.6745509242796663,0.5009107407508246
+20,2022/05/23 4:02:50 PM MDT,53,Male,28,Yes,Not applicable,No,,No,No,,0,No,Right-handed,Yes,1,1,10+,1,10+,1,6 - 9 Hours,1,Article,22452,4,0.6059439807912215,0.5442478555108015
+21,2022/05/23 4:50:37 PM MDT,54,Non-nonbinary,18,Yes,Glasses,No,,,No,,1,No,Right-handed,Yes,2,2,5 - 10,1,10+,0,9 - 12 Hours,0,Article,37431,4,0.6558003423361248,0.5644629487742394
+22,2022/05/25 12:53:03 PM MDT,55,Female,18,Yes,,No,,No,No,,1,No,Right-handed,No,0,5,1 - 5,4,10+,1,6 - 9 Hours,1,Article,66382,7,0.6832463463607755,0.5522945700757753
+23,2022/05/17 11:28:34 AM MDT,56,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,0.01 like not often anymore,6,1 - 5,4,1 - 5,0,9 - 12 Hours,0,Article,69299,10,0.6671194043296751,0.4941979490783509
+24,2022/05/17 6:14:53 PM MDT,57,Female,25,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,<1,5,1 - 5,3,1 - 5,1,6 - 9 Hours,1,Article,61038,6,0.7540300714794446,0.4971726888891064
+25,2022/05/18 10:09:42 AM MDT,58,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,No,N/a,7,0,7,0,0,6 - 9 Hours,0,Article,43152,4,0.6053988941218484,0.6411029964124324
+26,2022/05/18 2:31:34 PM MDT,59,Male,20,Yes,Not applicable,No,,No,No,,1,No,Right-handed,Yes,2,4,1 - 5,3,1 - 5,0,9 - 12 Hours,1,Article,31702,5,0.6877009675089893,0.5466606795334553
+27,2022/05/20 5:28:45 PM MDT,60,Male,21,Yes,Not applicable,No,,,No,,1,No,Right-handed,Yes,1,6,1 - 5,6,1 - 5,1,6 - 9 Hours,0,Article,25789,5,0.6161429601493082,0.6134182607368663
+28,2022/05/22 8:52:29 PM MDT,61,Non-binary,22,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,10,3,1 - 5,3,10+,0,6 - 9 Hours,1,Article,10803,4,0.6070513820891202,0.5844964616390638
+29,2022/05/23 1:54:17 PM MDT,63,Female,21,Yes,Not applicable,No,,,No,,1,No,Right-handed,No,0,3,1 - 5,5,10+,1,6 - 9 Hours,1,Article,55029,7,0.6176501762807156,0.6183582406270907
+30,2022/05/24 12:01:10 AM MDT,64,Female,20,Yes,Glasses,No,,No,No,,1,No,Right-handed,Yes,1,7,0,7,0,0,6 - 9 Hours,0,Article,38890,7,0.6430407176841016,0.7133681101213329
+31,2022/05/23 5:56:32 PM MDT,65,Male,20,Yes,Glasses,No,,No,No,,0,No,Left-handed,No,0,1,5 - 10,3,1 - 5,0,3 - 5 Hours,1,Article,50409,5,0.5941618224920748,0.651696057171014
+32,2022/05/27 2:36:12 PM MDT,67,Female,19,Yes,Not applicable,No,,No,No,,1,No,Left-handed,No,3,4,1 - 5,6,0,0,6 - 9 Hours,1,Article,27320,4,0.5599452777079283,0.6540201167945696
+33,2022/05/20 11:41:36 AM MDT,68,Male,22,Yes,Glasses,No,,No,No,,0,No,Right-handed,Yes,7,3,1 - 5,3,0,0,9 - 12 Hours,0,Article,32974,9,0.6036182571091322,0.5560803873602245
+34,2022/05/24 5:28:01 PM MDT,69,Female,20,Yes,Not applicable,No,,No,No,,1,No,Right-handed,No,0,3,1 - 5,3,10+,0,3 - 5 Hours,1,Article,24510,4,0.5966716773185031,0.5355134238321476
+35,2022/05/19 1:54:17 AM MDT,70,Female,19,No,Not applicable,No,,No,No,,1,No,Right-handed,No,0,5,1 - 5,6,0,0,3 - 5 Hours,0,Article,32826,4,0.6113973737125223,0.5570084549972925
+36,2022/05/23 2:31:32 PM MDT,71,Female,19,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,1,5,0,7,0,0,6 - 9 Hours,1,Article,35255,4,0.5877403437668051,0.6201725361543853
+37,2022/05/20 10:09:40 AM MDT,78,Female,20,Yes,Not applicable,No,,,Yes,slight diplopia (slight turnout in right eye occasionally),1,No,Right-handed,No,0,2,1 - 5,2,10+,0,3 - 5 Hours,0,Article,51217,7,0.5984392894207228,0.5630412238087462
+38,2022/05/25 1:02:36 PM MDT,79,Male,18,Yes,Glasses,No,,No,No,,1,No,Ambidextrous,Yes,3-5,2,5 - 10,3,1 - 5,1,9 - 12 Hours,0,Article,49997,4,0.554885157643729,0.6310924556349926
+39,2022/05/26 5:46:00 PM MDT,80,Female,22,Yes,Glasses,No,,No,Yes,astigmatism in the right eye ,1,No,Right-handed,Yes,2hr,2,5 - 10,4,5 - 10,1,9 - 12 Hours,0,Article,24712,8,0.6609311238928559,0.5751567886660197
+40,2022/05/25 3:01:28 PM MDT,82,Female,20,Yes,,No,,,No,,1,No,Right-handed,No,0,3,1 - 5,2,1 - 5,1,6 - 9 Hours,0,Article,23810,4,0.5887049361536496,0.5917953585367719
+41,2022/05/23 11:00:50 AM MDT,83,Female,24,Yes,Not applicable,No,,,No,,0,No,Right-handed,No,0,2,10+,2,10+,1,13+ hours,1,Article,26770,6,0.6714448084800371,0.5054928401594501
+42,2022/05/26 2:52:41 PM MDT,84,Genderfluid,21,Yes,Contacts,No,,,No,,1,No,Right-handed,Yes,2,5,1 - 5,3,1 - 5,0,6 - 9 Hours,0,Article,23518,7,0.6135271277226526,0.561077537499264
+43,2022/05/26 6:56:52 PM MDT,85,Female,21,Yes,Glasses,No,,No,No,,1,No,Right-handed,No,0,4,1 - 5,7,0,0,6 - 9 Hours,1,Article,36142,5,0.5736736362089131,0.6795202394783477
+44,2022/05/25 2:03:14 PM MDT,86,Male,32,No,,No,,No,No,,1,No,Right-handed,Yes,4,1,10+,1,10+,1,6 - 9 Hours,0,Article,56931,7,0.651579320752823,0.6363417862708178
