@@ -167,6 +167,17 @@ public class LOD_Obj
 		while (pt != null)
 		{
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+
+					volume *= area;
+
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
@@ -182,7 +193,10 @@ public class LOD_Obj
 		}
 		foreach (GameObject g in objects)
 		{
-			g.SetActive(v);
+			if(g != null)
+            {
+				g.SetActive(v);
+            }
 		}
 		set = v;
 	}
@@ -243,20 +257,20 @@ public class LOD_Interact
 		{
 			//g.IsInteractive = v;
 			g.IsEnabled = v;
-			Debug.Log("g: " + g + ", is interactive? " + v);
+
 		}
 		set = v;
 	}
 
 	public void setUpInteraction()
 	{
-		Debug.Log("set active and disable interactive ");
+
 		foreach (Interactable g in interactables)
 		{
 			g.transform.gameObject.SetActive(true);
 			//g.IsInteractive = false;
 			g.IsEnabled = false;
-			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+/*			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");*/
 		}
 
 		set = false;
@@ -277,6 +291,17 @@ public class LOD_Interact
 		while (pt != null)
 		{
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+
+					volume *= area;
+
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
@@ -379,10 +404,10 @@ public class LOD_TMP_GUI
 	{
 		TextMeshProUGUI t = text[0];
 		Transform pt = t.transform.parent;
-		double scale = t.fontSize * t.transform.localScale.x;
+		double scale = t.fontSize * t.transform.localScale.y;
 		while (pt != null)
 		{
-			scale *= pt.transform.localScale.x;
+			scale *= pt.transform.localScale.y;
 			pt = pt.parent;
 		}
 
@@ -411,10 +436,8 @@ public class LOD_Select
 		LOD = l;
 		ratio = r;
 		selectables = g;
-		/*
 		set = !s;
 		setLOD(s);
-		*/
 		set = s;
 	}
 
@@ -437,20 +460,20 @@ public class LOD_Select
 		{
 			g.interactable = v;
 			//g.IsEnabled = v;
-			Debug.Log("g: " + g + ", is interactive? " + v);
+
 		}
 		set = v;
 	}
 
 	public void setUpSelection()
 	{
-		Debug.Log("set active and disable interactive ");
+
 		foreach (Selectable g in selectables)
 		{
 			g.transform.gameObject.SetActive(true);
 			g.interactable = false;
 			//g.IsEnabled = false;
-			Debug.Log("g: " + g + ", g.t.gO: " + g.transform.gameObject + ", IsInteractive = false");
+
 		}
 
 		set = false;
@@ -470,7 +493,19 @@ public class LOD_Select
 		double scale = volume;
 		while (pt != null)
 		{
+
 			volume = pt.transform.localScale.x * pt.transform.localScale.y * pt.transform.localScale.z;
+			RectTransform rectTransform = pt.transform.GetComponent<RectTransform>();
+			if(rectTransform != null)
+            {
+				double area = rectTransform.rect.width * rectTransform.rect.height;
+				if(area > 0)
+                {
+
+					volume *= area;
+
+                }
+            }
 			scale *= volume;
 			pt = pt.parent;
 		}
@@ -478,3 +513,9 @@ public class LOD_Select
 		return scale;
 	}
 }
+
+/*
+ * Welcome to the Improving Usability of AR Applications User Study. 
+ * 
+ * 
+ */

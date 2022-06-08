@@ -16,6 +16,12 @@ public class Weather : MonoBehaviour
     [SerializeField] TextMeshProUGUI main_temp;
     [SerializeField] TextMeshProUGUI min_temp;
     [SerializeField] TextMeshProUGUI max_temp;
+    [SerializeField] TextMeshProUGUI wind_speed;
+    [SerializeField] TextMeshProUGUI condition;
+    [SerializeField] TextMeshProUGUI uv_index;
+    [SerializeField] TextMeshProUGUI humidity;
+    [SerializeField] TextMeshProUGUI visibility;
+    [SerializeField] TextMeshProUGUI feels;
     [SerializeField] Slider slider;
 
     private float timer;
@@ -26,6 +32,7 @@ public class Weather : MonoBehaviour
     double lat = 34.413359;
     double lon = -119.844820;
     WeatherInfo weather;
+    public static UserStudyTask study;
 
     // Start is called before the first frame update
     void Start()
@@ -38,31 +45,29 @@ public class Weather : MonoBehaviour
         minutesBetweenUpdate = 10f;
         timer = 0;
 
-/*        
-        Debug.Log(weather.location.name);
-        Debug.Log(weather.location.region);
-        Debug.Log(weather.location.country);
-        Debug.Log(weather.location.lat.ToString());
-        Debug.Log(weather.location.lon.ToString());
-        Debug.Log(weather.location.tz_id);
-        Debug.Log(weather.location.localtime_epoch.ToString());
-        Debug.Log(weather.location.localtime);
+        GetWeatherInfo();
 
-        Debug.Log(weather.current.last_updated_epoch.ToString());
-        Debug.Log(weather.current.last_updated);
-        Debug.Log(weather.current.temp_c.ToString());
-        Debug.Log(weather.current.temp_f.ToString());
-
-        Debug.Log(weather.forecast.forecastday.Length);
-        Debug.Log(weather.forecast.forecastday[0]);
-        Debug.Log(weather.forecast.forecastday[0].date);
-        Debug.Log(weather.forecast.forecastday[0].date_epoch);
-        Debug.Log(weather.forecast.forecastday[0].day);
-        Debug.Log(weather.forecast.forecastday[0].day.maxtemp_c);
-        Debug.Log(weather.forecast.forecastday[0].hour.Length);
-*/
+    }
+    
+    public static void setTask(UserStudyTask s)
+    {
+        study = s;
+    }
 
 
+    public string getMainTemp()
+    {
+        return main_temp.text;
+    }
+
+    public string getMinTemp()
+    {
+        return min_temp.text;
+    }
+
+    public string getLocation()
+    {
+        return  location.text.ToLower();
     }
 
     private IEnumerator GetWeatherInfo()
@@ -81,7 +86,7 @@ public class Weather : MonoBehaviour
         }
 
         weather = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
-        setUp(weather.location.name, weather.current.temp_f, weather.forecast.forecastday[0].day.mintemp_f, weather.forecast.forecastday[0].day.maxtemp_f);
+        setUp(weather.location.name, weather.current.temp_f, weather.forecast.forecastday[0].day.mintemp_f, weather.forecast.forecastday[0].day.maxtemp_f, weather.current.wind_mph, weather.current.condition.text, weather.current.uv, weather.current.humidity, weather.current.feelslike_f, weather.current.vis_miles);
         int hour = DateTime.Now.Hour;
         setTimePeriodTemp(hour);
     }
@@ -99,9 +104,10 @@ public class Weather : MonoBehaviour
         {
             timer -= Time.deltaTime;
         }
+
     }
 
-    void setUp(string loc, float t, float min, float max)
+    void setUp(string loc, float t, float min, float max, float s, string c, float index, float perc, float f, float v)
     {
         location.text = loc;
         int t_int = (int)t;
@@ -112,8 +118,15 @@ public class Weather : MonoBehaviour
         t_int = (int)max;
         slider.maxValue = t_int;
         max_temp.text = t_int.ToString();
+        wind_speed.text = "Wind: " + s.ToString() + "mph";
+        condition.text = c;
+        uv_index.text = "UV Index: " + index.ToString();
+        humidity.text = "Humidity: " + perc.ToString() + "%" ;
+        feels.text = "Feels Like " + f.ToString();
+        visibility.text = "Visibility: " + v.ToString() + "mi";
 
         float ratio = t / max;
+        Debug.Log("slider " + t);
         
         slider.value = t;
     }
@@ -123,9 +136,16 @@ public class Weather : MonoBehaviour
         for (int i = 0; i < times.Count; i++)
         {
             int newTime = hour + i;
-            Debug.Log(newTime);
-            Debug.Log(weather.forecast.forecastday[0].hour[newTime].temp_f);
-            int temp = (int)weather.forecast.forecastday[0].hour[newTime].temp_f;
+            int temp = Int32.Parse(main_temp.text);
+
+            if(newTime < 24)
+            {
+                 temp = (int)weather.forecast.forecastday[0].hour[newTime].temp_f;
+            }
+            else
+            {
+                temp = (int)weather.forecast.forecastday[1].hour[newTime - 24].temp_f;
+            }
 
             string tt = "AM";
             if (newTime >= 12)
@@ -145,6 +165,11 @@ public class Weather : MonoBehaviour
         }
 
 
+    }
+
+    public void clicked(string input)
+    {
+        Debug.Log("clicked: " + input);
     }
 }
 
@@ -182,6 +207,12 @@ class Current
     public DateTime last_updated;*/
 	public float temp_c;
     public float temp_f;
+    public Condition condition;
+    public float wind_mph;
+    public float humidity;
+    public float feelslike_f;
+    public float vis_miles;
+    public float uv;
 /*    public int is_day;
     public Condition condition;
     public float wind_mph;

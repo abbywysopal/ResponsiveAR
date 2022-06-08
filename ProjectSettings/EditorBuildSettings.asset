@@ -5,9 +5,33 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Experimental - NonNativeKeyboard/Scenes/NonNativeKeyboardExample.unity
+    guid: 5bbd1461a38725245a0eabe0fad1b477
+  - enabled: 1
+    path: Assets/Scenes/OpeningScene.unity
+    guid: 22cc0910ec51bae42b8a7a249ae9edbd
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: d65215de8cc9fdd4f8d7c81daddc3ca6
+  - enabled: 1
+    path: Assets/Scenes/UserStudyScene.unity
+    guid: 9d25c7ea70d2401449ab661d433374fd
+  - enabled: 1
+    path: Assets/Scenes/MRTKExamples.unity
+    guid: 0d26e75b244f8dd48ba53a552dfee27a
+  - enabled: 1
+    path: Assets/Scenes/DuplicatesAndTables.unity
+    guid: 6c487b05f1a2e634799e905359ebdd20
+  - enabled: 0
+    path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Experimental - MixedRealityKeyboard/Scenes/MixedRealityKeyboardExample.unity
+    guid: b21a91f417fdc7b41b531772ff092fcb
+  - enabled: 1
+    path: Assets/Scenes/OpenLab.unity
+    guid: 7c0bb3049589c9e47a02ab3bbed14140
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ad376e979396cf84a8514b630a6253ec, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 6ee99399676f5834496ef80996f2a179, type: 2}
