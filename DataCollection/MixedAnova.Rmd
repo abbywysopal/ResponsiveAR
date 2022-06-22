@@ -1,0 +1,175 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*.
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+install.packages("tidyverse",dependencies = TRUE)
+install.packages("ggpubr",dependencies = TRUE)
+install.packages("rstatix",dependencies = TRUE)
+install.packages("afex",dependencies = TRUE)
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+library(afex)
+
+```
+
+```{r}
+install.packages("nparMD",dependencies = TRUE)
+library(nparMD)
+install.packages("nparACT",dependencies = TRUE)
+library(nparACT)
+install.packages("WRS2",dependencies = TRUE)
+library(WRS2)
+```
+
+```{r}
+article <- read.csv("ArticleExperimentData.csv")
+head(article)
+
+numpad <- read.csv("NumpadExperimentData.csv")
+head(numpad)
+
+weather <- read.csv("WeatherExperimentData.csv")
+weather = subset(weather, select = -c(Time_To_First_Guess))
+head(weather)
+```
+
+![]()
+
+```{r}
+long_data <- rbind(article, numpad, weather)
+long_data
+```
+
+![]()
+
+```{r}
+balanced_long_data <- subset(long_data, userID!= 85)
+balanced_long_data <- subset(balanced_long_data, userID!= 56)
+head(balanced_long_data)
+
+```
+
+```{r}
+bxp <- ggboxplot(
+  balanced_long_data, x = "Application", y = "Time",
+  color = "Mode", palette = "jco"
+  )
+bxp
+```
+
+```{r}
+outliers <- balanced_long_data %>% group_by(Application, Mode) %>% identify_outliers(Time)
+outliers
+```
+
+```{r}
+balanced_long_data %>%
+  group_by(Application, Mode) %>%
+  shapiro_test(Time)
+```
+
+```{r}
+ggqqplot(balanced_long_data, "Time", ggtheme = theme_bw()) +
+  facet_grid(Application ~ Mode)
+```
+
+```{r}
+balanced_long_data %>%
+  group_by(Application) %>%
+  levene_test(Time ~ Mode)
+```
+
+```{r}
+box_m(balanced_long_data[, "Time", drop = FALSE], balanced_long_data$Application)
+```
+
+![]()
+
+```{r}
+mixed_anova <- aov_ez(
+  id = "userID",
+  dv = "Time",
+  data = balanced_long_data,
+  between = "Mode",
+  within = "Application"
+)
+mixed_anova
+```
+
+```{r}
+res.aov <- anova_test(
+  data = balanced_long_data, dv = Time, wid = userID,
+  between = Mode, within = Application
+  )
+get_anova_table(res.aov)
+```
+
+```{r}
+one.way <- balanced_long_data %>%
+  group_by(Application) %>%
+  anova_test(dv = Time, wid = userID, between = Mode) %>%
+  get_anova_table() %>%
+  adjust_pvalue(method = "bonferroni")
+one.way
+```
+
+```{r}
+pwc <- balanced_long_data %>%
+  group_by(Application) %>%
+  pairwise_t_test(Time ~ Mode, p.adjust.method = "bonferroni")
+pwc
+```
+
+```{r}
+one.way2 <- balanced_long_data %>%
+  group_by(Application) %>%
+  anova_test(dv = Time, wid = userID, between = Mode) %>%
+  get_anova_table() %>%
+  adjust_pvalue(method = "bonferroni")
+one.way2
+```
+
+![]()
+
+```{r}
+NPARMS <- nparms(Time|Guesses~Mode*Application, long_data)
+#nparms(Time|Guesses|Avg.Dist|Std.Dist~Mode*Application, long_data)
+NPARMS
+```
+
+```{r}
+NPARMS2 <- nparms(Time|Guesses|Avg.Dist|Std.Dist~Mode*Application, long_data)
+NPARMS2
+```
+
+```{r}
+
+```
+
+```{r}
+NPARLS <- nparml(Time|Guesses~Mode*Application, long_data)
+NPARLS
+#nparml(Time|Guesses|Avg.Dist|Std.Dist~Mode*Application, long_data)
+```
+
+```{r}
+NPARLS2 <- nparml(Time|Guesses|Avg.Dist|Std.Dist~Mode*Application, long_data)
+NPARLS2
+```

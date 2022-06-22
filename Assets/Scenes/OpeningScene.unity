@@ -1940,7 +1940,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 196455311}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: ToggleTutorial
+        m_MethodName: Tutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2352,7 +2352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d9acc7968244a8886f3af591305bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeProfile: {fileID: 11400000, guid: 1fe0d05bd2006ef44ab2a968fa94f88e, type: 2}
+  activeProfile: {fileID: 11400000, guid: 31a611a779d3499e8e35f1a2018ca841, type: 2}
 --- !u!4 &1564117818
 Transform:
   m_ObjectHideFlags: 0
@@ -3394,7 +3394,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 196455311}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: ToggleUserStudyScene
+        m_MethodName: UserStudyScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3604,7 +3604,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 196455311}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: ToggleDuplicatesAndTables
+        m_MethodName: DuplicatesAndTables
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7211,7 +7211,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 196455311}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: ToggleMRTKExamples
+        m_MethodName: MRTKExamples
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
