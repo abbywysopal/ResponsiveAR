@@ -1,0 +1,234 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+rm(list = ls())
+
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(rstatix)
+library(emmeans)
+library(phia)       #testInteractions
+library(tidyr)      #spread
+library(ARTool)     #art, artlm
+
+# Unix style: 
+my_data <- read.csv("ExperimentData.csv", header = TRUE, fileEncoding = 'UTF-8-BOM')
+
+for(i in 1:nrow(my_data)){
+    if(my_data$Application[i]=="Numpad"){
+        my_data$Task[i] = my_data$Task[i] + 4
+    }
+  
+    if(my_data$Application[i]=="Weather"){
+        my_data$Task[i] = my_data$Task[i] + 6
+     }
+}
+```
+
+```{r}
+task_1 <- select(filter(my_data, Task == 1),c(userID:STD.Dist))
+task_1
+
+task_1_r <- select(filter(task_1, Mode == "Responsive"),c(userID:STD.Dist))
+task_1_r
+
+ggplot(task_1, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+# make factors: 
+my_data$Mode = factor(my_data$Mode)
+my_data$Task = factor(my_data$Task)
+my_data$userID = factor(my_data$userID)
+my_data$Application = factor(my_data$Application)
+
+f <- my_data
+```
+
+```{r}
+## TIME ##
+# Some visualizations: bar plot with CI whiskers 
+ggplot(my_data, aes(x=Task, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(my_data, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(my_data, x = "Mode", y = "Time", color = "Task", palette = "jco")
+```
+```{r}
+res.aov <- anova_test( data = f, dv = Time, wid = userID, between = Mode, within = Task)
+get_anova_table(res.aov)
+```
+```{r}
+m <- art(data = f, Time ~ Mode * Task + Error(userID))
+anova(m)
+```
+
+```{r}
+
+i = 1
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 2
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 3
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 4
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 5
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 6
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 7
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 8
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 9
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+outliers <- f %>% group_by(Task, Mode) %>% identify_outliers(Time)
+outliers
+
+f_no_outliers <- anti_join (f, outliers)
+
+i = 1
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 2
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 3
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 4
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 5
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 6
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 7
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 8
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+i = 9
+task <- select(filter(f_no_outliers, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+```{r}
+i = 1
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 2
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 3
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 4
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 5
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 6
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 7
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 8
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+i = 9
+task <- select(filter(f, Task == i),c(userID:STD.Dist))
+ggplot(task, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+ggplot(task, aes(x=Mode, y=STD.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```

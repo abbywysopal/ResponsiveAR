@@ -75,6 +75,10 @@ bxp
 ```
 
 ```{r}
+ggboxplot(my_data, x = "Mode", y = "Time", color = "Application", palette = "jco")
+```
+
+```{r}
 outliers <- balanced_long_data %>% group_by(Application, Mode) %>% identify_outliers(Time)
 outliers
 ```
@@ -106,11 +110,204 @@ box_m(balanced_long_data[, "Time", drop = FALSE], balanced_long_data$Application
 mixed_anova <- aov_ez(
   id = "userID",
   dv = "Time",
-  data = balanced_long_data,
+  data = long_data,
   between = "Mode",
   within = "Application"
 )
 mixed_anova
+```
+
+```{r}
+mixed_anova <- aov_ez(
+  id = "userID",
+  dv = "Guesses",
+  data = long_data,
+  between = "Mode",
+  within = "Application"
+)
+mixed_anova
+```
+
+```{r}
+mixed_anova <- aov_ez(
+  id = "userID",
+  dv = "Avg.Dist",
+  data = long_data,
+  between = "Mode",
+  within = "Application"
+)
+mixed_anova
+```
+
+```{r}
+mixed_anova <- aov_ez(
+  id = "userID",
+  dv = "Std.Dist",
+  data = long_data,
+  between = "Mode",
+  within = "Application"
+)
+mixed_anova
+```
+
+```{r}
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(rstatix)
+library(emmeans)
+library(phia)       #testInteractions
+library(tidyr)      #spread
+library(ARTool)     #art, artlm
+```
+
+```{r}
+long_data$Mode = factor(long_data$Mode)
+long_data$Application = factor(long_data$Application)
+long_data$userID = factor(long_data$userID)
+```
+
+```{r}
+
+ggplot(long_data, aes(x=Application, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Time", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Time, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Time ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Time ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Guesses)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Guesses", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Guesses, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Guesses ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Guesses ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Avg.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Avg.Dist", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Avg.Dist, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Avg.Dist ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Avg.Dist ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Std.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Std.Dist)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Std.Dist", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Std.Dist, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Std.Dist ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Std.Dist ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Avg.Visual.Angle)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Avg.Visual.Angle)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Avg.Visual.Angle", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Avg.Visual.Angle, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Avg.Visual.Angle ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Avg.Visual.Angle ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Std.Visual.Angle)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Std.Visual.Angle)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Std.Visual.Angle", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Std.Visual.Angle, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Std.Visual.Angle ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Std.Visual.Angle ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
+```
+
+```{r}
+ggplot(long_data, aes(x=Application, y=Avg.Ratio)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+
+ggplot(long_data, aes(x=Mode, y=Avg.Ratio)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+# all data in box plots: 
+ggboxplot(long_data, x = "Mode", y = "Avg.Ratio", color = "Application", palette = "jco")
+
+res.aov <- anova_test( data = long_data, dv = Avg.Ratio, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+
+pwc <- long_data %>% group_by(Application) %>% pairwise_t_test(Avg.Ratio ~ Mode, p.adjust.method = "bonferroni")
+pwc
+
+m <- art(data = long_data, Avg.Ratio ~ Mode * Application + Error(userID))
+anova(m)
+
+pairwise_comp <- contrast(emmeans(artlm(m,"Mode"), ~ Mode), method = "pairwise")
+pairwise_comp
 ```
 
 ```{r}

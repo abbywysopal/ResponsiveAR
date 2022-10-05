@@ -1,0 +1,710 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={MixedDesignAnalysis.R},
+  pdfauthor={abbywysopal},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{MixedDesignAnalysis.R}
+\author{abbywysopal}
+\date{2022-07-05}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\#library(FSA) \# \textless{}?\textgreater{}}
+\CommentTok{\#library(DescTools)}
+\CommentTok{\#library(tidyr)}
+\CommentTok{\#library(tidyverse)}
+
+\FunctionTok{library}\NormalTok{(plyr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:plyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ggpubr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:plyr':
+## 
+##     mutate
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstatix)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'rstatix'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:plyr':
+## 
+##     desc, mutate
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     filter
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(emmeans)}
+\FunctionTok{library}\NormalTok{(phia)       }\CommentTok{\#testInteractions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: car
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: carData
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'car'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyr)      }\CommentTok{\#spread}
+\FunctionTok{library}\NormalTok{(ARTool)     }\CommentTok{\#art, artlm}
+
+\CommentTok{\# Unix style: }
+\NormalTok{my\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"ExperimentData.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{\textquotesingle{}UTF{-}8{-}BOM\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Windows style: }
+\CommentTok{\#my\_data \textless{}{-} read.csv("C:\textbackslash{}\textbackslash{}Users\textbackslash{}\textbackslash{}tholl\textbackslash{}\textbackslash{}Dropbox\textbackslash{}\textbackslash{}Documents\textbackslash{}\textbackslash{}2022{-}AbbyMS\textbackslash{}\textbackslash{}ResponsiveARExperimentData.csv", header= TRUE, fileEncoding = \textquotesingle{}UTF{-}8{-}BOM\textquotesingle{})}
+
+\CommentTok{\# make factors: }
+\NormalTok{my\_data}\SpecialCharTok{$}\NormalTok{Mode }\OtherTok{=} \FunctionTok{factor}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{Mode)}
+\NormalTok{my\_data}\SpecialCharTok{$}\NormalTok{Application }\OtherTok{=} \FunctionTok{factor}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{Application)}
+\NormalTok{my\_data}\SpecialCharTok{$}\NormalTok{userID }\OtherTok{=} \FunctionTok{factor}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{userID)}
+\NormalTok{my\_data}\SpecialCharTok{$}\NormalTok{Task }\OtherTok{=} \FunctionTok{factor}\NormalTok{(my\_data}\SpecialCharTok{$}\NormalTok{Task)}
+
+
+\CommentTok{\# averaging over all the tasks per application (since there is an unequal number of tasks it cannot easily be a separate within{-}subject variable)}
+\CommentTok{\#f \textless{}{-} ddply(select(my\_data, {-}Task),.(userID, Mode, Application),colwise(mean))}
+\NormalTok{f }\OtherTok{\textless{}{-}} \FunctionTok{ddply}\NormalTok{(}\FunctionTok{select}\NormalTok{(my\_data, }\SpecialCharTok{{-}}\NormalTok{Task),.(userID, Mode, Application),}\FunctionTok{colwise}\NormalTok{(sum))}
+
+
+\DocumentationTok{\#\# TIME \#\#}
+\CommentTok{\# Some visualizations: bar plot with CI whiskers }
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Application, }\AttributeTok{y=}\NormalTok{Time)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Mode, }\AttributeTok{y=}\NormalTok{Time)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# all data in box plots: }
+\FunctionTok{ggboxplot}\NormalTok{(my\_data, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Time"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aggregated over task: }
+\FunctionTok{ggboxplot}\NormalTok{(f, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Time"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res.aov }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{( }\AttributeTok{data =}\NormalTok{ f, }\AttributeTok{dv =}\NormalTok{ Time, }\AttributeTok{wid =}\NormalTok{ userID, }\AttributeTok{between =}\NormalTok{ Mode, }\AttributeTok{within =}\NormalTok{ Application)}
+\FunctionTok{get\_anova\_table}\NormalTok{(res.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+##             Effect  DFn   DFd      F        p p<.05   ges
+## 1             Mode 1.00 41.00  2.302 1.37e-01       0.023
+## 2      Application 1.28 52.62 38.097 8.77e-09     * 0.349
+## 3 Mode:Application 1.28 52.62  1.843 1.79e-01       0.025
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ f }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Application) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pairwise\_t\_test}\NormalTok{(Time }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode, }\AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+\NormalTok{pwc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 10
+##   Application .y.   group1     group2    n1    n2      p p.signif  p.adj
+## * <fct>       <chr> <chr>      <chr>  <int> <int>  <dbl> <chr>     <dbl>
+## 1 Article     Time  Responsive Static    23    22 0.185  ns       0.185 
+## 2 Numpad      Time  Responsive Static    23    22 0.0599 ns       0.0599
+## 3 Weather     Time  Responsive Static    22    21 0.206  ns       0.206 
+## # ... with 1 more variable: p.adj.signif <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{art}\NormalTok{(}\AttributeTok{data =}\NormalTok{ f, Time }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode }\SpecialCharTok{*}\NormalTok{ Application }\SpecialCharTok{+} \FunctionTok{Error}\NormalTok{(userID))}
+\FunctionTok{anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance of Aligned Rank Transformed Data
+## 
+## Table Type: Repeated Measures Analysis of Variance Table (Type I) 
+## Model: Repeated Measures (aov)
+## Response: art(Time)
+## 
+##                    Error Df Df.res  F value  Pr(>F)    
+## 1 Mode             usrID  1     41  2.59295 0.11501    
+## 2 Application      usrID  1     41  1.45821 0.23414    
+## 3 Application      Withn  2     84 95.36668 < 2e-16 ***
+## 4 Mode:Application usrID  1     41  0.57614 0.45217    
+## 5 Mode:Application Withn  2     84  3.80789 0.02612   *
+## ---
+## Signif. codes:   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp }\OtherTok{\textless{}{-}} \FunctionTok{contrast}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(}\FunctionTok{artlm}\NormalTok{(m,}\StringTok{"Mode"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode), }\AttributeTok{method =} \StringTok{"pairwise"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results are based on intra-block estimates and are biased.
+\end{verbatim}
+
+\begin{verbatim}
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast            estimate   SE df t.ratio p.value
+##  Responsive - Static     12.8 7.59 41   1.693  0.0980
+## 
+## Results are averaged over the levels of: Application
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# \# Guesses \#\#}
+\CommentTok{\# Some visualizations: bar plot with CI whiskers }
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Application, }\AttributeTok{y=}\NormalTok{Guesses)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Mode, }\AttributeTok{y=}\NormalTok{Guesses)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# all data in box plots: }
+\FunctionTok{ggboxplot}\NormalTok{(my\_data, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Guesses"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aggregated over task: }
+\FunctionTok{ggboxplot}\NormalTok{(f, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Guesses"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res.aov }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{( }\AttributeTok{data =}\NormalTok{ f, }\AttributeTok{dv =}\NormalTok{ Guesses, }\AttributeTok{wid =}\NormalTok{ userID, }\AttributeTok{between =}\NormalTok{ Mode, }\AttributeTok{within =}\NormalTok{ Application)}
+\FunctionTok{get\_anova\_table}\NormalTok{(res.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+##             Effect  DFn   DFd       F        p p<.05   ges
+## 1             Mode 1.00 41.00   0.472 4.96e-01       0.004
+## 2      Application 1.01 41.47 115.241 1.31e-13     * 0.649
+## 3 Mode:Application 1.01 41.47   0.787 3.81e-01       0.012
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ f }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Application) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pairwise\_t\_test}\NormalTok{(Guesses }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode, }\AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+\NormalTok{pwc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 10
+##   Application .y.     group1     group2    n1    n2      p p.signif  p.adj
+## * <fct>       <chr>   <chr>      <chr>  <int> <int>  <dbl> <chr>     <dbl>
+## 1 Article     Guesses Responsive Static    23    22 0.0591 ns       0.0591
+## 2 Numpad      Guesses Responsive Static    23    22 0.353  ns       0.353 
+## 3 Weather     Guesses Responsive Static    22    21 0.42   ns       0.42  
+## # ... with 1 more variable: p.adj.signif <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{art}\NormalTok{(}\AttributeTok{data =}\NormalTok{ f, Guesses }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode }\SpecialCharTok{*}\NormalTok{ Application }\SpecialCharTok{+} \FunctionTok{Error}\NormalTok{(userID))}
+\FunctionTok{anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance of Aligned Rank Transformed Data
+## 
+## Table Type: Repeated Measures Analysis of Variance Table (Type I) 
+## Model: Repeated Measures (aov)
+## Response: art(Guesses)
+## 
+##                    Error Df Df.res   F value     Pr(>F)    
+## 1 Mode             usrID  1     41  10.50929  0.0023619  **
+## 2 Application      usrID  1     41   6.44564  0.0150138   *
+## 3 Application      Withn  2     84 589.28755 < 2.22e-16 ***
+## 4 Mode:Application usrID  1     41   0.70075  0.4073858    
+## 5 Mode:Application Withn  2     84   6.38778  0.0026156  **
+## ---
+## Signif. codes:   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp }\OtherTok{\textless{}{-}} \FunctionTok{contrast}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(}\FunctionTok{artlm}\NormalTok{(m,}\StringTok{"Mode"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode), }\AttributeTok{method =} \StringTok{"pairwise"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results are based on intra-block estimates and are biased.
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast            estimate  SE df t.ratio p.value
+##  Responsive - Static     22.1 6.8 41   3.243  0.0024
+## 
+## Results are averaged over the levels of: Application
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f }\OtherTok{\textless{}{-}} \FunctionTok{ddply}\NormalTok{(}\FunctionTok{select}\NormalTok{(my\_data, }\SpecialCharTok{{-}}\NormalTok{Task),.(userID, Mode, Application),}\FunctionTok{colwise}\NormalTok{(mean))}
+\DocumentationTok{\#\# Avg.Dist \#\#}
+\CommentTok{\# Some visualizations: bar plot with CI whiskers }
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Application, }\AttributeTok{y=}\NormalTok{Avg.Dist)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-9.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Mode, }\AttributeTok{y=}\NormalTok{Avg.Dist)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-10.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# all data in box plots: }
+\FunctionTok{ggboxplot}\NormalTok{(my\_data, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Avg.Dist"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-11.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aggregated over task: }
+\FunctionTok{ggboxplot}\NormalTok{(f, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Avg.Dist"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-12.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res.aov }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{( }\AttributeTok{data =}\NormalTok{ f, }\AttributeTok{dv =}\NormalTok{ Avg.Dist, }\AttributeTok{wid =}\NormalTok{ userID, }\AttributeTok{between =}\NormalTok{ Mode, }\AttributeTok{within =}\NormalTok{ Application)}
+\FunctionTok{get\_anova\_table}\NormalTok{(res.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+##             Effect DFn DFd      F        p p<.05   ges
+## 1             Mode   1  41  2.618 1.13e-01       0.027
+## 2      Application   2  82 28.063 5.19e-10     * 0.282
+## 3 Mode:Application   2  82  1.087 3.42e-01       0.015
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ f }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Application) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pairwise\_t\_test}\NormalTok{(Avg.Dist }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode, }\AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+\NormalTok{pwc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 10
+##   Application .y.      group1     group2    n1    n2      p p.signif  p.adj
+## * <fct>       <chr>    <chr>      <chr>  <int> <int>  <dbl> <chr>     <dbl>
+## 1 Article     Avg.Dist Responsive Static    23    22 0.282  ns       0.282 
+## 2 Numpad      Avg.Dist Responsive Static    23    22 0.938  ns       0.938 
+## 3 Weather     Avg.Dist Responsive Static    22    21 0.0379 *        0.0379
+## # ... with 1 more variable: p.adj.signif <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{art}\NormalTok{(}\AttributeTok{data =}\NormalTok{ f, Avg.Dist }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode }\SpecialCharTok{*}\NormalTok{ Application }\SpecialCharTok{+} \FunctionTok{Error}\NormalTok{(userID))}
+\FunctionTok{anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance of Aligned Rank Transformed Data
+## 
+## Table Type: Repeated Measures Analysis of Variance Table (Type I) 
+## Model: Repeated Measures (aov)
+## Response: art(Avg.Dist)
+## 
+##                    Error Df Df.res  F value     Pr(>F)    
+## 1 Mode             usrID  1     41  2.53519    0.11902    
+## 2 Application      usrID  1     41  1.14146    0.29159    
+## 3 Application      Withn  2     84 36.63186 3.6419e-12 ***
+## 4 Mode:Application usrID  1     41  1.25599    0.26893    
+## 5 Mode:Application Withn  2     84  0.79442    0.45521    
+## ---
+## Signif. codes:   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp }\OtherTok{\textless{}{-}} \FunctionTok{contrast}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(}\FunctionTok{artlm}\NormalTok{(m,}\StringTok{"Mode"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode), }\AttributeTok{method =} \StringTok{"pairwise"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results are based on intra-block estimates and are biased.
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast            estimate   SE df t.ratio p.value
+##  Responsive - Static     13.3 7.58 41   1.750  0.0875
+## 
+## Results are averaged over the levels of: Application
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# STD.Dist \#\#}
+\CommentTok{\# Some visualizations: bar plot with CI whiskers }
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Application, }\AttributeTok{y=}\NormalTok{STD.Dist)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-13.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(my\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Mode, }\AttributeTok{y=}\NormalTok{STD.Dist)) }\SpecialCharTok{+} \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"lightsteelblue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{stat=}\StringTok{"summary"}\NormalTok{, }\AttributeTok{fun.data=}\StringTok{"mean\_se"}\NormalTok{, }\AttributeTok{fun.args =} \FunctionTok{list}\NormalTok{(}\AttributeTok{mult =} \FloatTok{1.96}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-14.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# all data in box plots: }
+\FunctionTok{ggboxplot}\NormalTok{(my\_data, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"STD.Dist"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-15.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aggregated over task: }
+\FunctionTok{ggboxplot}\NormalTok{(f, }\AttributeTok{x =} \StringTok{"Mode"}\NormalTok{, }\AttributeTok{y =} \StringTok{"STD.Dist"}\NormalTok{, }\AttributeTok{color =} \StringTok{"Application"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"jco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MixedDesignAnalysis_files/figure-latex/unnamed-chunk-1-16.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res.aov }\OtherTok{\textless{}{-}} \FunctionTok{anova\_test}\NormalTok{( }\AttributeTok{data =}\NormalTok{ f, }\AttributeTok{dv =}\NormalTok{ STD.Dist, }\AttributeTok{wid =}\NormalTok{ userID, }\AttributeTok{between =}\NormalTok{ Mode, }\AttributeTok{within =}\NormalTok{ Application)}
+\FunctionTok{get\_anova\_table}\NormalTok{(res.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ANOVA Table (type III tests)
+## 
+##             Effect  DFn   DFd      F        p p<.05   ges
+## 1             Mode 1.00 41.00  1.525 2.24e-01       0.029
+## 2      Application 1.71 70.26 76.138 5.55e-17     * 0.280
+## 3 Mode:Application 1.71 70.26  1.284 2.80e-01       0.007
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc }\OtherTok{\textless{}{-}}\NormalTok{ f }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(Application) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pairwise\_t\_test}\NormalTok{(STD.Dist }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode, }\AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+\NormalTok{pwc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 10
+##   Application .y.    group1 group2    n1    n2     p p.signif p.adj p.adj.signif
+## * <fct>       <chr>  <chr>  <chr>  <int> <int> <dbl> <chr>    <dbl> <chr>       
+## 1 Article     STD.D~ Respo~ Static    23    22 0.493 ns       0.493 ns          
+## 2 Numpad      STD.D~ Respo~ Static    23    22 0.122 ns       0.122 ns          
+## 3 Weather     STD.D~ Respo~ Static    22    21 0.474 ns       0.474 ns
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{art}\NormalTok{(}\AttributeTok{data =}\NormalTok{ f, STD.Dist }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode }\SpecialCharTok{*}\NormalTok{ Application }\SpecialCharTok{+} \FunctionTok{Error}\NormalTok{(userID))}
+\FunctionTok{anova}\NormalTok{(m)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance of Aligned Rank Transformed Data
+## 
+## Table Type: Repeated Measures Analysis of Variance Table (Type I) 
+## Model: Repeated Measures (aov)
+## Response: art(STD.Dist)
+## 
+##                    Error Df Df.res  F value  Pr(>F)    
+## 1 Mode             usrID  1     41  1.57711 0.21629    
+## 2 Application      usrID  1     41  0.94532 0.33662    
+## 3 Application      Withn  2     84 90.43784 < 2e-16 ***
+## 4 Mode:Application usrID  1     41  1.92441 0.17287    
+## 5 Mode:Application Withn  2     84  1.07036 0.34752    
+## ---
+## Signif. codes:   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp }\OtherTok{\textless{}{-}} \FunctionTok{contrast}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(}\FunctionTok{artlm}\NormalTok{(m,}\StringTok{"Mode"}\NormalTok{), }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Mode), }\AttributeTok{method =} \StringTok{"pairwise"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NOTE: Results are based on intra-block estimates and are biased.
+## NOTE: Results may be misleading due to involvement in interactions
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairwise\_comp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  contrast            estimate   SE df t.ratio p.value
+##  Responsive - Static     15.2 10.2 41   1.485  0.1452
+## 
+## Results are averaged over the levels of: Application
+\end{verbatim}
+
+\end{document}

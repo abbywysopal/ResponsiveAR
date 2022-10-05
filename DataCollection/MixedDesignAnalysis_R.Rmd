@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+rm(list = ls())
+
+#library(FSA) # <?>
+#library(DescTools)
+#library(tidyr)
+#library(tidyverse)
+
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(rstatix)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+my_data <- read.csv("ExperimentData.csv", header= TRUE, fileEncoding = 'UTF-8-BOM')
+f <- ddply(select(my_data, -Task),.(userID, Mode, Application),colwise(mean)) 
+f$Mode <- as.factor(f$Mode)
+f$Application <- as.factor(f$Application)
+f$userID <- as.factor(f$userID)
+f
+```
+```{r}
+res.aov <- anova_test( data = f, dv = Time, wid = userID, within = Application, between = Mode)
+get_anova_table(res.aov)
+```
+
+```{r}
+# Some visualizations: bar plot with CI whiskers 
+ggplot(my_data, aes(x=Application, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+ggplot(my_data, aes(x=Mode, y=Time)) + geom_bar(stat = "summary", fun = "mean", fill="lightsteelblue") + geom_errorbar(stat="summary", fun.data="mean_se", fun.args = list(mult = 1.96))
+```
+
+```{r}
+# all data in box plots: 
+ggboxplot(my_data, x = "Mode", y = "Time", color = "Application", palette = "jco")
+```
+
+```{r}
+# aggregated over task: 
+ggboxplot(f, x = "Mode", y = "Time", color = "Application", palette = "jco")
+```
+
+```{r}
+res.aov <- anova_test( data = f, dv = Time, wid = userID, between = Mode, within = Application)
+get_anova_table(res.aov)
+```
+
+```{r}
+pwc <- f %>% group_by(Application) %>% pairwise_t_test(Time ~ Mode, p.adjust.method = "bonferroni")
+pwc
+```
+
+```{r}
+library(ARTool)
+m <- art(data = f, Time ~ Mode * Application + Error(userID))
+anova(m)
+
+```
+
+```{r}
+pairwise_comp <- contrast(emmeans(artlm(m,Mode), ~Mode), method = "pairwise")
+pairwise_comp
+```
